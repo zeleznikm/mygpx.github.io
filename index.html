@@ -1,0 +1,30 @@
+<!DOCTYPE html> 
+<html lang="si"> 
+  <head> 
+    <meta charset="utf-8" /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><title>GPXViewer Last</title></title>
+    <script type="text/javascript">
+      var Shtrcmt = true;
+	  var Profilfillopac = 0.3;
+#	  var Hfaktor= 1.51;
+	  var Wfaktor = 1.005;
+	  var Shtrvmittwob = true;
+	  var Laengen3d = true;
+    </script>
+    <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/11531008/GM_Utils/GPX2GM.js"></script>
+    <style type="text/css">
+      html, body { height:100% }
+      .text { display:inline-block;vertical-align:top;padding-right:2em;width:25% }
+      .map { width:70%;height:600px;display:inline-block }
+    </style>
+  </head>
+  <body style="background-color:#B8B8B8">
+    <div class="text">
+     <p><button type="button" class="gpxview:map:skaliere">reset MAP</button></p>
+    </div>
+	<div class="text"></div>
+    <div id="map" class="map gpxview://dl.dropboxusercontent.com/u/11531008/Gpx/Last.gpx:Hybrid" style="width:865px;height:400px"><noscript><p>Zum Anzeigen der Karte wird Javascript benötigt.</p></noscript></div>
+	<div id="map_profiles"><div id="map_hp" class="map" style="width:865px;height:240px"></div>	
+  </body>
+</html>
