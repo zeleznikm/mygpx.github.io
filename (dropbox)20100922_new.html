@@ -179,7 +179,7 @@
 			function GV_Map() {
 //				if (GBrowserIsCompatible()) { 
 					if (gv_options.full_screen) { GV_Fill_Window_With_Map(gv_options.map_div); }
-					gmap = new GMap2(document.getElementById(gv_options.map_div)); // create map
+					gmap = new google.maps.Map(document.getElementById(gv_options.map_div)); // create map
 					GV_Setup_Map(gv_options);
 					
 					// Track #1 ("Ko&#269;a na Blego&#353;u-&#268;rni vrh(Cerkno)-Mrovljev gri&#269;-Ermanovec-Slajka-Koreno")
