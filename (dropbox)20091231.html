@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+	<head>
+		<title>Novoletna </title>
+		<base target="_top"></base>
+		<meta name="geo.position" content="46.3895825; 14.962486" />
+		<meta name="ICBM" content="46.3895825, 14.962486" />
+	</head>
+	<body onunload="GUnload();" style="margin:0px;">
+		
+		
+		<!--
+			If you want to transplant this map into another Web page, by far the best method is to
+			simply include it in a IFRAME tag (see http://www.gpsvisualizer.com/faq.html#google_html).
+			But, if you must paste the code into another page, be sure to include all of these parts:
+			   1. The DOCTYPE declaration and the extra attributes in the "html" tag (xmlns:v=...)
+			     that allow Internet Explorer for Windows to render polylines (tracks)
+			   2. The "div" tags that contain the map and its widgets
+			   3. Three sections of JavaScript code:
+			      a. Your Google Maps API key and the maps.google.com code
+			      b. "gv_options" and the code that calls "functions.js" on maps.gpsvisualizer.com
+			      c. The "GV_Map" function, which contains all the geographic info for the map
+		-->
+		<div style="margin-left:0px; margin-right:0px; margin-top:0px; margin-bottom:0px;">
+			<div id="gmap_div" style="width:865px; height:640px; margin:0px; margin-right:12px; background-color:#F0F0F0; float:left; overflow:hidden;">
+				<p align="center" style="font:10px Arial;">This map was created using <a target="_blank" href="http://www.gpsvisualizer.com/">GPS Visualizer</a>'s do-it-yourself geographic utilities.<br><br>Please wait while the map data loads...</p>
+			</div>
+				
+			<div id="gv_legend_container" style="display:none;"><table id="gv_legend_table" style="position:relative; filter:alpha(opacity=95); -moz-opacity:0.95; background:#ffffff;" cellpadding="0" cellspacing="0" border="0"><tr><td><div id="gv_legend_handle" align="center" style="height:6px; max-height:6px; background:#CCCCCC; border-left:1px solid #999999; border-top:1px solid #EEEEEE; border-right:1px solid #999999; padding:0px; cursor:move;"><!-- --></div>
+				<div id="gv_legend" align="left" style="font:11px Arial; line-height:13px; border:solid #000000 1px; background:#FFFFFF; padding:4px;">
+					<!-- Although GPS Visualizer didn't create a legend with your map, you can use this box for something else if you'd like; enable it by setting legend:true in the 'gv_options' -->
+				</div>
+			</td></tr></table></div>
+
+
+			<div id="gv_tracklist_container" style="display:none;"><table id="gv_tracklist_table" style="position:relative; filter:alpha(opacity=95); -moz-opacity:0.95;" cellpadding="0" cellspacing="0" border="0"><tr><td><div id="gv_tracklist_handle" align="center" style="height:6px; max-height:6px; background:#CCCCCC; border-left:1px solid #999999; border-top:1px solid #EEEEEE; border-right:1px solid #999999; padding:0px; cursor:move; min-width:40px;"><!-- --></div>
+				<div id="gv_tracklist" align="left" style="font:11px Arial; line-height:11px; border:solid #666666 1px; background:#FFFFFF; padding:4px; overflow:auto;">
+					<div id="gv_tracklist_header" style="padding-bottom:2px; color:#000000;"><b>Tracks:</b></div>
+					<div id="gv_tracklist_links" style="color:#000000;"></div>
+				</div>
+			</td></tr></table></div>
+			<div id="gv_tracklist_tooltip" class="gv_tracklist_tooltip" style="background-color:#FFFFFF; border:1px solid #CCCCCC; padding:2px; font:11px Arial; display:none;"></div>
+
+			<!-- the following is the "floating" marker list; the "static" version is below -->
+			<div id="gv_marker_list_container" style="display:none;"><table id="gv_marker_list_table" style="position:relative; filter:alpha(opacity=95); -moz-opacity:0.95;" cellspacing="0" cellpadding="0" border="0"><tr><td>
+				<div id="gv_marker_list_handle" align="center" style="height:6px; max-height:6px; background:#CCCCCC; border-left:1px solid #999999; border-top:1px solid #EEEEEE; border-right:1px solid #999999; padding:0px; cursor:move;"><!-- --></div>
+				<div id="gv_marker_list" align="left" class="gv_marker_list" style="overflow:auto; background:#FFFFFF; border:solid #666666 1px; padding:4px;"></div>
+			</td></tr></table></div>
+			
+			<div id="gv_marker_list_static" align="left" class="gv_marker_list" style="width:160px; height:650px; overflow:auto; float:left; display:none;"></div>
+			<div id="gv_clear_margins" style="height:0px; clear:both;"><!-- clear the "float" --></div>
+		</div>
+
+		
+		<script type="text/javascript">
+			// If you put this map on another Web site, you must include your API key or nothing will work!
+			var google_api_key = 'AIzaSyCsFAnCAlLZZmUU2l0gW8joBqVOhEPsuuA';
+			if (document.location.toString().indexOf('http://www.gpsvisualizer.com') > -1) { eval(unescape("%67%6F%6F%67%6C%65%5F%61%70%69%5F%6B%65%79")+" = '"+unescape("%41%42%51%49%41%41%41%41%61%47%39%4A%44%62%43%65%36%52%61%31%4F%67%30%68%4B%43%6E%32%4C%52%52%6F%6B%57%5F%49%74%45%49%6D%42%6F%37%65%77%62%56%45%4A%41%7A%73%74%53%73%52%57%68%52%4A%33%52%4D%44%41%57%70%4C%35%35%51%61%63%47%5A%32%7A%51%46%32%6B%4C%43%5F%65%41")+"'"); }
+			document.writeln('<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3&libraries=geometry&sensor=false'+((self.google_api_key&&document.location.toString().indexOf('file://')!=0)?'&key='+google_api_key:'')+'"><'+'/script>');
+
+		</script>
+		<!-- end Google Maps script; begin GPS Visualizer setup script (they must be separate) -->
+		<script type="text/javascript">
+			/* Global variables used by the GPS Visualizer functions (1262605794): */
+			gv_options = new Array(); gv_options = {
+				// important variable names:
+				map:'gmap', map_div:'gmap_div', marker_array:'wpts', track_array:'trk', track_info_array:'trk_info', // probably 'gmap','gmap_div','wpts','trk','trk_info'
+				
+				// basic map parameters:
+				full_screen:false,              // should the map fill the entire page (or frame)?
+				center:[46.3895825,14.962486], // latitude,longitude - be sure to keep the square brackets
+				zoom:12,                        // higher number means closer view; at 600px wide, 7 = width of New Mexico, 12 = width of San Francisco
+				map_opacity:1, map_type:'G_HYBRID_MAP', // opacity is from 0 to 1; popular map_type choices are 'G_NORMAL_MAP', 'G_SATELLITE_MAP', 'G_HYBRID_MAP', 'G_PHYSICAL_MAP', 'USGS_TOPO_TILES'
+				doubleclick_zoom:true, mousewheel_zoom:false, // true or false; or, value of 'reverse' for mousewheel_zoom makes down=in and up=out
+				
+				// widgets on the map:
+				map_type_control:{ // style: 'menu', 'list', 'none', or 'google'; filter: when map loads, are irrelevant maps ignored?; excluded: list of map types that will never show in the list; included:show ONLY these map types in the list
+					style:'menu', filter:true, excluded:['G_SATELLITE_3D_MAP']
+				},
+				zoom_control:'large', scale_control:true, map_opacity_control:true, // zoom is 'large' or 'small', scale and opacity are true or false
+				center_coordinates:true, crosshair_hidden:true, // true or false: Show a "center coordinates" box and crosshair? Hide the crosshair initially?
+				legend_options:{ // position: [Google anchor, x, y]; id: id of a DIV tag that holds the legend (other associated DIVs -- e.g., _handle, _table, -container -- must be similarly named)
+					legend:false, id:'gv_legend', position:['G_ANCHOR_BOTTOM_LEFT',4,60], draggable:true, collapsible:true
+				},
+				
+				
+				// marker-related options:
+				default_marker:{ color:'red',icon:'googlemini' }, // icon can be a URL, but be sure to also include size:[w,h] and optionally anchor:[x,y]
+				icon_directory:'https://dl.dropboxusercontent.com/u/11531008/Icons/', // don't change this unless you really know what you're doing
+				marker_link_target:'_blank',    // the name of the window or frame into which markers' URLs will load
+				info_window_width:0, thumbnail_width:0, photo_size:[0,0], // in pixels, the width of the markers' info windows or thumbnails, or width and height of photos; 0 for default (can be overridden in an individual marker's options)
+				hide_labels:false, label_offset:[0,0], label_centered:false, // hide_labels causes the "permanent" labels to be hidden at first; global label_offset setting is [x,y] (positive numbers are right and down)
+				driving_directions:false,       // put a small "driving directions" form in each marker's pop-up window? (override with dd:true or dd:false in the marker's options)
+				marker_filter_options:{ // options for removing waypoints that are out of the current view
+					filter:false, limit:0, update_list:true, movement_threshold:8, sort_list_by_distance:false, min_zoom:0, zoom_message:''
+				},
+				marker_list_options:{ // options for a dynamically-created list of markers
+					list:false, id_floating:'gv_marker_list', id_static:'gv_marker_list_static', // id_static: id of a DIV with a non-floating list; id_floating: id of a DIV tag that holds a floating list (other associated DIVs -- _handle, _table, _container -- must be similarly named)
+					floating:false, position:['G_ANCHOR_BOTTOM_RIGHT',6,38], width:160, height:466, draggable:true, collapsible:true, // these only affect a "floating" list
+					colors:false, default_color:'', icons:true, desc:false, dividers:false, thumbnails:false, wrap_names:true, unnamed:'[unnamed]', limit:0, // overall appearance of the list items
+					center:false, zoom:false, zoom_level:15, info_window:true, url_links:false, toggle:false, help_tooltips:false, // these define what happens when you click on an item in the list ("toggle" affects only the text)
+					header:'',footer:'',folders_collapsed:false,include_tickmarks:false,include_trackpoints:false // header & footer are HTML snippets
+				},
+				
+				// track-related options:
+				tracklist_options:{ // position: [Google anchor, x, y]; id: id of a DIV tag that holds the track list (other associated DIVs -- e.g., _handle, _table, -container -- must be similarly named)
+					tracklist:true, position:['G_ANCHOR_TOP_RIGHT',6,32], max_width:180, max_height:560, desc:true, zoom_links:true, tooltips:true, draggable:true, collapsible:true, id:'gv_tracklist'
+				},
+
+				centering_options:{ // URL-based centering (e.g., ?center=name_of_marker&zoom=14)
+					center_key:'center', partial_match:true, default_zoom:null, open_info_window:true
+				},
+
+				zzz:false // this is just here to prevent possible "hanging comma" JS errors
+			};
+			// Load GPS Visualizer's Google Maps functions (this must be loaded AFTER gv_options are set):
+			document.writeln('<script src="https://gpsvisualizer.github.io/google_maps/functions3.js?1262605794" type="text/javascript"><'+'/'+'script>');
+		</script>
+		
+		<style type="text/css">
+			/* Put any custom style definitions here (e.g., .gv_marker_info_window, .gv_marker_list_item, .gv_tooltip, .gv_label, etc.) */
+			.gv_label {
+				filter:alpha(opacity=90); -moz-opacity:0.9;
+				background:#333333; border:1px solid black; padding:1px;
+				font:9px Verdana,sans-serif; color:white; font-weight:normal;
+			}
+			
+		</style>
+		
+		<!-- end GPSV setup script and styles; begin map-drawing script (they must be separate) -->
+		<script type="text/javascript">
+			function GV_Map() {
+				if (GBrowserIsCompatible()) { 
+					if (gv_options['full_screen']) { GV_Fill_Window_With_Map(gv_options['map_div']); }
+					gmap = new GMap2(document.getElementById(gv_options['map_div'])); // create map
+					GV_Setup_Map(gv_options);
+					
+					// Track #1 ("Novoletna")
+					trk[1] = []; trk_info[1] = {
+						name:'Novoletna', desc:'',
+						color:'#00E6E6', width:3, opacity:0.8, outline_color:'#000000', outline_width:5,
+						clickable:true, bounds:{w:14.934815,e:14.990157,s:46.34003,n:46.439135}, center:{lat:46.39809,lon:14.95593}
+					};
+					var pts = [ new GLatLng(46.340345,14.966383), new GLatLng(46.340562,14.966517), new GLatLng(46.340147,14.966378), new GLatLng(46.340187,14.969367), new GLatLng(46.34003,14.970507), new GLatLng(46.340292,14.970865), new GLatLng(46.341562,14.97133), new GLatLng(46.341722,14.971655), new GLatLng(46.341748,14.97267), new GLatLng(46.341932,14.972927), new GLatLng(46.343242,14.973277), new GLatLng(46.344985,14.974183), new GLatLng(46.344958,14.974022), new GLatLng(46.346717,14.97361), new GLatLng(46.347963,14.97278), new GLatLng(46.3495,14.972617), new GLatLng(46.349888,14.972375), new GLatLng(46.35129,14.97297), new GLatLng(46.351773,14.97294), new GLatLng(46.352627,14.974275), new GLatLng(46.353347,14.974995), new GLatLng(46.353285,14.974823), new GLatLng(46.353603,14.975227), new GLatLng(46.354673,14.975762), new GLatLng(46.355887,14.975972), new GLatLng(46.356207,14.977125), new GLatLng(46.35789,14.977123), new GLatLng(46.360473,14.979188), new GLatLng(46.360738,14.979022), new GLatLng(46.361875,14.97965), new GLatLng(46.362845,14.981575), new GLatLng(46.363197,14.981938), new GLatLng(46.364428,14.981792), new GLatLng(46.364783,14.982273), new GLatLng(46.366133,14.982365), new GLatLng(46.367332,14.98279), new GLatLng(46.36824,14.982517), new GLatLng(46.369128,14.982648), new GLatLng(46.369993,14.982408), new GLatLng(46.370702,14.982968), new GLatLng(46.370985,14.982888), new GLatLng(46.37193,14.983885), new GLatLng(46.372447,14.983983), new GLatLng(46.373657,14.985387), new GLatLng(46.374223,14.985253), new GLatLng(46.374858,14.985722), new GLatLng(46.376368,14.985083), new GLatLng(46.376755,14.985265), new GLatLng(46.379662,14.984242), new GLatLng(46.381242,14.984747), new GLatLng(46.383168,14.984368), new GLatLng(46.383625,14.984975), new GLatLng(46.383278,14.985862), new GLatLng(46.384683,14.985943), new GLatLng(46.386613,14.987533), new GLatLng(46.388952,14.986987), new GLatLng(46.390165,14.987802), new GLatLng(46.391077,14.988127), new GLatLng(46.3909,14.98798), new GLatLng(46.391973,14.98853), new GLatLng(46.393792,14.990157), new GLatLng(46.395952,14.988742), new GLatLng(46.397932,14.987053), new GLatLng(46.399337,14.986183), new GLatLng(46.3998,14.98552), new GLatLng(46.400135,14.984512), new GLatLng(46.40073,14.983692), new GLatLng(46.401062,14.982683), new GLatLng(46.400863,14.982092), new GLatLng(46.401132,14.98115), new GLatLng(46.40144,14.98073), new GLatLng(46.401523,14.980022), new GLatLng(46.401312,14.980117), new GLatLng(46.401537,14.979268), new GLatLng(46.401207,14.977873), new GLatLng(46.401358,14.976672), new GLatLng(46.40091,14.975518), new GLatLng(46.401048,14.974218), new GLatLng(46.401277,14.974108), new GLatLng(46.401597,14.973255), new GLatLng(46.401815,14.973245), new GLatLng(46.403083,14.971955), new GLatLng(46.403557,14.971013), new GLatLng(46.404685,14.970342), new GLatLng(46.405777,14.969058), new GLatLng(46.40596,14.967747), new GLatLng(46.406573,14.966683), new GLatLng(46.406803,14.965723), new GLatLng(46.407655,14.96495), new GLatLng(46.407662,14.963853), new GLatLng(46.408057,14.963113), new GLatLng(46.408422,14.962948), new GLatLng(46.408957,14.961757), new GLatLng(46.40865,14.96084), new GLatLng(46.409163,14.958883), new GLatLng(46.409795,14.958425), new GLatLng(46.410157,14.957807), new GLatLng(46.410597,14.957555), new GLatLng(46.410857,14.957018), new GLatLng(46.410622,14.958007), new GLatLng(46.410847,14.959535), new GLatLng(46.41152,14.960073), new GLatLng(46.41187,14.959847), new GLatLng(46.412007,14.95945), new GLatLng(46.411877,14.957213), new GLatLng(46.412035,14.955052), new GLatLng(46.411287,14.953985), new GLatLng(46.410802,14.953703), new GLatLng(46.410878,14.953933), new GLatLng(46.410958,14.952892), new GLatLng(46.411168,14.952357), new GLatLng(46.412337,14.952945), new GLatLng(46.412323,14.952358), new GLatLng(46.4128,14.951087), new GLatLng(46.41266,14.949792), new GLatLng(46.41308,14.94832), new GLatLng(46.413758,14.947718), new GLatLng(46.413767,14.947445), new GLatLng(46.414423,14.946922), new GLatLng(46.415302,14.945717), new GLatLng(46.415693,14.944502), new GLatLng(46.417122,14.942807), new GLatLng(46.417683,14.942715), new GLatLng(46.41774,14.943202), new GLatLng(46.418152,14.943523), new GLatLng(46.418655,14.943448), new GLatLng(46.41905,14.943018), new GLatLng(46.420507,14.943023), new GLatLng(46.422273,14.943458), new GLatLng(46.422747,14.943287), new GLatLng(46.423645,14.942258), new GLatLng(46.424285,14.942503), new GLatLng(46.424793,14.941642), new GLatLng(46.425102,14.941452), new GLatLng(46.425698,14.9417), new GLatLng(46.426528,14.9426), new GLatLng(46.426642,14.943208), new GLatLng(46.427025,14.943632), new GLatLng(46.427117,14.944967), new GLatLng(46.426762,14.946883), new GLatLng(46.427902,14.947715), new GLatLng(46.428193,14.948505), new GLatLng(46.428175,14.949757), new GLatLng(46.429112,14.95076), new GLatLng(46.430103,14.9497), new GLatLng(46.431047,14.948118), new GLatLng(46.431602,14.948008), new GLatLng(46.432647,14.948252), new GLatLng(46.432565,14.94804), new GLatLng(46.432912,14.948965), new GLatLng(46.4334,14.952137), new GLatLng(46.434085,14.953563), new GLatLng(46.434085,14.955195), new GLatLng(46.43505,14.95649), new GLatLng(46.436175,14.956983), new GLatLng(46.43695,14.957673), new GLatLng(46.437253,14.95913), new GLatLng(46.4382,14.96143), new GLatLng(46.438203,14.96192), new GLatLng(46.438238,14.96154), new GLatLng(46.439135,14.963035), new GLatLng(46.438225,14.964753), new GLatLng(46.438347,14.96447), new GLatLng(46.43807,14.964523), new GLatLng(46.438382,14.964477), new GLatLng(46.438322,14.964225), new GLatLng(46.439102,14.963015), new GLatLng(46.438963,14.962717), new GLatLng(46.438735,14.962722), new GLatLng(46.437203,14.958968), new GLatLng(46.437025,14.95794), new GLatLng(46.436235,14.956963), new GLatLng(46.434908,14.956402), new GLatLng(46.434043,14.955172), new GLatLng(46.434115,14.953733), new GLatLng(46.433362,14.952103), new GLatLng(46.433437,14.951472), new GLatLng(46.432967,14.949127), new GLatLng(46.432635,14.948357), new GLatLng(46.431657,14.947948), new GLatLng(46.430932,14.948303), new GLatLng(46.430013,14.949967), new GLatLng(46.42919,14.95079), new GLatLng(46.428303,14.950077), new GLatLng(46.428132,14.94961), new GLatLng(46.428157,14.948005), new GLatLng(46.427077,14.947345), new GLatLng(46.426698,14.946692), new GLatLng(46.427172,14.944793), new GLatLng(46.426995,14.943687), new GLatLng(46.426667,14.943372), new GLatLng(46.426518,14.942677), new GLatLng(46.426197,14.942582), new GLatLng(46.4257,14.941897), new GLatLng(46.42533,14.941872), new GLatLng(46.425167,14.941533), new GLatLng(46.424298,14.942622), new GLatLng(46.423672,14.942332), new GLatLng(46.422547,14.943478), new GLatLng(46.419758,14.942927), new GLatLng(46.419037,14.943073)]; // track 1 segment 1
+					  trk[1].push (new GPolyline(pts,GV_Color_Name2Hex(trk_info[1]['color']),trk_info[1]['width'],trk_info[1]['opacity'],{mouseOutTolerance:2})); gmap.addOverlay(trk[1][trk[1].length-1]);
+					
+					var pts = [ new GLatLng(46.419037,14.943073), new GLatLng(46.418488,14.943547), new GLatLng(46.4179,14.943365), new GLatLng(46.41768,14.942732), new GLatLng(46.417063,14.942898), new GLatLng(46.415597,14.944685), new GLatLng(46.415085,14.94614), new GLatLng(46.41311,14.948545), new GLatLng(46.412647,14.949995), new GLatLng(46.412802,14.951443), new GLatLng(46.41239,14.952302), new GLatLng(46.412288,14.953095), new GLatLng(46.411297,14.952358), new GLatLng(46.41107,14.952475), new GLatLng(46.410902,14.953777), new GLatLng(46.410802,14.951997), new GLatLng(46.411145,14.95128), new GLatLng(46.410117,14.95144), new GLatLng(46.40979,14.951087), new GLatLng(46.409778,14.949418), new GLatLng(46.409627,14.949235), new GLatLng(46.409255,14.949445), new GLatLng(46.408615,14.948785), new GLatLng(46.40827,14.94788), new GLatLng(46.40779,14.947862), new GLatLng(46.40733,14.946932), new GLatLng(46.406933,14.94675), new GLatLng(46.4071,14.948502), new GLatLng(46.406975,14.94859), new GLatLng(46.407253,14.949787), new GLatLng(46.40714,14.950062), new GLatLng(46.407242,14.950718), new GLatLng(46.407068,14.951142), new GLatLng(46.40648,14.949725), new GLatLng(46.405048,14.948403), new GLatLng(46.405155,14.948415), new GLatLng(46.403773,14.947268), new GLatLng(46.40379,14.947975), new GLatLng(46.404243,14.949442), new GLatLng(46.403473,14.948972), new GLatLng(46.403803,14.949308), new GLatLng(46.403315,14.949823), new GLatLng(46.404003,14.949737), new GLatLng(46.404172,14.950165), new GLatLng(46.404333,14.950117), new GLatLng(46.404018,14.947862), new GLatLng(46.40374,14.947515), new GLatLng(46.40404,14.947333), new GLatLng(46.406425,14.949405), new GLatLng(46.407212,14.951342), new GLatLng(46.407637,14.95012), new GLatLng(46.407463,14.94969), new GLatLng(46.407593,14.949233), new GLatLng(46.407363,14.948902), new GLatLng(46.407605,14.94861), new GLatLng(46.407575,14.947567), new GLatLng(46.407273,14.946997), new GLatLng(46.407698,14.947737), new GLatLng(46.408497,14.948043), new GLatLng(46.40839,14.94771), new GLatLng(46.409172,14.94611), new GLatLng(46.409258,14.94521), new GLatLng(46.409123,14.9448), new GLatLng(46.409595,14.94373), new GLatLng(46.410082,14.943422), new GLatLng(46.41024,14.94305), new GLatLng(46.409978,14.94151), new GLatLng(46.410188,14.940542), new GLatLng(46.410868,14.939232), new GLatLng(46.411138,14.937482), new GLatLng(46.411577,14.93626), new GLatLng(46.412315,14.935275), new GLatLng(46.412367,14.934815), new GLatLng(46.412222,14.935317), new GLatLng(46.411218,14.935945), new GLatLng(46.410553,14.93684), new GLatLng(46.409797,14.938962), new GLatLng(46.408308,14.94189), new GLatLng(46.407758,14.942257), new GLatLng(46.407097,14.941998), new GLatLng(46.405838,14.941968), new GLatLng(46.404943,14.940982), new GLatLng(46.403747,14.940365), new GLatLng(46.403417,14.940672), new GLatLng(46.403282,14.940397), new GLatLng(46.403795,14.939705), new GLatLng(46.403328,14.9389), new GLatLng(46.403233,14.938165), new GLatLng(46.403622,14.938768), new GLatLng(46.403667,14.939615), new GLatLng(46.403315,14.940105), new GLatLng(46.402988,14.941113), new GLatLng(46.402067,14.94188), new GLatLng(46.401622,14.942837), new GLatLng(46.400838,14.943532), new GLatLng(46.400375,14.943515), new GLatLng(46.399455,14.944428), new GLatLng(46.398847,14.944725), new GLatLng(46.398123,14.945682), new GLatLng(46.397817,14.945528), new GLatLng(46.396398,14.946023), new GLatLng(46.39624,14.945838), new GLatLng(46.396498,14.945637), new GLatLng(46.39661,14.945082), new GLatLng(46.39605,14.945402), new GLatLng(46.395865,14.94581), new GLatLng(46.395443,14.94565), new GLatLng(46.395387,14.946107), new GLatLng(46.3946,14.947555), new GLatLng(46.393968,14.947667), new GLatLng(46.39399,14.947867), new GLatLng(46.392872,14.948527), new GLatLng(46.392125,14.950192), new GLatLng(46.391187,14.950273), new GLatLng(46.390793,14.949752), new GLatLng(46.390275,14.94957), new GLatLng(46.389852,14.949088), new GLatLng(46.389647,14.949487), new GLatLng(46.388058,14.950892), new GLatLng(46.387462,14.950887), new GLatLng(46.386603,14.951748), new GLatLng(46.385438,14.95188), new GLatLng(46.384148,14.951538), new GLatLng(46.384183,14.950895), new GLatLng(46.383445,14.95026), new GLatLng(46.383177,14.94967), new GLatLng(46.382265,14.948633), new GLatLng(46.381487,14.947245), new GLatLng(46.381495,14.94644), new GLatLng(46.380537,14.946297), new GLatLng(46.379453,14.94651), new GLatLng(46.379563,14.947065), new GLatLng(46.379423,14.947745), new GLatLng(46.377772,14.950025), new GLatLng(46.377697,14.949462), new GLatLng(46.37714,14.950402), new GLatLng(46.377022,14.951143), new GLatLng(46.377137,14.951987), new GLatLng(46.376888,14.952772), new GLatLng(46.376982,14.953703), new GLatLng(46.375517,14.9554), new GLatLng(46.373285,14.95596), new GLatLng(46.372548,14.955792), new GLatLng(46.370515,14.956155), new GLatLng(46.368933,14.957283), new GLatLng(46.368373,14.957158), new GLatLng(46.369885,14.955092), new GLatLng(46.370622,14.9544), new GLatLng(46.371253,14.954445), new GLatLng(46.372032,14.953545), new GLatLng(46.372178,14.952988), new GLatLng(46.371572,14.952595), new GLatLng(46.370873,14.950608), new GLatLng(46.370562,14.9505), new GLatLng(46.370615,14.949863), new GLatLng(46.370463,14.949527), new GLatLng(46.369922,14.949472), new GLatLng(46.369802,14.948967), new GLatLng(46.370372,14.948327), new GLatLng(46.370917,14.948202), new GLatLng(46.37049,14.94741), new GLatLng(46.369817,14.947125), new GLatLng(46.369223,14.946), new GLatLng(46.367803,14.945115), new GLatLng(46.366618,14.945547), new GLatLng(46.364107,14.947182), new GLatLng(46.36332,14.948047), new GLatLng(46.363665,14.94823), new GLatLng(46.36389,14.947887), new GLatLng(46.364117,14.947908), new GLatLng(46.364168,14.949163), new GLatLng(46.363933,14.949903), new GLatLng(46.362838,14.951655), new GLatLng(46.361968,14.95172), new GLatLng(46.361015,14.95053), new GLatLng(46.359518,14.949932), new GLatLng(46.357803,14.948587), new GLatLng(46.356648,14.947315), new GLatLng(46.355707,14.946813), new GLatLng(46.355135,14.945775), new GLatLng(46.353015,14.945828), new GLatLng(46.352535,14.946695), new GLatLng(46.352223,14.946763), new GLatLng(46.351135,14.948627), new GLatLng(46.35082,14.95041), new GLatLng(46.350415,14.950673), new GLatLng(46.349232,14.950745), new GLatLng(46.347175,14.951933), new GLatLng(46.345703,14.953817), new GLatLng(46.345487,14.954517), new GLatLng(46.345082,14.954805), new GLatLng(46.344793,14.955712), new GLatLng(46.34423,14.95655), new GLatLng(46.342972,14.95725), new GLatLng(46.341215,14.960818), new GLatLng(46.340825,14.964543), new GLatLng(46.340302,14.965792), new GLatLng(46.340338,14.966328), new GLatLng(46.340535,14.96655), new GLatLng(46.340343,14.96649) ]; // track 1 segment 1a
+					  trk[1].push (new GPolyline(pts,GV_Color_Name2Hex(trk_info[1]['color']),trk_info[1]['width'],trk_info[1]['opacity'],{mouseOutTolerance:2})); gmap.addOverlay(trk[1][trk[1].length-1]);
+					
+					GV_Finish_Track(1);
+					
+					
+					GV_Add_Track_to_Tracklist({bullet:'- ',name:trk_info[1]['name'],desc:trk_info[1]['desc'],color:trk_info[1]['color'],id:"trk[1]"});
+					
+					
+					wpts.push( GV_Marker(gmap,{lat:46.3403400,lon:14.9664300,name:'Mozirje',desc:'',color:'',icon:'http://milan.zeleznik.googlepages.com/scenic.png',url:'http://www.mozirje.si',thumbnail:'http://lh4.ggpht.com/_ZNUpGT2nZF8/Sz-1Ajl-ZrI/AAAAAAAAC04/Yfo8xpa7YKw/s400/DSC06015.JPG',thumbnail_width:80,photo:'http://lh4.ggpht.com/_ZNUpGT2nZF8/Sz-1Ajl-ZrI/AAAAAAAAC04/Yfo8xpa7YKw/s288/DSC06015.JPG',photo_size:[288,216],icon_size:[21,31],scale:0.7}) );
+					wpts.push( GV_Marker(gmap,{lat:46.3824150,lon:14.9843100,name:'Lokove',desc:'',color:'',icon:'http://milan.zeleznik.googlepages.com/scenic.png',url:'http://www.geopedia.si/?params=T173_L561_F25',thumbnail:'http://lh6.ggpht.com/_ZNUpGT2nZF8/Sz-1AjBw_1I/AAAAAAAAC08/CF447MsG3Ko/s288/DSC06016.JPG',thumbnail_width:80,photo:'http://lh6.ggpht.com/_ZNUpGT2nZF8/Sz-1AjBw_1I/AAAAAAAAC08/CF447MsG3Ko/s288/DSC06016.JPG',photo_size:[288,216],icon_size:[21,31],scale:0.7}) );
+					wpts.push( GV_Marker(gmap,{lat:46.4010390,lon:14.9821240,name:'Greben&#154;ek',desc:'',color:'',icon:'http://milan.zeleznik.googlepages.com/scenic.png',url:'http://www.stoletne-gostilne.si/si/gostilne/gostilna-grebensek',thumbnail:'http://lh5.ggpht.com/_ZNUpGT2nZF8/Sz-1A8Bqv5I/AAAAAAAAC1A/JyCIwIccZPM/s288/DSC06017.jpg',thumbnail_width:80,photo:'http://lh5.ggpht.com/_ZNUpGT2nZF8/Sz-1A8Bqv5I/AAAAAAAAC1A/JyCIwIccZPM/s288/DSC06017.jpg',photo_size:[288,216],icon_size:[21,31],scale:0.7}) );
+					wpts.push( GV_Marker(gmap,{lat:46.4021850,lon:14.9727650,name:'strm klanec proti Belim Vodam',desc:'',color:'',icon:'http://milan.zeleznik.googlepages.com/scenic.png',url:'http://sl.wikipedia.org/wiki/Bele_Vode',thumbnail:'http://lh6.ggpht.com/_ZNUpGT2nZF8/Sz-1Ay-_-eI/AAAAAAAAC1E/nKkde8rPg8M/s288/DSC06018.JPG',thumbnail_width:80,photo:'http://lh6.ggpht.com/_ZNUpGT2nZF8/Sz-1Ay-_-eI/AAAAAAAAC1E/nKkde8rPg8M/s288/DSC06018.JPG',photo_size:[288,216],icon_size:[21,31],scale:0.7}) );
+					wpts.push( GV_Marker(gmap,{lat:46.4070710,lon:14.9652780,name:'Bele Vode',desc:'',color:'',icon:'http://milan.zeleznik.googlepages.com/scenic.png',url:'http://sl.wikipedia.org/wiki/Bele_Vode',thumbnail:'http://lh3.ggpht.com/_ZNUpGT2nZF8/Sz-1BMkXXdI/AAAAAAAAC1I/e16dYMQWZvM/s288/DSC06025.JPG',thumbnail_width:80,photo:'http://lh3.ggpht.com/_ZNUpGT2nZF8/Sz-1BMkXXdI/AAAAAAAAC1I/e16dYMQWZvM/s288/DSC06025.JPG',photo_size:[288,216],icon_size:[21,31],scale:0.7}) );
+					wpts.push( GV_Marker(gmap,{lat:46.4113110,lon:14.9598700,name:'Sv. Andrej',desc:'',color:'',icon:'http://milan.zeleznik.googlepages.com/scenic.png',url:'http://www.sostanj.info/predstavitev/fotke/bele_vode/gallery/index.htm',thumbnail:'http://lh3.ggpht.com/_ZNUpGT2nZF8/Sz-1JqApaEI/AAAAAAAAC1M/u4H4C44Rpiw/s288/DSC06027.JPG',thumbnail_width:80,photo:'http://lh3.ggpht.com/_ZNUpGT2nZF8/Sz-1JqApaEI/AAAAAAAAC1M/u4H4C44Rpiw/s288/DSC06027.JPG',photo_size:[288,216],icon_size:[21,31],scale:0.7}) );
+					wpts.push( GV_Marker(gmap,{lat:46.4108050,lon:14.9535270,name:'preval pri doma&#232;iji Savinek',desc:'',color:'',icon:'http://milan.zeleznik.googlepages.com/scenic.png',url:'http://www.rabim.info/Domov/Rezultati/218533/15475803/OKREP%C4%8CEVALNICA+SAVINEK+VIDA+MAZEJ+sp?tag=267668',thumbnail:'http://lh4.ggpht.com/_ZNUpGT2nZF8/Sz-1JwkxbtI/AAAAAAAAC1Q/ydlJvZn3NAs/s288/DSC06029.JPG',thumbnail_width:80,photo:'http://lh4.ggpht.com/_ZNUpGT2nZF8/Sz-1JwkxbtI/AAAAAAAAC1Q/ydlJvZn3NAs/s288/DSC06029.JPG',photo_size:[288,216],icon_size:[21,31],scale:0.7}) );
+					wpts.push( GV_Marker(gmap,{lat:46.4378480,lon:14.9644420,name:'Andrejev dom na Slemenu',desc:'',color:'',icon:'http://milan.zeleznik.googlepages.com/scenic.png',url:'http://www.andrejevdom-sleme.si/andrejevdom.html',thumbnail:'http://lh4.ggpht.com/_ZNUpGT2nZF8/Sz-1KNJA03I/AAAAAAAAC1Y/u4lJrm_CesE/s288/DSC06031.JPG',thumbnail_width:80,photo:'http://lh4.ggpht.com/_ZNUpGT2nZF8/Sz-1KNJA03I/AAAAAAAAC1Y/u4lJrm_CesE/s288/DSC06031.JPG',photo_size:[288,216],icon_size:[21,31],scale:0.7}) );
+					wpts.push( GV_Marker(gmap,{lat:46.4306500,lon:14.9493660,name:'pod Tolstim vrhom',desc:'',color:'',icon:'http://milan.zeleznik.googlepages.com/scenic.png',url:'http://www.andrejevdom-sleme.si/andrejevdom.html',thumbnail:'http://lh4.ggpht.com/_ZNUpGT2nZF8/Sz-1UgxavGI/AAAAAAAAC1g/L_UZN5GdmRc/s288/DSC06035.JPG',thumbnail_width:80,photo:'http://lh4.ggpht.com/_ZNUpGT2nZF8/Sz-1UgxavGI/AAAAAAAAC1g/L_UZN5GdmRc/s288/DSC06035.JPG',photo_size:[288,216],icon_size:[21,31],scale:0.7}) );
+					wpts.push( GV_Marker(gmap,{lat:46.4151880,lon:14.9457280,name:'pogled na Sv. Kri&#158;',desc:'',color:'',icon:'http://milan.zeleznik.googlepages.com/scenic.png',url:'http://www.sostanj.info/predstavitev/kriz.htm',thumbnail:'http://lh6.ggpht.com/_ZNUpGT2nZF8/Sz-1U7knk5I/AAAAAAAAC1k/cZypcamo0KU/s288/DSC06037.JPG',thumbnail_width:80,photo:'http://lh6.ggpht.com/_ZNUpGT2nZF8/Sz-1U7knk5I/AAAAAAAAC1k/cZypcamo0KU/s288/DSC06037.JPG',photo_size:[288,216],icon_size:[21,31],scale:0.7}) );
+					wpts.push( GV_Marker(gmap,{lat:46.4064170,lon:14.9496810,name:'strm klanec na Sv. Kri&#158;',desc:'',color:'',icon:'http://milan.zeleznik.googlepages.com/scenic.png',url:'http://www.sostanj.info/predstavitev/kriz.htm',thumbnail:'http://lh3.ggpht.com/_ZNUpGT2nZF8/Sz-1U0nEjuI/AAAAAAAAC1o/Cd0lW1IWbew/s288/DSC06038.JPG',thumbnail_width:80,photo:'http://lh3.ggpht.com/_ZNUpGT2nZF8/Sz-1U0nEjuI/AAAAAAAAC1o/Cd0lW1IWbew/s288/DSC06038.JPG',photo_size:[288,216],icon_size:[21,31],scale:0.7}) );
+					wpts.push( GV_Marker(gmap,{lat:46.4041880,lon:14.9499930,name:'Sv. Kri&#158;',desc:'',color:'',icon:'http://milan.zeleznik.googlepages.com/scenic.png',url:'http://www.sostanj.info/predstavitev/kriz.htm',thumbnail:'http://lh6.ggpht.com/_ZNUpGT2nZF8/Sz-1U_PDRBI/AAAAAAAAC1s/qmqCwyqeMIo/s288/DSC06041.JPG',thumbnail_width:80,photo:'http://lh6.ggpht.com/_ZNUpGT2nZF8/Sz-1U_PDRBI/AAAAAAAAC1s/qmqCwyqeMIo/s288/DSC06041.JPG',photo_size:[288,216],icon_size:[21,31],scale:0.7}) );
+					wpts.push( GV_Marker(gmap,{lat:46.4033970,lon:14.9498890,name:'Sv. Kri&#158;',desc:'',color:'',icon:'http://milan.zeleznik.googlepages.com/scenic.png',url:'http://www.sostanj.info/predstavitev/kriz.htm',thumbnail:'http://lh4.ggpht.com/_ZNUpGT2nZF8/Sz-1viheixI/AAAAAAAAC2M/px1J-hTzhlY/s288/DSC06052.JPG',thumbnail_width:80,photo:'http://lh4.ggpht.com/_ZNUpGT2nZF8/Sz-1viheixI/AAAAAAAAC2M/px1J-hTzhlY/s288/DSC06052.JPG',photo_size:[288,216],icon_size:[21,31],scale:0.7}) );
+					wpts.push( GV_Marker(gmap,{lat:46.4053340,lon:14.9412580,name:'&#138;tajerska Kramarica',desc:'',color:'',icon:'http://milan.zeleznik.googlepages.com/scenic.png',url:'http://sl.wikisource.org/wiki/Kramarica',thumbnail:'http://lh3.ggpht.com/_ZNUpGT2nZF8/Sz-1wJQjlWI/AAAAAAAAC2Y/FeTZXIqxdDk/s288/DSC06057.JPG',thumbnail_width:80,photo:'http://lh3.ggpht.com/_ZNUpGT2nZF8/Sz-1wJQjlWI/AAAAAAAAC2Y/FeTZXIqxdDk/s288/DSC06057.JPG',photo_size:[288,216],icon_size:[21,31],scale:0.7}) );
+					wpts.push( GV_Marker(gmap,{lat:46.4046870,lon:14.9411540,name:'&#138;tajerska Kramarica',desc:'',color:'',icon:'http://milan.zeleznik.googlepages.com/scenic.png',url:'http://sl.wikisource.org/wiki/Kramarica',thumbnail:'http://lh4.ggpht.com/_ZNUpGT2nZF8/Sz-136v5MeI/AAAAAAAAC2c/iQl6QNwz0cE/s288/DSC06058.JPG',thumbnail_width:80,photo:'http://lh4.ggpht.com/_ZNUpGT2nZF8/Sz-136v5MeI/AAAAAAAAC2c/iQl6QNwz0cE/s288/DSC06058.JPG',photo_size:[288,216],icon_size:[21,31],scale:0.7}) );
+					wpts.push( GV_Marker(gmap,{lat:46.4032480,lon:14.9380350,name:'Izvir Ljubije',desc:'',color:'',icon:'http://milan.zeleznik.googlepages.com/scenic.png',url:'http://www.smrekovec.net/vsebina.php?pid=8&tab=narava&lang=si',thumbnail:'http://lh5.ggpht.com/_ZNUpGT2nZF8/Sz-14C4NozI/AAAAAAAAC2g/wxwmhCN--HU/s288/DSC06059.JPG',thumbnail_width:80,photo:'http://lh5.ggpht.com/_ZNUpGT2nZF8/Sz-14C4NozI/AAAAAAAAC2g/wxwmhCN--HU/s288/DSC06059.JPG',photo_size:[288,216],icon_size:[21,31],scale:0.7}) );
+					wpts.push( GV_Marker(gmap,{lat:46.4035360,lon:14.9389710,name:'Ljubija',desc:'',color:'',icon:'http://milan.zeleznik.googlepages.com/scenic.png',url:'http://www.sostanj.info/galerija.php?pid=132',thumbnail:'http://lh3.ggpht.com/_ZNUpGT2nZF8/Sz-14LGfQMI/AAAAAAAAC2k/rEbF5lmzp-Y/s288/DSC06060.JPG',thumbnail_width:80,photo:'http://lh3.ggpht.com/_ZNUpGT2nZF8/Sz-14LGfQMI/AAAAAAAAC2k/rEbF5lmzp-Y/s288/DSC06060.JPG',photo_size:[288,216],icon_size:[21,31],scale:0.7}) );
+					wpts.push( GV_Marker(gmap,{lat:46.4036080,lon:14.9398030,name:'Ljubija',desc:'',color:'',icon:'http://milan.zeleznik.googlepages.com/scenic.png',url:'http://www.sostanj.info/galerija.php?pid=132',thumbnail:'http://lh4.ggpht.com/_ZNUpGT2nZF8/Sz-14FNkvlI/AAAAAAAAC2o/S0UhgzYYii4/s288/DSC06061.JPG',thumbnail_width:80,photo:'http://lh4.ggpht.com/_ZNUpGT2nZF8/Sz-14FNkvlI/AAAAAAAAC2o/S0UhgzYYii4/s288/DSC06061.JPG',photo_size:[288,216],icon_size:[21,31],scale:0.7}) );
+					wpts.push( GV_Marker(gmap,{lat:46.3964200,lon:14.9454190,name:'pogled na Sv.Kri&#158; iz doline Ljubije',desc:'',color:'',icon:'http://milan.zeleznik.googlepages.com/scenic.png',url:'http://www.sostanj.info/galerija.php?pid=132',thumbnail:'http://lh6.ggpht.com/_ZNUpGT2nZF8/Sz-14b59CkI/AAAAAAAAC2s/olYb1_OFaQk/s288/DSC06062.JPG',thumbnail_width:80,photo:'http://lh6.ggpht.com/_ZNUpGT2nZF8/Sz-14b59CkI/AAAAAAAAC2s/olYb1_OFaQk/s288/DSC06062.JPG',photo_size:[288,216],icon_size:[21,31],scale:0.7}) );
+					wpts.push( GV_Marker(gmap,{lat:46.3870740,lon:14.9514510,name:'&#138;mihel',desc:'',color:'',icon:'http://milan.zeleznik.googlepages.com/scenic.png',url:'http://www.smihel.com/',thumbnail:'http://lh4.ggpht.com/_ZNUpGT2nZF8/Sz-2BXofXdI/AAAAAAAAC2w/ru3rtm-MmGE/s288/DSC06063.JPG',thumbnail_width:80,photo:'http://lh4.ggpht.com/_ZNUpGT2nZF8/Sz-2BXofXdI/AAAAAAAAC2w/ru3rtm-MmGE/s288/DSC06063.JPG',photo_size:[288,216],icon_size:[21,31],scale:0.7}) );
+					wpts.push( GV_Marker(gmap,{lat:46.3782280,lon:14.9492680,name:'&#138;mihel-odcep za Golte',desc:'',color:'',icon:'http://milan.zeleznik.googlepages.com/scenic.png',url:'http://www.golte.si/',thumbnail:'http://lh5.ggpht.com/_ZNUpGT2nZF8/Sz-2BUJYy8I/AAAAAAAAC24/IO77q8DIpDA/s288/DSC06066.jpg',thumbnail_width:80,photo:'http://lh5.ggpht.com/_ZNUpGT2nZF8/Sz-2BUJYy8I/AAAAAAAAC24/IO77q8DIpDA/s288/DSC06066.jpg',photo_size:[216,288],icon_size:[21,31],scale:0.7}) );
+					
+				
+					GV_Finish_Map(gv_options);
+					
+				} else {
+					document.getElementById('gmap_div').style.backgroundColor = '#DDDDDD';
+					document.getElementById('gmap_div').innerHTML = 'Sorry, your Google Map cannot be displayed.';
+				}
+			}
+			GV_Map(); // execute the above code
+		</script>
+		
+		
+	</body>
+
+</html>
