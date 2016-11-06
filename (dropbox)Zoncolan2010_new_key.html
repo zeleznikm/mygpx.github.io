@@ -1,0 +1,1025 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+	<head>
+		<title>Map created by GPS Visualizer</title>
+		<base target="_top"></base>
+		<meta name="geo.position" content="46.4550185; 12.9734975" />
+		<meta name="ICBM" content="46.4550185, 12.9734975" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head>
+	<body onunload="GUnload();" style="margin:0px;">
+		
+		
+		<!--
+			If you want to transplant this map into another Web page, by far the best method is to
+			simply include it in a IFRAME tag (see http://www.gpsvisualizer.com/faq.html#google_html).
+			But, if you must paste the code into another page, be sure to include all of these parts:
+			   1. The DOCTYPE declaration and the extra attributes in the "html" tag (xmlns:v=...)
+			     that allow Internet Explorer for Windows to render polylines (tracks)
+			   2. The "div" tags that contain the map and its widgets
+			   3. Three sections of JavaScript code:
+			      a. Your Google Maps API key and the maps.google.com code
+			      b. "gv_options" and the code that calls "functions.js" on maps.gpsvisualizer.com
+			      c. The "GV_Map" function, which contains all the geographic info for the map
+		-->
+		<div style="width:865px; margin-left:0px; margin-right:0px; margin-top:0px; margin-bottom:0px;">
+			<div id="gmap_div" style="width:689px; height:580px; margin:0px; margin-right:12px; background-color:#F0F0F0; float:left; overflow:hidden;">
+				<p align="center" style="font:10px Arial;">This map was created using <a target="_blank" href="http://www.gpsvisualizer.com/">GPS Visualizer</a>'s do-it-yourself geographic utilities.<br><br>Please wait while the map data loads...</p>
+			</div>
+				
+			<div id="gv_legend_container" style="display:none;"><table id="gv_legend_table" style="position:relative; filter:alpha(opacity=95); -moz-opacity:0.95; opacity:0.95; background:#ffffff;" cellpadding="0" cellspacing="0" border="0"><tr><td><div id="gv_legend_handle" align="center" style="height:6px; max-height:6px; background:#CCCCCC; border-left:1px solid #999999; border-top:1px solid #EEEEEE; border-right:1px solid #999999; padding:0px; cursor:move;"><!-- --></div>
+				<div id="gv_legend" align="left" style="line-height:13px; border:solid #000000 1px; background:#FFFFFF; padding:4px;font:11px Arial; ">
+						<div id="gv_legend_header" style="padding-bottom:2px;"><b>Elevation (m)</b></div>
+						<div class="gv_legend_item"><span style="color:#E600E6;">1758.0</span></div>
+						<div class="gv_legend_item"><span style="color:#003BE6;">1400.0</span></div>
+						<div class="gv_legend_item"><span style="color:#00E675;">1042.0</span></div>
+						<div class="gv_legend_item"><span style="color:#ABE600;">684.0</span></div>
+						<div class="gv_legend_item"><span style="color:#E60000;">326.0</span></div>
+				</div>
+			</td></tr></table></div>
+
+
+			<div id="gv_tracklist_container" style="display:none;"><table id="gv_tracklist_table" style="position:relative; filter:alpha(opacity=95); -moz-opacity:0.95; opacity:0.95;" cellpadding="0" cellspacing="0" border="0"><tr><td><div id="gv_tracklist_handle" align="center" style="height:6px; max-height:6px; background:#CCCCCC; border-left:1px solid #999999; border-top:1px solid #EEEEEE; border-right:1px solid #999999; padding:0px; cursor:move; min-width:40px;"><!-- --></div>
+				<div id="gv_tracklist" align="left" style="font:11px Arial; line-height:11px; border:solid #666666 1px; background:#FFFFFF; padding:4px; overflow:auto;">
+					<div id="gv_tracklist_header" style="padding-bottom:2px; color:#000000;"><b>Tracks:</b></div>
+					<div id="gv_tracklist_links" style="color:#000000;"></div>
+				</div>
+			</td></tr></table></div>
+			<div id="gv_tracklist_tooltip" class="gv_tracklist_tooltip" style="background-color:#FFFFFF; border:1px solid #CCCCCC; padding:2px; font:11px Arial; display:none;"></div>
+
+			<!-- the following is the "floating" marker list; the "static" version is below -->
+			<div id="gv_marker_list_container" style="display:none;"><table id="gv_marker_list_table" style="position:relative; filter:alpha(opacity=95); -moz-opacity:0.95; opacity:0.95;" cellspacing="0" cellpadding="0" border="0"><tr><td>
+				<div id="gv_marker_list_handle" align="center" style="height:6px; max-height:6px; background:#CCCCCC; border-left:1px solid #999999; border-top:1px solid #EEEEEE; border-right:1px solid #999999; padding:0px; cursor:move;"><!-- --></div>
+				<div id="gv_marker_list" align="left" class="gv_marker_list" style="overflow:auto; background:#FFFFFF; border:solid #666666 1px; padding:4px;"></div>
+			</td></tr></table></div>
+			
+			<div id="gv_marker_list_static" align="left" class="gv_marker_list" style="width:160px; background:#d0d0d0; overflow:auto; float:left; display:none;"></div>
+			<div id="gv_clear_margins" style="height:0px; clear:both;"><!-- clear the "float" --></div>
+		</div>
+
+		
+		<script type="text/javascript">
+			// If you put this map on another Web site, you must include your API key or nothing will work!
+			var google_api_key = 'AIzaSyCsFAnCAlLZZmUU2l0gW8joBqVOhEPsuuA';
+			document.writeln('<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3&libraries=geometry&sensor=false'+((self.google_api_key&&document.location.toString().indexOf('file://')!=0)?'&key='+google_api_key:'')+'"><'+'/script>');
+		</script>
+		<!-- end Google Maps script; begin GPS Visualizer setup script (they must be separate) -->
+		<script type="text/javascript">
+			/* Global variables used by the GPS Visualizer functions (1275249106): */
+			gv_options = [];
+				// important variable names:
+				gv_options.map_div = 'gmap_div';  // the name of the HTML "div" tag containing the map itself; usually 'gmap_div'
+				
+				// basic map parameters:
+				gv_options.width = 689;  // width of the map, in pixels
+				gv_options.height = 580;  // height of the map, in pixels
+				gv_options.full_screen = false;  // true|false: should the map fill the entire page (or frame)?
+				gv_options.center = [46.4550185,12.9734975];  // [latitude,longitude] - be sure to keep the square brackets
+				gv_options.zoom = 12;  // higher number means closer view; can also be 'auto'
+				gv_options.map_opacity = 1;  // number from 0 to 1
+				gv_options.map_type = 'G_PHYSICAL_MAP';  // popular map_type choices are 'G_NORMAL_MAP', 'G_SATELLITE_MAP', 'G_HYBRID_MAP', 'G_PHYSICAL_MAP', 'MYTOPO_TILES'
+				gv_options.doubleclick_zoom = true;  // true|false: zoom in when mouse is double-clicked?
+				gv_options.mousewheel_zoom = false; // true|false; or 'reverse' for down=in and up=out
+				gv_options.centering_options = { 'open_info_window':true, 'partial_match':true, 'center_key':'center', 'default_zoom':null } // URL-based centering (e.g., ?center=name_of_marker&zoom=14)
+				
+				// widgets on the map:
+				gv_options.zoom_control = 'large'; // 'large'|'small'|'3d'
+				gv_options.scale_control = true; // true|false
+				gv_options.center_coordinates = true;  // true|false: show a "center coordinates" box and crosshair?
+				gv_options.crosshair_hidden = true;  // true|false: hide the crosshair initially?
+				gv_options.map_opacity_control = true;  // true|false
+				gv_options.map_type_control = [];  // widget to change the background map
+				  gv_options.map_type_control.style = 'menu';  // 'menu'|'list'|'none'|'google'
+				  gv_options.map_type_control.filter = true;  // true|false: when map loads, are irrelevant maps ignored?
+				  gv_options.map_type_control.excluded = ['G_SATELLITE_3D_MAP'];  // comma-separated list of map types that will never show in the list ('included' also works)
+				gv_options.legend_options = []; // options for a floating legend box (id="gv_legend"), which can contain anything
+				  gv_options.legend_options.legend = true;  // true|false: enable or disable the legend altogether
+				  gv_options.legend_options.position = ['G_ANCHOR_BOTTOM_LEFT',4,60];  // [Google anchor name, relative x, relative y]
+				  gv_options.legend_options.draggable = true;  // true|false: can it be moved around the screen?
+				  gv_options.legend_options.collapsible = true;  // true|false: can it be collapsed by double-clicking its top bar?
+
+				// track-related options:
+				gv_options.tracklist_options = []; // options for a floating list of the tracks visible on the map
+				  gv_options.tracklist_options.tracklist = true;  // true|false: enable or disable the search box altogether
+				  gv_options.tracklist_options.position = ['G_ANCHOR_TOP_RIGHT',6,32];  // [Google anchor name, relative x, relative y]
+				  gv_options.tracklist_options.max_width = 180; // maximum width of the tracklist, in pixels
+				  gv_options.tracklist_options.max_height = 490; // maximum height of the tracklist, in pixels; if the list is longer, scrollbars will appear
+				  gv_options.tracklist_options.desc = true;  // true|false: should tracks' descriptions be shown in the list
+				  gv_options.tracklist_options.zoom_links = true;  // true|false: should each item include a small icon that will zoom to that track?
+				  gv_options.tracklist_options.tooltips = true;  // true|false: should the name of the track appear on the map when you mouse over the name in the list?
+				  gv_options.tracklist_options.draggable = true;  // true|false: can it be moved around the screen?
+				  gv_options.tracklist_options.collapsible = true;  // true|false: can it be collapsed by double-clicking its top bar?
+
+				// marker-related options:
+				gv_options.default_marker = { color:'red',icon:'googlemini' }; // icon can be a URL, but be sure to also include size:[w,h] and optionally anchor:[x,y]
+				gv_options.shadows = true; // true|false: do the standard markers have "shadows" behind them?
+				gv_options.marker_link_target = '_blank'; // the name of the window or frame into which markers' URLs will load
+				gv_options.info_window_width = 0;  // in pixels, the width of the markers' pop-up info "bubbles" (can be overridden by 'window_width' in individual markers)
+				gv_options.thumbnail_width = 0;  // in pixels, the width of the markers' thumbnails (can be overridden by 'thumbnail_width' in individual markers)
+				gv_options.photo_size = [0,0];  // in pixels, the size of the photos in info windows (can be overridden by 'photo_width' or 'photo_size' in individual markers)
+				gv_options.hide_labels = false;  // true|false: hide labels when map first loads?
+				gv_options.label_offset = [0,0];  // [x,y]: shift all markers' labels (positive numbers are right and down)
+				gv_options.label_centered = false;  // true|false: center labels with respect to their markers?  (label_left is also a valid option.)
+				gv_options.driving_directions = false;  // put a small "driving directions" form in each marker's pop-up window? (override with dd:true or dd:false in a marker's options)
+				gv_options.marker_list_options = [];  // options for a dynamically-created list of markers
+				  gv_options.marker_list_options.list = true;  // true|false: enable or disable the marker list altogether
+				  gv_options.marker_list_options.floating = false;  // is the list a floating box inside the map itself?
+				  gv_options.marker_list_options.id_static = 'gv_marker_list_static';  // id of a DIV that holds a non-floating list
+				  gv_options.marker_list_options.id_floating = 'gv_marker_list';  // id of a DIV tag that holds a floating list (other associated DIVs -- _handle, _table, _container -- must be similarly named)
+				  gv_options.marker_list_options.width = 160;  // floating list only: width, in pixels
+				  gv_options.marker_list_options.height = 396;  // floating list only: height, in pixels
+				  gv_options.marker_list_options.position = ['G_ANCHOR_BOTTOM_RIGHT',6,38];  // floating list only: position within map
+				  gv_options.marker_list_options.draggable = true;  // true|false, floating list only: can it be moved around the screen?
+				  gv_options.marker_list_options.collapsible = true;  // true|false, floating list only: can it be collapsed by double-clicking its top bar?
+				  gv_options.marker_list_options.include_tickmarks = false;  // true|false: are distance/time tickmarks included in the list?
+				  gv_options.marker_list_options.include_trackpoints = false;  // true|false: are "trackpoint" markers included in the list?
+				  gv_options.marker_list_options.dividers = false;  // true|false: will a thin line be drawn between each item in the list?
+				  gv_options.marker_list_options.desc = false;  // true|false: will the markers' descriptions be shown below their names in the list?
+				  gv_options.marker_list_options.icons = true;  // true|false: should the markers' icons appear to the left of their names in the list?
+				  gv_options.marker_list_options.thumbnails = false;  // true|false: should markers' thumbnails be shown in the list?
+				  gv_options.marker_list_options.folders_collapsed = false;  // true|false: do folders in the list start out in a collapsed state?
+				  gv_options.marker_list_options.wrap_names = true;  // true|false: should marker's names be allowed to wrap onto more than one line?
+				  gv_options.marker_list_options.unnamed = '[unnamed]';  // what 'name' should be assigned to  unnamed markers in the list?
+				  gv_options.marker_list_options.colors = false;  // true|false: should the names/descs of the points in the list be colorized the same as their markers?
+				  gv_options.marker_list_options.default_color = '';  // default HTML color code for the names/descs in the list
+				  gv_options.marker_list_options.limit = 0;  // how many markers to show in the list; 0 for no limit
+				  gv_options.marker_list_options.center = false;  // true|false: does the map center upon a marker when you click its name in the list?
+				  gv_options.marker_list_options.zoom = false;  // true|false: does the map zoom to a certain level when you click on a marker's name in the list?
+				  gv_options.marker_list_options.zoom_level = 15;  // if 'zoom' is true, what level should the map zoom to?
+				  gv_options.marker_list_options.info_window = true;  // true|false: do info windows pop up when the markers' names are clicked in the list?
+				  gv_options.marker_list_options.url_links = false;  // true|false: do the names in the list become instant links to the markers' URLs?
+				  gv_options.marker_list_options.toggle = false;  // true|false: does a marker disappear if you click on its name in the list?
+				  gv_options.marker_list_options.help_tooltips = false;  // true|false: do "tooltips" appear on marker names that tell you what happens when you click?
+				  gv_options.marker_list_options.header = ''; // HTML code; be sure to put backslashes in front of any single quotes, and don't include any line breaks
+				  gv_options.marker_list_options.footer = ''; // HTML code; be sure to put backslashes in front of any single quotes, and don't include any line breaks
+				gv_options.marker_filter_options = [];  // options for removing waypoints that are out of the current view
+				  gv_options.marker_filter_options.filter = false;  // true|false: should out-of-range markers be removed?
+				  gv_options.marker_filter_options.movement_threshold = 8;  // in pixels, how far the map has to move to trigger filtering
+				  gv_options.marker_filter_options.limit = 0;  // maximum number of markers to display on the map; 0 for no limit
+				  gv_options.marker_filter_options.update_list = true;  // true|false: should the marker list be updated with only the filtered markers?
+				  gv_options.marker_filter_options.sort_list_by_distance = false;  // true|false: should the marker list be sorted by distance from the center of the map?
+				  gv_options.marker_filter_options.min_zoom = 0;  // below this zoom level, don't show any markers at all
+				  gv_options.marker_filter_options.zoom_message = '';  // message to put in the marker list if the map is below the min_zoom threshold
+				
+			
+			// Load GPS Visualizer's Google Maps functions (this must be loaded AFTER gv_options are set):
+			document.writeln('<script src="https://gpsvisualizer.github.io/google_maps/functions3.js?1275249106" type="text/javascript"><'+'/'+'script>');
+		</script>
+		
+		<style type="text/css">
+			/* Put any custom style definitions here (e.g., .gv_marker_info_window, .gv_marker_list_item, .gv_tooltip, .gv_label, etc.) */
+			.gv_label {
+				filter:alpha(opacity=80); -moz-opacity:0.8; opacity:0.8;
+				background:#333333; border:1px solid black; padding:1px;
+				font:9px Verdana,sans-serif; color:white; font-weight:normal;
+			}
+			
+		</style>
+		
+		<!-- end GPSV setup script and styles; begin map-drawing script (they must be separate) -->
+		<script type="text/javascript">
+			function GV_Map() {
+				if (GBrowserIsCompatible()) { 
+					if (gv_options.full_screen) { GV_Fill_Window_With_Map(gv_options.map_div); }
+					gmap = new GMap2(document.getElementById(gv_options.map_div)); // create map
+					GV_Setup_Map(gv_options);
+					
+					// Track #1 ("Zoncolan 2010")
+					trk_info[1] = [];
+					trk_info[1]['name'] = 'Zoncolan 2010'; trk_info[1]['desc'] = ''; trk_info[1]['clickable'] = true;
+					trk_info[1]['color'] = '#E60000'; trk_info[1]['width'] = 3; trk_info[1]['opacity'] = 0.8;
+					trk_info[1]['outline_color'] = '#000000'; trk_info[1]['outline_width'] = 0; trk_info[1]['fill_color'] = '#00E6E6'; trk_info[1]['fill_opacity'] = 0;
+					trk_segments[1] = [];
+					trk_segments[1].push({ color:'#E62900', points:[ [46.417167,12.922753], [46.417975,12.920448] ] }); // track 1 segment 1
+					trk_segments[1].push({ color:'#E63200', points:[ [46.417975,12.920448], [46.418355,12.919648] ] }); // track 1 segment 2
+					trk_segments[1].push({ color:'#E63600', points:[ [46.418355,12.919648], [46.418573,12.918262] ] }); // track 1 segment 3
+					trk_segments[1].push({ color:'#E63600', points:[ [46.418573,12.918262], [46.419853,12.915312] ] }); // track 1 segment 4
+					trk_segments[1].push({ color:'#E64D00', points:[ [46.419853,12.915312], [46.420493,12.91474] ] }); // track 1 segment 5
+					trk_segments[1].push({ color:'#E65600', points:[ [46.420493,12.91474], [46.420542,12.914822] ] }); // track 1 segment 6
+					trk_segments[1].push({ color:'#E65100', points:[ [46.420542,12.914822], [46.420363,12.91504] ] }); // track 1 segment 7
+					trk_segments[1].push({ color:'#E65600', points:[ [46.420363,12.91504], [46.420205,12.916218] ] }); // track 1 segment 8
+					trk_segments[1].push({ color:'#E65A00', points:[ [46.420205,12.916218], [46.420117,12.917907] ] }); // track 1 segment 9
+					trk_segments[1].push({ color:'#E66300', points:[ [46.420117,12.917907], [46.420278,12.918028] ] }); // track 1 segment 10
+					trk_segments[1].push({ color:'#E66300', points:[ [46.420278,12.918028], [46.420377,12.917112] ] }); // track 1 segment 11
+					trk_segments[1].push({ color:'#E66300', points:[ [46.420377,12.917112], [46.420583,12.916588] ] }); // track 1 segment 12
+					trk_segments[1].push({ color:'#E66300', points:[ [46.420583,12.916588], [46.420752,12.916432] ] }); // track 1 segment 13
+					trk_segments[1].push({ color:'#E66300', points:[ [46.420752,12.916432], [46.420942,12.916478] ] }); // track 1 segment 14
+					trk_segments[1].push({ color:'#E66300', points:[ [46.420942,12.916478], [46.421603,12.91601] ] }); // track 1 segment 15
+					trk_segments[1].push({ color:'#E66C00', points:[ [46.421603,12.91601], [46.421805,12.915738] ] }); // track 1 segment 16
+					trk_segments[1].push({ color:'#E67100', points:[ [46.421805,12.915738], [46.421955,12.915955] ] }); // track 1 segment 17
+					trk_segments[1].push({ color:'#E67100', points:[ [46.421955,12.915955], [46.42164,12.916077] ] }); // track 1 segment 18
+					trk_segments[1].push({ color:'#E67100', points:[ [46.42164,12.916077], [46.421588,12.916292] ] }); // track 1 segment 19
+					trk_segments[1].push({ color:'#E67500', points:[ [46.421588,12.916292], [46.421117,12.916762] ] }); // track 1 segment 20
+					trk_segments[1].push({ color:'#E67500', points:[ [46.421117,12.916762], [46.420922,12.917632] ] }); // track 1 segment 21
+					trk_segments[1].push({ color:'#E67A00', points:[ [46.420922,12.917632], [46.42107,12.917553] ] }); // track 1 segment 22
+					trk_segments[1].push({ color:'#E67A00', points:[ [46.42107,12.917553], [46.421328,12.916998] ] }); // track 1 segment 23
+					trk_segments[1].push({ color:'#E67E00', points:[ [46.421328,12.916998], [46.421652,12.917028] ] }); // track 1 segment 24
+					trk_segments[1].push({ color:'#E67E00', points:[ [46.421652,12.917028], [46.422313,12.91677] ] }); // track 1 segment 25
+					trk_segments[1].push({ color:'#E68300', points:[ [46.422313,12.91677], [46.422417,12.916883] ] }); // track 1 segment 26
+					trk_segments[1].push({ color:'#E67E00', points:[ [46.422417,12.916883], [46.421965,12.91766] ] }); // track 1 segment 27
+					trk_segments[1].push({ color:'#E68300', points:[ [46.421965,12.91766], [46.421393,12.918095] ] }); // track 1 segment 28
+					trk_segments[1].push({ color:'#E68700', points:[ [46.421393,12.918095], [46.421337,12.918312] ] }); // track 1 segment 29
+					trk_segments[1].push({ color:'#E68C00', points:[ [46.421337,12.918312], [46.42144,12.918418] ] }); // track 1 segment 30
+					trk_segments[1].push({ color:'#E68C00', points:[ [46.42144,12.918418], [46.421777,12.91823] ] }); // track 1 segment 31
+					trk_segments[1].push({ color:'#E68C00', points:[ [46.421777,12.91823], [46.422443,12.918587] ] }); // track 1 segment 32
+					trk_segments[1].push({ color:'#E69000', points:[ [46.422443,12.918587], [46.422835,12.918557] ] }); // track 1 segment 33
+					trk_segments[1].push({ color:'#E69500', points:[ [46.422835,12.918557], [46.422832,12.918668] ] }); // track 1 segment 34
+					trk_segments[1].push({ color:'#E69500', points:[ [46.422832,12.918668], [46.421993,12.919195] ] }); // track 1 segment 35
+					trk_segments[1].push({ color:'#E69900', points:[ [46.421993,12.919195], [46.421458,12.920017] ] }); // track 1 segment 36
+					trk_segments[1].push({ color:'#E6A200', points:[ [46.421458,12.920017], [46.421483,12.920143] ] }); // track 1 segment 37
+					trk_segments[1].push({ color:'#E6A200', points:[ [46.421483,12.920143], [46.421295,12.92055] ] }); // track 1 segment 38
+					trk_segments[1].push({ color:'#E6A200', points:[ [46.421295,12.92055], [46.42126,12.920903] ] }); // track 1 segment 39
+					trk_segments[1].push({ color:'#E6A700', points:[ [46.42126,12.920903], [46.421352,12.921188] ] }); // track 1 segment 40
+					trk_segments[1].push({ color:'#E6A700', points:[ [46.421352,12.921188], [46.421843,12.921838] ] }); // track 1 segment 41
+					trk_segments[1].push({ color:'#E6AB00', points:[ [46.421843,12.921838], [46.422062,12.921965] ] }); // track 1 segment 42
+					trk_segments[1].push({ color:'#E6AB00', points:[ [46.422062,12.921965], [46.42293,12.921382] ] }); // track 1 segment 43
+					trk_segments[1].push({ color:'#E6B400', points:[ [46.42293,12.921382], [46.423802,12.921307] ] }); // track 1 segment 44
+					trk_segments[1].push({ color:'#E6B400', points:[ [46.423802,12.921307], [46.424425,12.920723] ] }); // track 1 segment 45
+					trk_segments[1].push({ color:'#E6B900', points:[ [46.424425,12.920723], [46.424477,12.920322] ] }); // track 1 segment 46
+					trk_segments[1].push({ color:'#E6BD00', points:[ [46.424477,12.920322], [46.424607,12.920142] ] }); // track 1 segment 47
+					trk_segments[1].push({ color:'#E6BD00', points:[ [46.424607,12.920142], [46.42533,12.919912] ] }); // track 1 segment 48
+					trk_segments[1].push({ color:'#E6C200', points:[ [46.42533,12.919912], [46.426035,12.919255] ] }); // track 1 segment 49
+					trk_segments[1].push({ color:'#E6CB00', points:[ [46.426035,12.919255], [46.426047,12.919427] ] }); // track 1 segment 50
+					trk_segments[1].push({ color:'#E6CB00', points:[ [46.426047,12.919427], [46.425797,12.919605] ] }); // track 1 segment 51
+					trk_segments[1].push({ color:'#E6CB00', points:[ [46.425797,12.919605], [46.424905,12.92135] ] }); // track 1 segment 52
+					trk_segments[1].push({ color:'#E6CF00', points:[ [46.424905,12.92135], [46.425082,12.921682] ] }); // track 1 segment 53
+					trk_segments[1].push({ color:'#E6CF00', points:[ [46.425082,12.921682], [46.425303,12.921693] ] }); // track 1 segment 54
+					trk_segments[1].push({ color:'#E6CF00', points:[ [46.425303,12.921693], [46.425562,12.9214] ] }); // track 1 segment 55
+					trk_segments[1].push({ color:'#E6D400', points:[ [46.425562,12.9214], [46.42583,12.920638] ] }); // track 1 segment 56
+					trk_segments[1].push({ color:'#E6D400', points:[ [46.42583,12.920638], [46.426642,12.920218] ] }); // track 1 segment 57
+					trk_segments[1].push({ color:'#E6DD00', points:[ [46.426642,12.920218], [46.42678,12.919953] ] }); // track 1 segment 58
+					trk_segments[1].push({ color:'#E6DD00', points:[ [46.42678,12.919953], [46.426915,12.92017] ] }); // track 1 segment 59
+					trk_segments[1].push({ color:'#E6DD00', points:[ [46.426915,12.92017], [46.426253,12.921143] ] }); // track 1 segment 60
+					trk_segments[1].push({ color:'#E6E600', points:[ [46.426253,12.921143], [46.426215,12.921462] ] }); // track 1 segment 61
+					trk_segments[1].push({ color:'#E6E600', points:[ [46.426215,12.921462], [46.42523,12.922528] ] }); // track 1 segment 62
+					trk_segments[1].push({ color:'#E1E600', points:[ [46.42523,12.922528], [46.424648,12.92273] ] }); // track 1 segment 63
+					trk_segments[1].push({ color:'#DCE600', points:[ [46.424648,12.92273], [46.424412,12.922968] ] }); // track 1 segment 64
+					trk_segments[1].push({ color:'#DCE600', points:[ [46.424412,12.922968], [46.424385,12.923132] ] }); // track 1 segment 65
+					trk_segments[1].push({ color:'#D8E600', points:[ [46.424385,12.923132], [46.42448,12.923173] ] }); // track 1 segment 66
+					trk_segments[1].push({ color:'#D8E600', points:[ [46.42448,12.923173], [46.424467,12.923717] ] }); // track 1 segment 67
+					trk_segments[1].push({ color:'#D3E600', points:[ [46.424467,12.923717], [46.423967,12.924178] ] }); // track 1 segment 68
+					trk_segments[1].push({ color:'#CFE600', points:[ [46.423967,12.924178], [46.423508,12.924025] ] }); // track 1 segment 69
+					trk_segments[1].push({ color:'#CFE600', points:[ [46.423508,12.924025], [46.423327,12.924108] ] }); // track 1 segment 70
+					trk_segments[1].push({ color:'#CFE600', points:[ [46.423327,12.924108], [46.423325,12.924355] ] }); // track 1 segment 71
+					trk_segments[1].push({ color:'#CFE600', points:[ [46.423325,12.924355], [46.423703,12.924357] ] }); // track 1 segment 72
+					trk_segments[1].push({ color:'#CBE600', points:[ [46.423703,12.924357], [46.424272,12.92469] ] }); // track 1 segment 73
+					trk_segments[1].push({ color:'#C6E600', points:[ [46.424272,12.92469], [46.425162,12.923795] ] }); // track 1 segment 74
+					trk_segments[1].push({ color:'#C2E600', points:[ [46.425162,12.923795], [46.425893,12.923892] ] }); // track 1 segment 75
+					trk_segments[1].push({ color:'#BDE600', points:[ [46.425893,12.923892], [46.425992,12.923737] ] }); // track 1 segment 76
+					trk_segments[1].push({ color:'#BDE600', points:[ [46.425992,12.923737], [46.42593,12.923708] ] }); // track 1 segment 77
+					trk_segments[1].push({ color:'#BDE600', points:[ [46.42593,12.923708], [46.426053,12.923162] ] }); // track 1 segment 78
+					trk_segments[1].push({ color:'#B8E600', points:[ [46.426053,12.923162], [46.4265,12.923025] ] }); // track 1 segment 79
+					trk_segments[1].push({ color:'#B4E600', points:[ [46.4265,12.923025], [46.427015,12.923123] ] }); // track 1 segment 80
+					trk_segments[1].push({ color:'#B0E600', points:[ [46.427015,12.923123], [46.427505,12.92289] ] }); // track 1 segment 81
+					trk_segments[1].push({ color:'#B0E600', points:[ [46.427505,12.92289], [46.427508,12.923093] ] }); // track 1 segment 82
+					trk_segments[1].push({ color:'#B0E600', points:[ [46.427508,12.923093], [46.427018,12.923288] ] }); // track 1 segment 83
+					trk_segments[1].push({ color:'#ABE600', points:[ [46.427018,12.923288], [46.426692,12.92369] ] }); // track 1 segment 84
+					trk_segments[1].push({ color:'#ABE600', points:[ [46.426692,12.92369], [46.426643,12.923917] ] }); // track 1 segment 85
+					trk_segments[1].push({ color:'#A7E600', points:[ [46.426643,12.923917], [46.426137,12.924197] ] }); // track 1 segment 86
+					trk_segments[1].push({ color:'#A7E600', points:[ [46.426137,12.924197], [46.425955,12.924498] ] }); // track 1 segment 87
+					trk_segments[1].push({ color:'#A7E600', points:[ [46.425955,12.924498], [46.4255,12.92474] ] }); // track 1 segment 88
+					trk_segments[1].push({ color:'#A2E600', points:[ [46.4255,12.92474], [46.425405,12.924998] ] }); // track 1 segment 89
+					trk_segments[1].push({ color:'#A2E600', points:[ [46.425405,12.924998], [46.426228,12.924932] ] }); // track 1 segment 90
+					trk_segments[1].push({ color:'#9DE600', points:[ [46.426228,12.924932], [46.426348,12.92478] ] }); // track 1 segment 91
+					trk_segments[1].push({ color:'#99E600', points:[ [46.426348,12.92478], [46.42657,12.92483] ] }); // track 1 segment 92
+					trk_segments[1].push({ color:'#99E600', points:[ [46.42657,12.92483], [46.426643,12.924997] ] }); // track 1 segment 93
+					trk_segments[1].push({ color:'#99E600', points:[ [46.426643,12.924997], [46.42618,12.925552] ] }); // track 1 segment 94
+					trk_segments[1].push({ color:'#90E600', points:[ [46.42618,12.925552], [46.425578,12.925655] ] }); // track 1 segment 95
+					trk_segments[1].push({ color:'#8CE600', points:[ [46.425578,12.925655], [46.425102,12.926102] ] }); // track 1 segment 96
+					trk_segments[1].push({ color:'#8CE600', points:[ [46.425102,12.926102], [46.424265,12.927293] ] }); // track 1 segment 97
+					trk_segments[1].push({ color:'#8CE600', points:[ [46.424265,12.927293], [46.423975,12.928167] ] }); // track 1 segment 98
+					trk_segments[1].push({ color:'#8CE600', points:[ [46.423975,12.928167], [46.423615,12.93019] ] }); // track 1 segment 99
+					trk_segments[1].push({ color:'#87E600', points:[ [46.423615,12.93019], [46.423718,12.930963] ] }); // track 1 segment 100
+					trk_segments[1].push({ color:'#87E600', points:[ [46.423718,12.930963], [46.423412,12.931527] ] }); // track 1 segment 101
+					trk_segments[1].push({ color:'#87E600', points:[ [46.423412,12.931527], [46.423237,12.931637] ] }); // track 1 segment 102
+					trk_segments[1].push({ color:'#83E600', points:[ [46.423237,12.931637], [46.423253,12.932287] ] }); // track 1 segment 103
+					trk_segments[1].push({ color:'#7EE600', points:[ [46.423253,12.932287], [46.423413,12.932773] ] }); // track 1 segment 104
+					trk_segments[1].push({ color:'#7EE600', points:[ [46.423413,12.932773], [46.422955,12.933218] ] }); // track 1 segment 105
+					trk_segments[1].push({ color:'#7EE600', points:[ [46.422955,12.933218], [46.422848,12.933628] ] }); // track 1 segment 106
+					trk_segments[1].push({ color:'#79E600', points:[ [46.422848,12.933628], [46.422922,12.933863] ] }); // track 1 segment 107
+					trk_segments[1].push({ color:'#79E600', points:[ [46.422922,12.933863], [46.42317,12.933942] ] }); // track 1 segment 108
+					trk_segments[1].push({ color:'#79E600', points:[ [46.42317,12.933942], [46.423985,12.93311] ] }); // track 1 segment 109
+					trk_segments[1].push({ color:'#71E600', points:[ [46.423985,12.93311], [46.42416,12.932673] ] }); // track 1 segment 110
+					trk_segments[1].push({ color:'#75E600', points:[ [46.42416,12.932673], [46.425258,12.932343] ] }); // track 1 segment 111
+					trk_segments[1].push({ color:'#6CE600', points:[ [46.425258,12.932343], [46.425745,12.931997] ] }); // track 1 segment 112
+					trk_segments[1].push({ color:'#67E600', points:[ [46.425745,12.931997], [46.425918,12.932073] ] }); // track 1 segment 113
+					trk_segments[1].push({ color:'#63E600', points:[ [46.425918,12.932073], [46.426042,12.932635] ] }); // track 1 segment 114
+					trk_segments[1].push({ color:'#63E600', points:[ [46.426042,12.932635], [46.426003,12.933028] ] }); // track 1 segment 115
+					trk_segments[1].push({ color:'#63E600', points:[ [46.426003,12.933028], [46.426423,12.933395] ] }); // track 1 segment 116
+					trk_segments[1].push({ color:'#5EE600', points:[ [46.426423,12.933395], [46.426155,12.934438] ] }); // track 1 segment 117
+					trk_segments[1].push({ color:'#5AE600', points:[ [46.426155,12.934438], [46.426258,12.934513] ] }); // track 1 segment 118
+					trk_segments[1].push({ color:'#5AE600', points:[ [46.426258,12.934513], [46.427372,12.934257] ] }); // track 1 segment 119
+					trk_segments[1].push({ color:'#55E600', points:[ [46.427372,12.934257], [46.427803,12.934293] ] }); // track 1 segment 120
+					trk_segments[1].push({ color:'#51E600', points:[ [46.427803,12.934293], [46.428047,12.934573] ] }); // track 1 segment 121
+					trk_segments[1].push({ color:'#51E600', points:[ [46.428047,12.934573], [46.428037,12.934758] ] }); // track 1 segment 122
+					trk_segments[1].push({ color:'#51E600', points:[ [46.428037,12.934758], [46.4282,12.93492] ] }); // track 1 segment 123
+					trk_segments[1].push({ color:'#4CE600', points:[ [46.4282,12.93492], [46.428378,12.935583] ] }); // track 1 segment 124
+					trk_segments[1].push({ color:'#48E600', points:[ [46.428378,12.935583], [46.428322,12.936882] ] }); // track 1 segment 125
+					trk_segments[1].push({ color:'#3FE600', points:[ [46.428322,12.936882], [46.428507,12.937365] ] }); // track 1 segment 126
+					trk_segments[1].push({ color:'#3BE600', points:[ [46.428507,12.937365], [46.42849,12.938072] ] }); // track 1 segment 127
+					trk_segments[1].push({ color:'#2DE600', points:[ [46.42849,12.938072], [46.428762,12.938617] ] }); // track 1 segment 128
+					trk_segments[1].push({ color:'#32E600', points:[ [46.428762,12.938617], [46.4292,12.940008] ] }); // track 1 segment 129
+					trk_segments[1].push({ color:'#1FE600', points:[ [46.4292,12.940008], [46.429625,12.940357] ] }); // track 1 segment 130
+					trk_segments[1].push({ color:'#1FE600', points:[ [46.429625,12.940357], [46.43038,12.940452] ] }); // track 1 segment 131
+					trk_segments[1].push({ color:'#17E600', points:[ [46.43038,12.940452], [46.431013,12.94029] ] }); // track 1 segment 132
+					trk_segments[1].push({ color:'#17E600', points:[ [46.431013,12.94029], [46.431185,12.940502] ] }); // track 1 segment 133
+					trk_segments[1].push({ color:'#17E600', points:[ [46.431185,12.940502], [46.431,12.940772] ] }); // track 1 segment 134
+					trk_segments[1].push({ color:'#17E600', points:[ [46.431,12.940772], [46.43102,12.940672] ] }); // track 1 segment 135
+					trk_segments[1].push({ color:'#17E600', points:[ [46.43102,12.940672], [46.430353,12.94205] ] }); // track 1 segment 136
+					trk_segments[1].push({ color:'#09E600', points:[ [46.430353,12.94205], [46.429887,12.942238] ] }); // track 1 segment 137
+					trk_segments[1].push({ color:'#09E600', points:[ [46.429887,12.942238], [46.428977,12.942098] ] }); // track 1 segment 138
+					trk_segments[1].push({ color:'#09E600', points:[ [46.428977,12.942098], [46.428503,12.942268] ] }); // track 1 segment 139
+					trk_segments[1].push({ color:'#09E600', points:[ [46.428503,12.942268], [46.428188,12.94218] ] }); // track 1 segment 140
+					trk_segments[1].push({ color:'#0DE600', points:[ [46.428188,12.94218], [46.427565,12.942257] ] }); // track 1 segment 141
+					trk_segments[1].push({ color:'#09E600', points:[ [46.427565,12.942257], [46.427152,12.942143] ] }); // track 1 segment 142
+					trk_segments[1].push({ color:'#0DE600', points:[ [46.427152,12.942143], [46.426703,12.942415] ] }); // track 1 segment 143
+					trk_segments[1].push({ color:'#09E600', points:[ [46.426703,12.942415], [46.426462,12.943322] ] }); // track 1 segment 144
+					trk_segments[1].push({ color:'#09E600', points:[ [46.426462,12.943322], [46.426472,12.943727] ] }); // track 1 segment 145
+					trk_segments[1].push({ color:'#09E600', points:[ [46.426472,12.943727], [46.426723,12.944475] ] }); // track 1 segment 146
+					trk_segments[1].push({ color:'#04E600', points:[ [46.426723,12.944475], [46.427762,12.94528] ] }); // track 1 segment 147
+					trk_segments[1].push({ color:'#04E600', points:[ [46.427762,12.94528], [46.428197,12.94588] ] }); // track 1 segment 148
+					trk_segments[1].push({ color:'#09E600', points:[ [46.428197,12.94588], [46.429352,12.946442] ] }); // track 1 segment 149
+					trk_segments[1].push({ color:'#09E600', points:[ [46.429352,12.946442], [46.430052,12.948332] ] }); // track 1 segment 150
+					trk_segments[1].push({ color:'#04E600', points:[ [46.430052,12.948332], [46.430313,12.948445] ] }); // track 1 segment 151
+					trk_segments[1].push({ color:'#04E600', points:[ [46.430313,12.948445], [46.430465,12.94835] ] }); // track 1 segment 152
+					trk_segments[1].push({ color:'#04E600', points:[ [46.430465,12.94835], [46.431672,12.948518] ] }); // track 1 segment 153
+					trk_segments[1].push({ color:'#04E600', points:[ [46.431672,12.948518], [46.431813,12.948367] ] }); // track 1 segment 154
+					trk_segments[1].push({ color:'#00E600', points:[ [46.431813,12.948367], [46.432687,12.948328] ] }); // track 1 segment 155
+					trk_segments[1].push({ color:'#00E600', points:[ [46.432687,12.948328], [46.433612,12.949102] ] }); // track 1 segment 156
+					trk_segments[1].push({ color:'#00E600', points:[ [46.433612,12.949102], [46.434512,12.949605] ] }); // track 1 segment 157
+					trk_segments[1].push({ color:'#04E600', points:[ [46.434512,12.949605], [46.434747,12.949413] ] }); // track 1 segment 158
+					trk_segments[1].push({ color:'#04E600', points:[ [46.434747,12.949413], [46.435263,12.949283] ] }); // track 1 segment 159
+					trk_segments[1].push({ color:'#09E600', points:[ [46.435263,12.949283], [46.43561,12.948742] ] }); // track 1 segment 160
+					trk_segments[1].push({ color:'#09E600', points:[ [46.43561,12.948742], [46.43568,12.948182] ] }); // track 1 segment 161
+					trk_segments[1].push({ color:'#09E600', points:[ [46.43568,12.948182], [46.435963,12.947685] ] }); // track 1 segment 162
+					trk_segments[1].push({ color:'#0DE600', points:[ [46.435963,12.947685], [46.436525,12.948357] ] }); // track 1 segment 163
+					trk_segments[1].push({ color:'#0DE600', points:[ [46.436525,12.948357], [46.436723,12.948767] ] }); // track 1 segment 164
+					trk_segments[1].push({ color:'#12E600', points:[ [46.436723,12.948767], [46.437443,12.948953] ] }); // track 1 segment 165
+					trk_segments[1].push({ color:'#17E600', points:[ [46.437443,12.948953], [46.437658,12.948363] ] }); // track 1 segment 166
+					trk_segments[1].push({ color:'#1BE600', points:[ [46.437658,12.948363], [46.438,12.94824] ] }); // track 1 segment 167
+					trk_segments[1].push({ color:'#1BE600', points:[ [46.438,12.94824], [46.438128,12.94783] ] }); // track 1 segment 168
+					trk_segments[1].push({ color:'#17E600', points:[ [46.438128,12.94783], [46.438032,12.94752] ] }); // track 1 segment 169
+					trk_segments[1].push({ color:'#1BE600', points:[ [46.438032,12.94752], [46.437793,12.947325] ] }); // track 1 segment 170
+					trk_segments[1].push({ color:'#1BE600', points:[ [46.437793,12.947325], [46.437733,12.947093] ] }); // track 1 segment 171
+					trk_segments[1].push({ color:'#1BE600', points:[ [46.437733,12.947093], [46.438983,12.947395] ] }); // track 1 segment 172
+					trk_segments[1].push({ color:'#1BE600', points:[ [46.438983,12.947395], [46.439928,12.944355] ] }); // track 1 segment 173
+					trk_segments[1].push({ color:'#1FE600', points:[ [46.439928,12.944355], [46.44031,12.944163] ] }); // track 1 segment 174
+					trk_segments[1].push({ color:'#17E600', points:[ [46.44031,12.944163], [46.440533,12.94452] ] }); // track 1 segment 175
+					trk_segments[1].push({ color:'#1BE600', points:[ [46.440533,12.94452], [46.440478,12.945715] ] }); // track 1 segment 176
+					trk_segments[1].push({ color:'#1BE600', points:[ [46.440478,12.945715], [46.440555,12.945692] ] }); // track 1 segment 177
+					trk_segments[1].push({ color:'#1BE600', points:[ [46.440555,12.945692], [46.440863,12.94467] ] }); // track 1 segment 178
+					trk_segments[1].push({ color:'#1FE600', points:[ [46.440863,12.94467], [46.44113,12.944177] ] }); // track 1 segment 179
+					trk_segments[1].push({ color:'#1BE600', points:[ [46.44113,12.944177], [46.441137,12.943748] ] }); // track 1 segment 180
+					trk_segments[1].push({ color:'#17E600', points:[ [46.441137,12.943748], [46.441355,12.943452] ] }); // track 1 segment 181
+					trk_segments[1].push({ color:'#12E600', points:[ [46.441355,12.943452], [46.441125,12.943205] ] }); // track 1 segment 182
+					trk_segments[1].push({ color:'#0DE600', points:[ [46.441125,12.943205], [46.441073,12.942908] ] }); // track 1 segment 183
+					trk_segments[1].push({ color:'#0DE600', points:[ [46.441073,12.942908], [46.44119,12.943108] ] }); // track 1 segment 184
+					trk_segments[1].push({ color:'#0DE600', points:[ [46.44119,12.943108], [46.441662,12.943285] ] }); // track 1 segment 185
+					trk_segments[1].push({ color:'#04E600', points:[ [46.441662,12.943285], [46.44165,12.943655] ] }); // track 1 segment 186
+					trk_segments[1].push({ color:'#04E600', points:[ [46.44165,12.943655], [46.441757,12.943552] ] }); // track 1 segment 187
+					trk_segments[1].push({ color:'#00E600', points:[ [46.441757,12.943552], [46.441752,12.94321] ] }); // track 1 segment 188
+					trk_segments[1].push({ color:'#00E600', points:[ [46.441752,12.94321], [46.441382,12.942832] ] }); // track 1 segment 189
+					trk_segments[1].push({ color:'#00E609', points:[ [46.441382,12.942832], [46.44097,12.941852] ] }); // track 1 segment 190
+					trk_segments[1].push({ color:'#00E60D', points:[ [46.44097,12.941852], [46.441058,12.940635] ] }); // track 1 segment 191
+					trk_segments[1].push({ color:'#00E617', points:[ [46.441058,12.940635], [46.441293,12.940108] ] }); // track 1 segment 192
+					trk_segments[1].push({ color:'#00E612', points:[ [46.441293,12.940108], [46.441385,12.940083] ] }); // track 1 segment 193
+					trk_segments[1].push({ color:'#00E617', points:[ [46.441385,12.940083], [46.44137,12.94074] ] }); // track 1 segment 194
+					trk_segments[1].push({ color:'#00E61B', points:[ [46.44137,12.94074], [46.441792,12.941825] ] }); // track 1 segment 195
+					trk_segments[1].push({ color:'#00E629', points:[ [46.441792,12.941825], [46.442117,12.942182] ] }); // track 1 segment 196
+					trk_segments[1].push({ color:'#00E62D', points:[ [46.442117,12.942182], [46.442107,12.941918] ] }); // track 1 segment 197
+					trk_segments[1].push({ color:'#00E62D', points:[ [46.442107,12.941918], [46.441952,12.941837] ] }); // track 1 segment 198
+					trk_segments[1].push({ color:'#00E632', points:[ [46.441952,12.941837], [46.442027,12.941508] ] }); // track 1 segment 199
+					trk_segments[1].push({ color:'#00E632', points:[ [46.442027,12.941508], [46.441908,12.941147] ] }); // track 1 segment 200
+					trk_segments[1].push({ color:'#00E632', points:[ [46.441908,12.941147], [46.442165,12.9404] ] }); // track 1 segment 201
+					trk_segments[1].push({ color:'#00E632', points:[ [46.442165,12.9404], [46.44279,12.939973] ] }); // track 1 segment 202
+					trk_segments[1].push({ color:'#00E632', points:[ [46.44279,12.939973], [46.443272,12.939098] ] }); // track 1 segment 203
+					trk_segments[1].push({ color:'#00E636', points:[ [46.443272,12.939098], [46.443528,12.939047] ] }); // track 1 segment 204
+					trk_segments[1].push({ color:'#00E63B', points:[ [46.443528,12.939047], [46.443782,12.938782] ] }); // track 1 segment 205
+					trk_segments[1].push({ color:'#00E63F', points:[ [46.443782,12.938782], [46.443903,12.938207] ] }); // track 1 segment 206
+					trk_segments[1].push({ color:'#00E63F', points:[ [46.443903,12.938207], [46.444068,12.938048] ] }); // track 1 segment 207
+					trk_segments[1].push({ color:'#00E63F', points:[ [46.444068,12.938048], [46.444318,12.937277] ] }); // track 1 segment 208
+					trk_segments[1].push({ color:'#00E63F', points:[ [46.444318,12.937277], [46.444215,12.937028] ] }); // track 1 segment 209
+					trk_segments[1].push({ color:'#00E63F', points:[ [46.444215,12.937028], [46.444227,12.936538] ] }); // track 1 segment 210
+					trk_segments[1].push({ color:'#00E63F', points:[ [46.444227,12.936538], [46.444765,12.935678] ] }); // track 1 segment 211
+					trk_segments[1].push({ color:'#00E648', points:[ [46.444765,12.935678], [46.445058,12.934302] ] }); // track 1 segment 212
+					trk_segments[1].push({ color:'#00E65F', points:[ [46.445058,12.934302], [46.445137,12.934248] ] }); // track 1 segment 213
+					trk_segments[1].push({ color:'#00E663', points:[ [46.445137,12.934248], [46.445685,12.934655] ] }); // track 1 segment 214
+					trk_segments[1].push({ color:'#00E663', points:[ [46.445685,12.934655], [46.445842,12.934603] ] }); // track 1 segment 215
+					trk_segments[1].push({ color:'#00E663', points:[ [46.445842,12.934603], [46.445955,12.934245] ] }); // track 1 segment 216
+					trk_segments[1].push({ color:'#00E668', points:[ [46.445955,12.934245], [46.446242,12.933933] ] }); // track 1 segment 217
+					trk_segments[1].push({ color:'#00E668', points:[ [46.446242,12.933933], [46.44635,12.933138] ] }); // track 1 segment 218
+					trk_segments[1].push({ color:'#00E66C', points:[ [46.44635,12.933138], [46.446798,12.932753] ] }); // track 1 segment 219
+					trk_segments[1].push({ color:'#00E675', points:[ [46.446798,12.932753], [46.446973,12.93238] ] }); // track 1 segment 220
+					trk_segments[1].push({ color:'#00E679', points:[ [46.446973,12.93238], [46.447362,12.932028] ] }); // track 1 segment 221
+					trk_segments[1].push({ color:'#00E682', points:[ [46.447362,12.932028], [46.44745,12.931805] ] }); // track 1 segment 222
+					trk_segments[1].push({ color:'#00E682', points:[ [46.44745,12.931805], [46.447558,12.931828] ] }); // track 1 segment 223
+					trk_segments[1].push({ color:'#00E682', points:[ [46.447558,12.931828], [46.447353,12.93223] ] }); // track 1 segment 224
+					trk_segments[1].push({ color:'#00E687', points:[ [46.447353,12.93223], [46.447437,12.932295] ] }); // track 1 segment 225
+					trk_segments[1].push({ color:'#00E687', points:[ [46.447437,12.932295], [46.447677,12.931847] ] }); // track 1 segment 226
+					trk_segments[1].push({ color:'#00E687', points:[ [46.447677,12.931847], [46.44811,12.9314] ] }); // track 1 segment 227
+					trk_segments[1].push({ color:'#00E695', points:[ [46.44811,12.9314], [46.448352,12.931363] ] }); // track 1 segment 228
+					trk_segments[1].push({ color:'#00E695', points:[ [46.448352,12.931363], [46.448752,12.931593] ] }); // track 1 segment 229
+					trk_segments[1].push({ color:'#00E699', points:[ [46.448752,12.931593], [46.448853,12.931825] ] }); // track 1 segment 230
+					trk_segments[1].push({ color:'#00E699', points:[ [46.448853,12.931825], [46.449273,12.931507] ] }); // track 1 segment 231
+					trk_segments[1].push({ color:'#00E69E', points:[ [46.449273,12.931507], [46.449327,12.931168] ] }); // track 1 segment 232
+					trk_segments[1].push({ color:'#00E69E', points:[ [46.449327,12.931168], [46.449827,12.930667] ] }); // track 1 segment 233
+					trk_segments[1].push({ color:'#00E6A2', points:[ [46.449827,12.930667], [46.449992,12.930328] ] }); // track 1 segment 234
+					trk_segments[1].push({ color:'#00E6A2', points:[ [46.449992,12.930328], [46.450217,12.930207] ] }); // track 1 segment 235
+					trk_segments[1].push({ color:'#00E6A7', points:[ [46.450217,12.930207], [46.45071,12.929208] ] }); // track 1 segment 236
+					trk_segments[1].push({ color:'#00E6A7', points:[ [46.45071,12.929208], [46.451268,12.9284] ] }); // track 1 segment 237
+					trk_segments[1].push({ color:'#00E6A7', points:[ [46.451268,12.9284], [46.451423,12.928502] ] }); // track 1 segment 238
+					trk_segments[1].push({ color:'#00E6AB', points:[ [46.451423,12.928502], [46.451703,12.929002] ] }); // track 1 segment 239
+					trk_segments[1].push({ color:'#00E6B0', points:[ [46.451703,12.929002], [46.45224,12.929272] ] }); // track 1 segment 240
+					trk_segments[1].push({ color:'#00E6B8', points:[ [46.45224,12.929272], [46.452142,12.929465] ] }); // track 1 segment 241
+					trk_segments[1].push({ color:'#00E6B8', points:[ [46.452142,12.929465], [46.451952,12.929315] ] }); // track 1 segment 242
+					trk_segments[1].push({ color:'#00E6B8', points:[ [46.451952,12.929315], [46.451882,12.929482] ] }); // track 1 segment 243
+					trk_segments[1].push({ color:'#00E6B8', points:[ [46.451882,12.929482], [46.452817,12.929837] ] }); // track 1 segment 244
+					trk_segments[1].push({ color:'#00E6C1', points:[ [46.452817,12.929837], [46.45299,12.929265] ] }); // track 1 segment 245
+					trk_segments[1].push({ color:'#00E6CA', points:[ [46.45299,12.929265], [46.454643,12.927947] ] }); // track 1 segment 246
+					trk_segments[1].push({ color:'#00E6DD', points:[ [46.454643,12.927947], [46.454987,12.927985] ] }); // track 1 segment 247
+					trk_segments[1].push({ color:'#00E6E1', points:[ [46.454987,12.927985], [46.455048,12.928155] ] }); // track 1 segment 248
+					trk_segments[1].push({ color:'#00E6E1', points:[ [46.455048,12.928155], [46.45626,12.928435] ] }); // track 1 segment 249
+					trk_segments[1].push({ color:'#00E6E6', points:[ [46.45626,12.928435], [46.456633,12.92818] ] }); // track 1 segment 250
+					trk_segments[1].push({ color:'#00E6E6', points:[ [46.456633,12.92818], [46.457697,12.927932] ] }); // track 1 segment 251
+					trk_segments[1].push({ color:'#00E1E6', points:[ [46.457697,12.927932], [46.458475,12.92831] ] }); // track 1 segment 252
+					trk_segments[1].push({ color:'#00DDE6', points:[ [46.458475,12.92831], [46.45883,12.928963] ] }); // track 1 segment 253
+					trk_segments[1].push({ color:'#00DDE6', points:[ [46.45883,12.928963], [46.459347,12.92951] ] }); // track 1 segment 254
+					trk_segments[1].push({ color:'#00E1E6', points:[ [46.459347,12.92951], [46.45977,12.929627] ] }); // track 1 segment 255
+					trk_segments[1].push({ color:'#00DDE6', points:[ [46.45977,12.929627], [46.460262,12.929345] ] }); // track 1 segment 256
+					trk_segments[1].push({ color:'#00DDE6', points:[ [46.460262,12.929345], [46.460443,12.92948] ] }); // track 1 segment 257
+					trk_segments[1].push({ color:'#00DDE6', points:[ [46.460443,12.92948], [46.460682,12.929918] ] }); // track 1 segment 258
+					trk_segments[1].push({ color:'#00DDE6', points:[ [46.460682,12.929918], [46.460953,12.93143] ] }); // track 1 segment 259
+					trk_segments[1].push({ color:'#00E1E6', points:[ [46.460953,12.93143], [46.46138,12.93267] ] }); // track 1 segment 260
+					trk_segments[1].push({ color:'#00E6E6', points:[ [46.46138,12.93267], [46.46154,12.933638] ] }); // track 1 segment 261
+					trk_segments[1].push({ color:'#00E6E6', points:[ [46.46154,12.933638], [46.461578,12.933578] ] }); // track 1 segment 262
+					trk_segments[1].push({ color:'#00E6E6', points:[ [46.461578,12.933578], [46.461713,12.934218] ] }); // track 1 segment 263
+					trk_segments[1].push({ color:'#00DDE6', points:[ [46.461713,12.934218], [46.462217,12.935618] ] }); // track 1 segment 264
+					trk_segments[1].push({ color:'#00DDE6', points:[ [46.462217,12.935618], [46.462642,12.936218] ] }); // track 1 segment 265
+					trk_segments[1].push({ color:'#00E1E6', points:[ [46.462642,12.936218], [46.462822,12.937347] ] }); // track 1 segment 266
+					trk_segments[1].push({ color:'#00E6E6', points:[ [46.462822,12.937347], [46.462775,12.938123] ] }); // track 1 segment 267
+					trk_segments[1].push({ color:'#00E6E1', points:[ [46.462775,12.938123], [46.463325,12.938657] ] }); // track 1 segment 268
+					trk_segments[1].push({ color:'#00E6D8', points:[ [46.463325,12.938657], [46.463853,12.93955] ] }); // track 1 segment 269
+					trk_segments[1].push({ color:'#00E6CF', points:[ [46.463853,12.93955], [46.464572,12.940377] ] }); // track 1 segment 270
+					trk_segments[1].push({ color:'#00E6CF', points:[ [46.464572,12.940377], [46.464707,12.941038] ] }); // track 1 segment 271
+					trk_segments[1].push({ color:'#00E6CA', points:[ [46.464707,12.941038], [46.465107,12.941663] ] }); // track 1 segment 272
+					trk_segments[1].push({ color:'#00E6CF', points:[ [46.465107,12.941663], [46.465347,12.942632] ] }); // track 1 segment 273
+					trk_segments[1].push({ color:'#00E6CF', points:[ [46.465347,12.942632], [46.465525,12.942965] ] }); // track 1 segment 274
+					trk_segments[1].push({ color:'#00E6CF', points:[ [46.465525,12.942965], [46.466618,12.943462] ] }); // track 1 segment 275
+					trk_segments[1].push({ color:'#00E6CA', points:[ [46.466618,12.943462], [46.46688,12.943462] ] }); // track 1 segment 276
+					trk_segments[1].push({ color:'#00E6CA', points:[ [46.46688,12.943462], [46.46756,12.943118] ] }); // track 1 segment 277
+					trk_segments[1].push({ color:'#00E6CF', points:[ [46.46756,12.943118], [46.46796,12.942698] ] }); // track 1 segment 278
+					trk_segments[1].push({ color:'#00E6CF', points:[ [46.46796,12.942698], [46.468053,12.942833] ] }); // track 1 segment 279
+					trk_segments[1].push({ color:'#00E6CF', points:[ [46.468053,12.942833], [46.468512,12.94229] ] }); // track 1 segment 280
+					trk_segments[1].push({ color:'#00E6DD', points:[ [46.468512,12.94229], [46.469063,12.942263] ] }); // track 1 segment 281
+					trk_segments[1].push({ color:'#00E6DD', points:[ [46.469063,12.942263], [46.469172,12.942435] ] }); // track 1 segment 282
+					trk_segments[1].push({ color:'#00E6D8', points:[ [46.469172,12.942435], [46.468992,12.94269] ] }); // track 1 segment 283
+					trk_segments[1].push({ color:'#00E6D8', points:[ [46.468992,12.94269], [46.468943,12.942955] ] }); // track 1 segment 284
+					trk_segments[1].push({ color:'#00E6D8', points:[ [46.468943,12.942955], [46.469282,12.943787] ] }); // track 1 segment 285
+					trk_segments[1].push({ color:'#00E6D4', points:[ [46.469282,12.943787], [46.469678,12.944188] ] }); // track 1 segment 286
+					trk_segments[1].push({ color:'#00E6D4', points:[ [46.469678,12.944188], [46.470785,12.944668] ] }); // track 1 segment 287
+					trk_segments[1].push({ color:'#00E6D4', points:[ [46.470785,12.944668], [46.470793,12.944833] ] }); // track 1 segment 288
+					trk_segments[1].push({ color:'#00E6D4', points:[ [46.470793,12.944833], [46.470788,12.944698] ] }); // track 1 segment 289
+					trk_segments[1].push({ color:'#00E6D4', points:[ [46.470788,12.944698], [46.47069,12.945347] ] }); // track 1 segment 290
+					trk_segments[1].push({ color:'#00E6D8', points:[ [46.47069,12.945347], [46.471083,12.946278] ] }); // track 1 segment 291
+					trk_segments[1].push({ color:'#00E6E6', points:[ [46.471083,12.946278], [46.47113,12.947832] ] }); // track 1 segment 292
+					trk_segments[1].push({ color:'#00D3E6', points:[ [46.47113,12.947832], [46.471448,12.949305] ] }); // track 1 segment 293
+					trk_segments[1].push({ color:'#00C6E6', points:[ [46.471448,12.949305], [46.472338,12.951258] ] }); // track 1 segment 294
+					trk_segments[1].push({ color:'#00BDE6', points:[ [46.472338,12.951258], [46.472608,12.951628] ] }); // track 1 segment 295
+					trk_segments[1].push({ color:'#00BDE6', points:[ [46.472608,12.951628], [46.473088,12.951933] ] }); // track 1 segment 296
+					trk_segments[1].push({ color:'#00BDE6', points:[ [46.473088,12.951933], [46.473227,12.951862] ] }); // track 1 segment 297
+					trk_segments[1].push({ color:'#00BDE6', points:[ [46.473227,12.951862], [46.473292,12.952592] ] }); // track 1 segment 298
+					trk_segments[1].push({ color:'#00B8E6', points:[ [46.473292,12.952592], [46.47358,12.953032] ] }); // track 1 segment 299
+					trk_segments[1].push({ color:'#00AFE6', points:[ [46.47358,12.953032], [46.473548,12.952413] ] }); // track 1 segment 300
+					trk_segments[1].push({ color:'#00ABE6', points:[ [46.473548,12.952413], [46.474928,12.953813] ] }); // track 1 segment 301
+					trk_segments[1].push({ color:'#008BE6', points:[ [46.474928,12.953813], [46.475165,12.954192] ] }); // track 1 segment 302
+					trk_segments[1].push({ color:'#008BE6', points:[ [46.475165,12.954192], [46.475687,12.954163] ] }); // track 1 segment 303
+					trk_segments[1].push({ color:'#0087E6', points:[ [46.475687,12.954163], [46.475775,12.953932] ] }); // track 1 segment 304
+					trk_segments[1].push({ color:'#0082E6', points:[ [46.475775,12.953932], [46.476175,12.953745] ] }); // track 1 segment 305
+					trk_segments[1].push({ color:'#007EE6', points:[ [46.476175,12.953745], [46.476155,12.953572] ] }); // track 1 segment 306
+					trk_segments[1].push({ color:'#0079E6', points:[ [46.476155,12.953572], [46.47534,12.952713] ] }); // track 1 segment 307
+					trk_segments[1].push({ color:'#0068E6', points:[ [46.47534,12.952713], [46.475422,12.952623] ] }); // track 1 segment 308
+					trk_segments[1].push({ color:'#0063E6', points:[ [46.475422,12.952623], [46.475618,12.952813] ] }); // track 1 segment 309
+					trk_segments[1].push({ color:'#005AE6', points:[ [46.475618,12.952813], [46.475865,12.952587] ] }); // track 1 segment 310
+					trk_segments[1].push({ color:'#005AE6', points:[ [46.475865,12.952587], [46.476167,12.952518] ] }); // track 1 segment 311
+					trk_segments[1].push({ color:'#0056E6', points:[ [46.476167,12.952518], [46.475747,12.952367] ] }); // track 1 segment 312
+					trk_segments[1].push({ color:'#0051E6', points:[ [46.475747,12.952367], [46.47649,12.952113] ] }); // track 1 segment 313
+					trk_segments[1].push({ color:'#004DE6', points:[ [46.47649,12.952113], [46.47675,12.952492] ] }); // track 1 segment 314
+					trk_segments[1].push({ color:'#0043E6', points:[ [46.47675,12.952492], [46.47701,12.952365] ] }); // track 1 segment 315
+					trk_segments[1].push({ color:'#003BE6', points:[ [46.47701,12.952365], [46.477035,12.952452] ] }); // track 1 segment 316
+					trk_segments[1].push({ color:'#003BE6', points:[ [46.477035,12.952452], [46.47743,12.952182] ] }); // track 1 segment 317
+					trk_segments[1].push({ color:'#0036E6', points:[ [46.47743,12.952182], [46.4779,12.952398] ] }); // track 1 segment 318
+					trk_segments[1].push({ color:'#0024E6', points:[ [46.4779,12.952398], [46.478395,12.952255] ] }); // track 1 segment 319
+					trk_segments[1].push({ color:'#0024E6', points:[ [46.478395,12.952255], [46.478478,12.952542] ] }); // track 1 segment 320
+					trk_segments[1].push({ color:'#001FE6', points:[ [46.478478,12.952542], [46.478743,12.952703] ] }); // track 1 segment 321
+					trk_segments[1].push({ color:'#0016E6', points:[ [46.478743,12.952703], [46.479027,12.952583] ] }); // track 1 segment 322
+					trk_segments[1].push({ color:'#000DE6', points:[ [46.479027,12.952583], [46.479228,12.952227] ] }); // track 1 segment 323
+					trk_segments[1].push({ color:'#0009E6', points:[ [46.479228,12.952227], [46.47974,12.9521] ] }); // track 1 segment 324
+					trk_segments[1].push({ color:'#0000E6', points:[ [46.47974,12.9521], [46.480015,12.951902] ] }); // track 1 segment 325
+					trk_segments[1].push({ color:'#0400E6', points:[ [46.480015,12.951902], [46.480345,12.952175] ] }); // track 1 segment 326
+					trk_segments[1].push({ color:'#0900E6', points:[ [46.480345,12.952175], [46.480262,12.951567] ] }); // track 1 segment 327
+					trk_segments[1].push({ color:'#0D00E6', points:[ [46.480262,12.951567], [46.480863,12.952345] ] }); // track 1 segment 328
+					trk_segments[1].push({ color:'#1600E6', points:[ [46.480863,12.952345], [46.481567,12.95355] ] }); // track 1 segment 329
+					trk_segments[1].push({ color:'#2900E6', points:[ [46.481567,12.95355], [46.481947,12.954493] ] }); // track 1 segment 330
+					trk_segments[1].push({ color:'#3200E6', points:[ [46.481947,12.954493], [46.482035,12.954413] ] }); // track 1 segment 331
+					trk_segments[1].push({ color:'#3200E6', points:[ [46.482035,12.954413], [46.482218,12.952948] ] }); // track 1 segment 332
+					trk_segments[1].push({ color:'#3B00E6', points:[ [46.482218,12.952948], [46.482168,12.952668] ] }); // track 1 segment 333
+					trk_segments[1].push({ color:'#3B00E6', points:[ [46.482168,12.952668], [46.482033,12.952725] ] }); // track 1 segment 334
+					trk_segments[1].push({ color:'#3B00E6', points:[ [46.482033,12.952725], [46.482,12.952492] ] }); // track 1 segment 335
+					trk_segments[1].push({ color:'#3B00E6', points:[ [46.482,12.952492], [46.482115,12.952387] ] }); // track 1 segment 336
+					trk_segments[1].push({ color:'#3B00E6', points:[ [46.482115,12.952387], [46.481678,12.952615] ] }); // track 1 segment 337
+					trk_segments[1].push({ color:'#3B00E6', points:[ [46.481678,12.952615], [46.481908,12.952482] ] }); // track 1 segment 338
+					trk_segments[1].push({ color:'#3600E6', points:[ [46.481908,12.952482], [46.48222,12.952017] ] }); // track 1 segment 339
+					trk_segments[1].push({ color:'#3600E6', points:[ [46.48222,12.952017], [46.482128,12.952273] ] }); // track 1 segment 340
+					trk_segments[1].push({ color:'#3600E6', points:[ [46.482128,12.952273], [46.482217,12.952477] ] }); // track 1 segment 341
+					trk_segments[1].push({ color:'#3600E6', points:[ [46.482217,12.952477], [46.482145,12.952753] ] }); // track 1 segment 342
+					trk_segments[1].push({ color:'#3B00E6', points:[ [46.482145,12.952753], [46.482207,12.952645] ] }); // track 1 segment 343
+					trk_segments[1].push({ color:'#3B00E6', points:[ [46.482207,12.952645], [46.482268,12.952757] ] }); // track 1 segment 344
+					trk_segments[1].push({ color:'#3F00E6', points:[ [46.482268,12.952757], [46.482225,12.953335] ] }); // track 1 segment 345
+					trk_segments[1].push({ color:'#3F00E6', points:[ [46.482225,12.953335], [46.482628,12.954005] ] }); // track 1 segment 346
+					trk_segments[1].push({ color:'#4800E6', points:[ [46.482628,12.954005], [46.482782,12.955055] ] }); // track 1 segment 347
+					trk_segments[1].push({ color:'#5100E6', points:[ [46.482782,12.955055], [46.482927,12.954293] ] }); // track 1 segment 348
+					trk_segments[1].push({ color:'#5600E6', points:[ [46.482927,12.954293], [46.482925,12.953497] ] }); // track 1 segment 349
+					trk_segments[1].push({ color:'#5600E6', points:[ [46.482925,12.953497], [46.483108,12.952818] ] }); // track 1 segment 350
+					trk_segments[1].push({ color:'#5A00E6', points:[ [46.483108,12.952818], [46.483098,12.951917] ] }); // track 1 segment 351
+					trk_segments[1].push({ color:'#5F00E6', points:[ [46.483098,12.951917], [46.482817,12.950932] ] }); // track 1 segment 352
+					trk_segments[1].push({ color:'#6800E6', points:[ [46.482817,12.950932], [46.482573,12.949098] ] }); // track 1 segment 353
+					trk_segments[1].push({ color:'#6800E6', points:[ [46.482573,12.949098], [46.482288,12.947787] ] }); // track 1 segment 354
+					trk_segments[1].push({ color:'#5F00E6', points:[ [46.482288,12.947787], [46.482347,12.946348] ] }); // track 1 segment 355
+					trk_segments[1].push({ color:'#6800E6', points:[ [46.482347,12.946348], [46.482438,12.946058] ] }); // track 1 segment 356
+					trk_segments[1].push({ color:'#6C00E6', points:[ [46.482438,12.946058], [46.48289,12.945852] ] }); // track 1 segment 357
+					trk_segments[1].push({ color:'#6C00E6', points:[ [46.48289,12.945852], [46.483718,12.945177] ] }); // track 1 segment 358
+					trk_segments[1].push({ color:'#7900E6', points:[ [46.483718,12.945177], [46.484333,12.944218] ] }); // track 1 segment 359
+					trk_segments[1].push({ color:'#8200E6', points:[ [46.484333,12.944218], [46.484688,12.943852] ] }); // track 1 segment 360
+					trk_segments[1].push({ color:'#8700E6', points:[ [46.484688,12.943852], [46.485048,12.942805] ] }); // track 1 segment 361
+					trk_segments[1].push({ color:'#9000E6', points:[ [46.485048,12.942805], [46.485042,12.942265] ] }); // track 1 segment 362
+					trk_segments[1].push({ color:'#9500E6', points:[ [46.485042,12.942265], [46.485363,12.94192] ] }); // track 1 segment 363
+					trk_segments[1].push({ color:'#9900E6', points:[ [46.485363,12.94192], [46.48571,12.941947] ] }); // track 1 segment 364
+					trk_segments[1].push({ color:'#9900E6', points:[ [46.48571,12.941947], [46.486578,12.941603] ] }); // track 1 segment 365
+					trk_segments[1].push({ color:'#9E00E6', points:[ [46.486578,12.941603], [46.48741,12.941582] ] }); // track 1 segment 366
+					trk_segments[1].push({ color:'#A200E6', points:[ [46.48741,12.941582], [46.488478,12.942025] ] }); // track 1 segment 367
+					trk_segments[1].push({ color:'#AB00E6', points:[ [46.488478,12.942025], [46.488983,12.942518] ] }); // track 1 segment 368
+					trk_segments[1].push({ color:'#B400E6', points:[ [46.488983,12.942518], [46.489577,12.943703] ] }); // track 1 segment 369
+					trk_segments[1].push({ color:'#B400E6', points:[ [46.489577,12.943703], [46.48964,12.944592] ] }); // track 1 segment 370
+					trk_segments[1].push({ color:'#B400E6', points:[ [46.48964,12.944592], [46.490102,12.94501] ] }); // track 1 segment 371
+					trk_segments[1].push({ color:'#B000E6', points:[ [46.490102,12.94501], [46.490972,12.946398] ] }); // track 1 segment 372
+					trk_segments[1].push({ color:'#A200E6', points:[ [46.490972,12.946398], [46.491287,12.946693] ] }); // track 1 segment 373
+					trk_segments[1].push({ color:'#9E00E6', points:[ [46.491287,12.946693], [46.491848,12.946435] ] }); // track 1 segment 374
+					trk_segments[1].push({ color:'#9900E6', points:[ [46.491848,12.946435], [46.492132,12.94583] ] }); // track 1 segment 375
+					trk_segments[1].push({ color:'#9000E6', points:[ [46.492132,12.94583], [46.492492,12.945413] ] }); // track 1 segment 376
+					trk_segments[1].push({ color:'#8B00E6', points:[ [46.492492,12.945413], [46.492947,12.945283] ] }); // track 1 segment 377
+					trk_segments[1].push({ color:'#8700E6', points:[ [46.492947,12.945283], [46.493192,12.945] ] }); // track 1 segment 378
+					trk_segments[1].push({ color:'#8700E6', points:[ [46.493192,12.945], [46.493553,12.944955] ] }); // track 1 segment 379
+					trk_segments[1].push({ color:'#8200E6', points:[ [46.493553,12.944955], [46.495303,12.942593] ] }); // track 1 segment 380
+					trk_segments[1].push({ color:'#7900E6', points:[ [46.495303,12.942593], [46.495637,12.941705] ] }); // track 1 segment 381
+					trk_segments[1].push({ color:'#7500E6', points:[ [46.495637,12.941705], [46.496758,12.94199] ] }); // track 1 segment 382
+					trk_segments[1].push({ color:'#7100E6', points:[ [46.496758,12.94199], [46.497012,12.94183] ] }); // track 1 segment 383
+					trk_segments[1].push({ color:'#7100E6', points:[ [46.497012,12.94183], [46.497207,12.941892] ] }); // track 1 segment 384
+					trk_segments[1].push({ color:'#6C00E6', points:[ [46.497207,12.941892], [46.497343,12.942192] ] }); // track 1 segment 385
+					trk_segments[1].push({ color:'#6C00E6', points:[ [46.497343,12.942192], [46.497817,12.942342] ] }); // track 1 segment 386
+					trk_segments[1].push({ color:'#6C00E6', points:[ [46.497817,12.942342], [46.497807,12.942212] ] }); // track 1 segment 387
+					trk_segments[1].push({ color:'#6C00E6', points:[ [46.497807,12.942212], [46.49741,12.94191] ] }); // track 1 segment 388
+					trk_segments[1].push({ color:'#7100E6', points:[ [46.49741,12.94191], [46.498123,12.941897] ] }); // track 1 segment 389
+					trk_segments[1].push({ color:'#7E00E6', points:[ [46.498123,12.941897], [46.49842,12.942032] ] }); // track 1 segment 390
+					trk_segments[1].push({ color:'#7E00E6', points:[ [46.49842,12.942032], [46.498305,12.941583] ] }); // track 1 segment 391
+					trk_segments[1].push({ color:'#8700E6', points:[ [46.498305,12.941583], [46.49813,12.941437] ] }); // track 1 segment 392
+					trk_segments[1].push({ color:'#8700E6', points:[ [46.49813,12.941437], [46.498222,12.939877] ] }); // track 1 segment 393
+					trk_segments[1].push({ color:'#9500E6', points:[ [46.498222,12.939877], [46.498868,12.937713] ] }); // track 1 segment 394
+					trk_segments[1].push({ color:'#AB00E6', points:[ [46.498868,12.937713], [46.49894,12.937183] ] }); // track 1 segment 395
+					trk_segments[1].push({ color:'#B000E6', points:[ [46.49894,12.937183], [46.499628,12.936205] ] }); // track 1 segment 396
+					trk_segments[1].push({ color:'#A700E6', points:[ [46.499628,12.936205], [46.499602,12.935857] ] }); // track 1 segment 397
+					trk_segments[1].push({ color:'#A700E6', points:[ [46.499602,12.935857], [46.500125,12.935033] ] }); // track 1 segment 398
+					trk_segments[1].push({ color:'#A700E6', points:[ [46.500125,12.935033], [46.500242,12.934402] ] }); // track 1 segment 399
+					trk_segments[1].push({ color:'#AB00E6', points:[ [46.500242,12.934402], [46.50042,12.934055] ] }); // track 1 segment 400
+					trk_segments[1].push({ color:'#B000E6', points:[ [46.50042,12.934055], [46.500483,12.93349] ] }); // track 1 segment 401
+					trk_segments[1].push({ color:'#B400E6', points:[ [46.500483,12.93349], [46.500743,12.932777] ] }); // track 1 segment 402
+					trk_segments[1].push({ color:'#B900E6', points:[ [46.500743,12.932777], [46.500988,12.932477] ] }); // track 1 segment 403
+					trk_segments[1].push({ color:'#BD00E6', points:[ [46.500988,12.932477], [46.50126,12.931365] ] }); // track 1 segment 404
+					trk_segments[1].push({ color:'#C200E6', points:[ [46.50126,12.931365], [46.501237,12.930595] ] }); // track 1 segment 405
+					trk_segments[1].push({ color:'#C200E6', points:[ [46.501237,12.930595], [46.501593,12.930105] ] }); // track 1 segment 406
+					trk_segments[1].push({ color:'#C600E6', points:[ [46.501593,12.930105], [46.50173,12.92967] ] }); // track 1 segment 407
+					trk_segments[1].push({ color:'#C600E6', points:[ [46.50173,12.92967], [46.501808,12.927397] ] }); // track 1 segment 408
+					trk_segments[1].push({ color:'#D800E6', points:[ [46.501808,12.927397], [46.501577,12.927463] ] }); // track 1 segment 409
+					trk_segments[1].push({ color:'#D800E6', points:[ [46.501577,12.927463], [46.501175,12.927087] ] }); // track 1 segment 410
+					trk_segments[1].push({ color:'#DD00E6', points:[ [46.501175,12.927087], [46.502172,12.92671] ] }); // track 1 segment 411
+					trk_segments[1].push({ color:'#E100E6', points:[ [46.502172,12.92671], [46.502293,12.926765] ] }); // track 1 segment 412
+					trk_segments[1].push({ color:'#E100E6', points:[ [46.502293,12.926765], [46.502585,12.926293] ] }); // track 1 segment 413
+					trk_segments[1].push({ color:'#E100E6', points:[ [46.502585,12.926293], [46.502703,12.925847] ] }); // track 1 segment 414
+					trk_segments[1].push({ color:'#E100E6', points:[ [46.502703,12.925847], [46.502658,12.925618] ] }); // track 1 segment 415
+					trk_segments[1].push({ color:'#E600E6', points:[ [46.502658,12.925618], [46.502812,12.925652] ] }); // track 1 segment 416
+					trk_segments[1].push({ color:'#E100E6', points:[ [46.502812,12.925652], [46.502892,12.925542] ] }); // track 1 segment 417
+					trk_segments[1].push({ color:'#E100E6', points:[ [46.502892,12.925542], [46.502968,12.925683] ] }); // track 1 segment 418
+					trk_segments[1].push({ color:'#DD00E6', points:[ [46.502968,12.925683], [46.50315,12.925663] ] }); // track 1 segment 419
+					trk_segments[1].push({ color:'#D800E6', points:[ [46.50315,12.925663], [46.503007,12.92569] ] }); // track 1 segment 420
+					trk_segments[1].push({ color:'#D800E6', points:[ [46.503007,12.92569], [46.502663,12.925432] ] }); // track 1 segment 421
+					trk_segments[1].push({ color:'#DD00E6', points:[ [46.502663,12.925432], [46.502573,12.925497] ] }); // track 1 segment 422
+					trk_segments[1].push({ color:'#DD00E6', points:[ [46.502573,12.925497], [46.50245,12.926398] ] }); // track 1 segment 423
+					trk_segments[1].push({ color:'#DD00E6', points:[ [46.50245,12.926398], [46.502182,12.926793] ] }); // track 1 segment 424
+					trk_segments[1].push({ color:'#D800E6', points:[ [46.502182,12.926793], [46.502337,12.926907] ] }); // track 1 segment 425
+					trk_segments[1].push({ color:'#D800E6', points:[ [46.502337,12.926907], [46.502672,12.92674] ] }); // track 1 segment 426
+					trk_segments[1].push({ color:'#DD00E6', points:[ [46.502672,12.92674], [46.50291,12.926995] ] }); // track 1 segment 427
+					trk_segments[1].push({ color:'#D400E6', points:[ [46.50291,12.926995], [46.502803,12.92713] ] }); // track 1 segment 428
+					trk_segments[1].push({ color:'#D400E6', points:[ [46.502803,12.92713], [46.502328,12.927135] ] }); // track 1 segment 429
+					trk_segments[1].push({ color:'#D400E6', points:[ [46.502328,12.927135], [46.501778,12.927652] ] }); // track 1 segment 430
+					trk_segments[1].push({ color:'#D400E6', points:[ [46.501778,12.927652], [46.50167,12.929762] ] }); // track 1 segment 431
+					trk_segments[1].push({ color:'#C600E6', points:[ [46.50167,12.929762], [46.501202,12.930735] ] }); // track 1 segment 432
+					trk_segments[1].push({ color:'#C200E6', points:[ [46.501202,12.930735], [46.501207,12.931525] ] }); // track 1 segment 433
+					trk_segments[1].push({ color:'#BD00E6', points:[ [46.501207,12.931525], [46.500898,12.932562] ] }); // track 1 segment 434
+					trk_segments[1].push({ color:'#BD00E6', points:[ [46.500898,12.932562], [46.500472,12.933453] ] }); // track 1 segment 435
+					trk_segments[1].push({ color:'#B000E6', points:[ [46.500472,12.933453], [46.500032,12.935197] ] }); // track 1 segment 436
+					trk_segments[1].push({ color:'#A200E6', points:[ [46.500032,12.935197], [46.49957,12.935837] ] }); // track 1 segment 437
+					trk_segments[1].push({ color:'#A200E6', points:[ [46.49957,12.935837], [46.499528,12.936365] ] }); // track 1 segment 438
+					trk_segments[1].push({ color:'#A700E6', points:[ [46.499528,12.936365], [46.4989,12.937202] ] }); // track 1 segment 439
+					trk_segments[1].push({ color:'#AB00E6', points:[ [46.4989,12.937202], [46.498855,12.937645] ] }); // track 1 segment 440
+					trk_segments[1].push({ color:'#AB00E6', points:[ [46.498855,12.937645], [46.498493,12.938678] ] }); // track 1 segment 441
+					trk_segments[1].push({ color:'#A200E6', points:[ [46.498493,12.938678], [46.498207,12.939955] ] }); // track 1 segment 442
+					trk_segments[1].push({ color:'#9500E6', points:[ [46.498207,12.939955], [46.498217,12.940552] ] }); // track 1 segment 443
+					trk_segments[1].push({ color:'#9000E6', points:[ [46.498217,12.940552], [46.498065,12.941418] ] }); // track 1 segment 444
+					trk_segments[1].push({ color:'#8700E6', points:[ [46.498065,12.941418], [46.498423,12.941935] ] }); // track 1 segment 445
+					trk_segments[1].push({ color:'#7E00E6', points:[ [46.498423,12.941935], [46.498373,12.942032] ] }); // track 1 segment 446
+					trk_segments[1].push({ color:'#7E00E6', points:[ [46.498373,12.942032], [46.497765,12.941845] ] }); // track 1 segment 447
+					trk_segments[1].push({ color:'#7500E6', points:[ [46.497765,12.941845], [46.497362,12.941938] ] }); // track 1 segment 448
+					trk_segments[1].push({ color:'#7100E6', points:[ [46.497362,12.941938], [46.497765,12.942332] ] }); // track 1 segment 449
+					trk_segments[1].push({ color:'#6800E6', points:[ [46.497765,12.942332], [46.497343,12.942203] ] }); // track 1 segment 450
+					trk_segments[1].push({ color:'#6C00E6', points:[ [46.497343,12.942203], [46.497047,12.941775] ] }); // track 1 segment 451
+					trk_segments[1].push({ color:'#6C00E6', points:[ [46.497047,12.941775], [46.496762,12.94195] ] }); // track 1 segment 452
+					trk_segments[1].push({ color:'#6C00E6', points:[ [46.496762,12.94195], [46.495583,12.941712] ] }); // track 1 segment 453
+					trk_segments[1].push({ color:'#7500E6', points:[ [46.495583,12.941712], [46.495238,12.942627] ] }); // track 1 segment 454
+					trk_segments[1].push({ color:'#7900E6', points:[ [46.495238,12.942627], [46.493532,12.944903] ] }); // track 1 segment 455
+					trk_segments[1].push({ color:'#8200E6', points:[ [46.493532,12.944903], [46.493217,12.944948] ] }); // track 1 segment 456
+					trk_segments[1].push({ color:'#8200E6', points:[ [46.493217,12.944948], [46.492912,12.945267] ] }); // track 1 segment 457
+					trk_segments[1].push({ color:'#8B00E6', points:[ [46.492912,12.945267], [46.49248,12.94542] ] }); // track 1 segment 458
+					trk_segments[1].push({ color:'#9000E6', points:[ [46.49248,12.94542], [46.492108,12.945837] ] }); // track 1 segment 459
+					trk_segments[1].push({ color:'#9500E6', points:[ [46.492108,12.945837], [46.491812,12.946412] ] }); // track 1 segment 460
+					trk_segments[1].push({ color:'#9900E6', points:[ [46.491812,12.946412], [46.491155,12.946593] ] }); // track 1 segment 461
+					trk_segments[1].push({ color:'#9900E6', points:[ [46.491155,12.946593], [46.490282,12.945422] ] }); // track 1 segment 462
+					trk_segments[1].push({ color:'#AB00E6', points:[ [46.490282,12.945422], [46.490102,12.944947] ] }); // track 1 segment 463
+					trk_segments[1].push({ color:'#B000E6', points:[ [46.490102,12.944947], [46.489663,12.944597] ] }); // track 1 segment 464
+					trk_segments[1].push({ color:'#B000E6', points:[ [46.489663,12.944597], [46.48953,12.943552] ] }); // track 1 segment 465
+					trk_segments[1].push({ color:'#B000E6', points:[ [46.48953,12.943552], [46.488847,12.942333] ] }); // track 1 segment 466
+					trk_segments[1].push({ color:'#B000E6', points:[ [46.488847,12.942333], [46.488375,12.941922] ] }); // track 1 segment 467
+					trk_segments[1].push({ color:'#AB00E6', points:[ [46.488375,12.941922], [46.487388,12.941562] ] }); // track 1 segment 468
+					trk_segments[1].push({ color:'#A200E6', points:[ [46.487388,12.941562], [46.486375,12.941573] ] }); // track 1 segment 469
+					trk_segments[1].push({ color:'#9900E6', points:[ [46.486375,12.941573], [46.485658,12.941885] ] }); // track 1 segment 470
+					trk_segments[1].push({ color:'#9500E6', points:[ [46.485658,12.941885], [46.485248,12.941863] ] }); // track 1 segment 471
+					trk_segments[1].push({ color:'#9500E6', points:[ [46.485248,12.941863], [46.485048,12.942143] ] }); // track 1 segment 472
+					trk_segments[1].push({ color:'#9000E6', points:[ [46.485048,12.942143], [46.484977,12.942872] ] }); // track 1 segment 473
+					trk_segments[1].push({ color:'#9000E6', points:[ [46.484977,12.942872], [46.484608,12.943903] ] }); // track 1 segment 474
+					trk_segments[1].push({ color:'#8700E6', points:[ [46.484608,12.943903], [46.484295,12.944213] ] }); // track 1 segment 475
+					trk_segments[1].push({ color:'#8200E6', points:[ [46.484295,12.944213], [46.483677,12.945165] ] }); // track 1 segment 476
+					trk_segments[1].push({ color:'#7500E6', points:[ [46.483677,12.945165], [46.482908,12.945802] ] }); // track 1 segment 477
+					trk_segments[1].push({ color:'#6C00E6', points:[ [46.482908,12.945802], [46.482443,12.946038] ] }); // track 1 segment 478
+					trk_segments[1].push({ color:'#6800E6', points:[ [46.482443,12.946038], [46.482335,12.9463] ] }); // track 1 segment 479
+					trk_segments[1].push({ color:'#6800E6', points:[ [46.482335,12.9463], [46.482292,12.947965] ] }); // track 1 segment 480
+					trk_segments[1].push({ color:'#6800E6', points:[ [46.482292,12.947965], [46.482555,12.94977] ] }); // track 1 segment 481
+					trk_segments[1].push({ color:'#6C00E6', points:[ [46.482555,12.94977], [46.482675,12.950088] ] }); // track 1 segment 482
+					trk_segments[1].push({ color:'#6C00E6', points:[ [46.482675,12.950088], [46.482745,12.950875] ] }); // track 1 segment 483
+					trk_segments[1].push({ color:'#6C00E6', points:[ [46.482745,12.950875], [46.483095,12.9524] ] }); // track 1 segment 484
+					trk_segments[1].push({ color:'#5A00E6', points:[ [46.483095,12.9524], [46.483065,12.952897] ] }); // track 1 segment 485
+					trk_segments[1].push({ color:'#5600E6', points:[ [46.483065,12.952897], [46.4829,12.95342] ] }); // track 1 segment 486
+					trk_segments[1].push({ color:'#5100E6', points:[ [46.4829,12.95342], [46.482845,12.954712] ] }); // track 1 segment 487
+					trk_segments[1].push({ color:'#4D00E6', points:[ [46.482845,12.954712], [46.482753,12.955037] ] }); // track 1 segment 488
+					trk_segments[1].push({ color:'#4800E6', points:[ [46.482753,12.955037], [46.482653,12.954133] ] }); // track 1 segment 489
+					trk_segments[1].push({ color:'#4300E6', points:[ [46.482653,12.954133], [46.482115,12.953133] ] }); // track 1 segment 490
+					trk_segments[1].push({ color:'#3F00E6', points:[ [46.482115,12.953133], [46.481818,12.955518] ] }); // track 1 segment 491
+					trk_segments[1].push({ color:'#3200E6', points:[ [46.481818,12.955518], [46.481567,12.956007] ] }); // track 1 segment 492
+					trk_segments[1].push({ color:'#3200E6', points:[ [46.481567,12.956007], [46.481233,12.95758] ] }); // track 1 segment 493
+					trk_segments[1].push({ color:'#3200E6', points:[ [46.481233,12.95758], [46.481232,12.958538] ] }); // track 1 segment 494
+					trk_segments[1].push({ color:'#2D00E6', points:[ [46.481232,12.958538], [46.481073,12.959118] ] }); // track 1 segment 495
+					trk_segments[1].push({ color:'#3200E6', points:[ [46.481073,12.959118], [46.481213,12.959843] ] }); // track 1 segment 496
+					trk_segments[1].push({ color:'#3200E6', points:[ [46.481213,12.959843], [46.480585,12.960498] ] }); // track 1 segment 497
+					trk_segments[1].push({ color:'#3600E6', points:[ [46.480585,12.960498], [46.480507,12.961418] ] }); // track 1 segment 498
+					trk_segments[1].push({ color:'#3200E6', points:[ [46.480507,12.961418], [46.480297,12.962247] ] }); // track 1 segment 499
+					trk_segments[1].push({ color:'#2D00E6', points:[ [46.480297,12.962247], [46.480227,12.963437] ] }); // track 1 segment 500
+					trk_segments[1].push({ color:'#2900E6', points:[ [46.480227,12.963437], [46.48041,12.96572] ] }); // track 1 segment 501
+					trk_segments[1].push({ color:'#2400E6', points:[ [46.48041,12.96572], [46.480163,12.966772] ] }); // track 1 segment 502
+					trk_segments[1].push({ color:'#2900E6', points:[ [46.480163,12.966772], [46.479962,12.967057] ] }); // track 1 segment 503
+					trk_segments[1].push({ color:'#2900E6', points:[ [46.479962,12.967057], [46.480208,12.968152] ] }); // track 1 segment 504
+					trk_segments[1].push({ color:'#2900E6', points:[ [46.480208,12.968152], [46.480695,12.968735] ] }); // track 1 segment 505
+					trk_segments[1].push({ color:'#2400E6', points:[ [46.480695,12.968735], [46.481068,12.969495] ] }); // track 1 segment 506
+					trk_segments[1].push({ color:'#1F00E6', points:[ [46.481068,12.969495], [46.481497,12.970077] ] }); // track 1 segment 507
+					trk_segments[1].push({ color:'#1B00E6', points:[ [46.481497,12.970077], [46.482945,12.97047] ] }); // track 1 segment 508
+					trk_segments[1].push({ color:'#0D00E6', points:[ [46.482945,12.97047], [46.483698,12.971225] ] }); // track 1 segment 509
+					trk_segments[1].push({ color:'#0D00E6', points:[ [46.483698,12.971225], [46.483668,12.97159] ] }); // track 1 segment 510
+					trk_segments[1].push({ color:'#0D00E6', points:[ [46.483668,12.97159], [46.483418,12.972165] ] }); // track 1 segment 511
+					trk_segments[1].push({ color:'#0D00E6', points:[ [46.483418,12.972165], [46.48313,12.973357] ] }); // track 1 segment 512
+					trk_segments[1].push({ color:'#0900E6', points:[ [46.48313,12.973357], [46.482525,12.974088] ] }); // track 1 segment 513
+					trk_segments[1].push({ color:'#0900E6', points:[ [46.482525,12.974088], [46.48216,12.97484] ] }); // track 1 segment 514
+					trk_segments[1].push({ color:'#0400E6', points:[ [46.48216,12.97484], [46.481887,12.975007] ] }); // track 1 segment 515
+					trk_segments[1].push({ color:'#0400E6', points:[ [46.481887,12.975007], [46.481618,12.975647] ] }); // track 1 segment 516
+					trk_segments[1].push({ color:'#0000E6', points:[ [46.481618,12.975647], [46.481167,12.97604] ] }); // track 1 segment 517
+					trk_segments[1].push({ color:'#0004E6', points:[ [46.481167,12.97604], [46.480797,12.976168] ] }); // track 1 segment 518
+					trk_segments[1].push({ color:'#0004E6', points:[ [46.480797,12.976168], [46.480902,12.976332] ] }); // track 1 segment 519
+					trk_segments[1].push({ color:'#0009E6', points:[ [46.480902,12.976332], [46.480747,12.977162] ] }); // track 1 segment 520
+					trk_segments[1].push({ color:'#0009E6', points:[ [46.480747,12.977162], [46.479945,12.978913] ] }); // track 1 segment 521
+					trk_segments[1].push({ color:'#0016E6', points:[ [46.479945,12.978913], [46.479627,12.979342] ] }); // track 1 segment 522
+					trk_segments[1].push({ color:'#0024E6', points:[ [46.479627,12.979342], [46.479683,12.979682] ] }); // track 1 segment 523
+					trk_segments[1].push({ color:'#0024E6', points:[ [46.479683,12.979682], [46.479598,12.980632] ] }); // track 1 segment 524
+					trk_segments[1].push({ color:'#0032E6', points:[ [46.479598,12.980632], [46.48001,12.981407] ] }); // track 1 segment 525
+					trk_segments[1].push({ color:'#003BE6', points:[ [46.48001,12.981407], [46.48061,12.981777] ] }); // track 1 segment 526
+					trk_segments[1].push({ color:'#003FE6', points:[ [46.48061,12.981777], [46.480687,12.981463] ] }); // track 1 segment 527
+					trk_segments[1].push({ color:'#003FE6', points:[ [46.480687,12.981463], [46.480515,12.980902] ] }); // track 1 segment 528
+					trk_segments[1].push({ color:'#0043E6', points:[ [46.480515,12.980902], [46.480757,12.980195] ] }); // track 1 segment 529
+					trk_segments[1].push({ color:'#0043E6', points:[ [46.480757,12.980195], [46.48075,12.979465] ] }); // track 1 segment 530
+					trk_segments[1].push({ color:'#0043E6', points:[ [46.48075,12.979465], [46.481728,12.977748] ] }); // track 1 segment 531
+					trk_segments[1].push({ color:'#0048E6', points:[ [46.481728,12.977748], [46.481867,12.977332] ] }); // track 1 segment 532
+					trk_segments[1].push({ color:'#0048E6', points:[ [46.481867,12.977332], [46.482037,12.977337] ] }); // track 1 segment 533
+					trk_segments[1].push({ color:'#0048E6', points:[ [46.482037,12.977337], [46.482628,12.976503] ] }); // track 1 segment 534
+					trk_segments[1].push({ color:'#0048E6', points:[ [46.482628,12.976503], [46.482767,12.976505] ] }); // track 1 segment 535
+					trk_segments[1].push({ color:'#004DE6', points:[ [46.482767,12.976505], [46.482297,12.97767] ] }); // track 1 segment 536
+					trk_segments[1].push({ color:'#0051E6', points:[ [46.482297,12.97767], [46.482393,12.97781] ] }); // track 1 segment 537
+					trk_segments[1].push({ color:'#0051E6', points:[ [46.482393,12.97781], [46.483273,12.97665] ] }); // track 1 segment 538
+					trk_segments[1].push({ color:'#0056E6', points:[ [46.483273,12.97665], [46.484147,12.976298] ] }); // track 1 segment 539
+					trk_segments[1].push({ color:'#005AE6', points:[ [46.484147,12.976298], [46.484652,12.976705] ] }); // track 1 segment 540
+					trk_segments[1].push({ color:'#005FE6', points:[ [46.484652,12.976705], [46.485888,12.975312] ] }); // track 1 segment 541
+					trk_segments[1].push({ color:'#0071E6', points:[ [46.485888,12.975312], [46.485745,12.975673] ] }); // track 1 segment 542
+					trk_segments[1].push({ color:'#0075E6', points:[ [46.485745,12.975673], [46.48559,12.976633] ] }); // track 1 segment 543
+					trk_segments[1].push({ color:'#0079E6', points:[ [46.48559,12.976633], [46.485348,12.977237] ] }); // track 1 segment 544
+					trk_segments[1].push({ color:'#007EE6', points:[ [46.485348,12.977237], [46.484383,12.977413] ] }); // track 1 segment 545
+					trk_segments[1].push({ color:'#0082E6', points:[ [46.484383,12.977413], [46.484203,12.977812] ] }); // track 1 segment 546
+					trk_segments[1].push({ color:'#0082E6', points:[ [46.484203,12.977812], [46.484305,12.978837] ] }); // track 1 segment 547
+					trk_segments[1].push({ color:'#0082E6', points:[ [46.484305,12.978837], [46.48417,12.979337] ] }); // track 1 segment 548
+					trk_segments[1].push({ color:'#0082E6', points:[ [46.48417,12.979337], [46.483877,12.979775] ] }); // track 1 segment 549
+					trk_segments[1].push({ color:'#0087E6', points:[ [46.483877,12.979775], [46.484393,12.979758] ] }); // track 1 segment 550
+					trk_segments[1].push({ color:'#008BE6', points:[ [46.484393,12.979758], [46.484797,12.979467] ] }); // track 1 segment 551
+					trk_segments[1].push({ color:'#0090E6', points:[ [46.484797,12.979467], [46.484883,12.979137] ] }); // track 1 segment 552
+					trk_segments[1].push({ color:'#0090E6', points:[ [46.484883,12.979137], [46.484865,12.978503] ] }); // track 1 segment 553
+					trk_segments[1].push({ color:'#0090E6', points:[ [46.484865,12.978503], [46.485023,12.97829] ] }); // track 1 segment 554
+					trk_segments[1].push({ color:'#0094E6', points:[ [46.485023,12.97829], [46.485758,12.978605] ] }); // track 1 segment 555
+					trk_segments[1].push({ color:'#0099E6', points:[ [46.485758,12.978605], [46.486775,12.978158] ] }); // track 1 segment 556
+					trk_segments[1].push({ color:'#009DE6', points:[ [46.486775,12.978158], [46.487072,12.978197] ] }); // track 1 segment 557
+					trk_segments[1].push({ color:'#00A2E6', points:[ [46.487072,12.978197], [46.487287,12.978708] ] }); // track 1 segment 558
+					trk_segments[1].push({ color:'#00A2E6', points:[ [46.487287,12.978708], [46.487528,12.97974] ] }); // track 1 segment 559
+					trk_segments[1].push({ color:'#00A6E6', points:[ [46.487528,12.97974], [46.487998,12.98078] ] }); // track 1 segment 560
+					trk_segments[1].push({ color:'#00AFE6', points:[ [46.487998,12.98078], [46.488113,12.98142] ] }); // track 1 segment 561
+					trk_segments[1].push({ color:'#00B4E6', points:[ [46.488113,12.98142], [46.48856,12.981952] ] }); // track 1 segment 562
+					trk_segments[1].push({ color:'#00B8E6', points:[ [46.48856,12.981952], [46.489235,12.981405] ] }); // track 1 segment 563
+					trk_segments[1].push({ color:'#00C1E6', points:[ [46.489235,12.981405], [46.489672,12.981375] ] }); // track 1 segment 564
+					trk_segments[1].push({ color:'#00C6E6', points:[ [46.489672,12.981375], [46.490392,12.980643] ] }); // track 1 segment 565
+					trk_segments[1].push({ color:'#00CFE6', points:[ [46.490392,12.980643], [46.49059,12.979295] ] }); // track 1 segment 566
+					trk_segments[1].push({ color:'#00D8E6', points:[ [46.49059,12.979295], [46.490675,12.979243] ] }); // track 1 segment 567
+					trk_segments[1].push({ color:'#00DDE6', points:[ [46.490675,12.979243], [46.49067,12.979957] ] }); // track 1 segment 568
+					trk_segments[1].push({ color:'#00E1E6', points:[ [46.49067,12.979957], [46.490807,12.980373] ] }); // track 1 segment 569
+					trk_segments[1].push({ color:'#00E1E6', points:[ [46.490807,12.980373], [46.490595,12.982447] ] }); // track 1 segment 570
+					trk_segments[1].push({ color:'#00E6E6', points:[ [46.490595,12.982447], [46.490442,12.982927] ] }); // track 1 segment 571
+					trk_segments[1].push({ color:'#00E6E6', points:[ [46.490442,12.982927], [46.48988,12.98369] ] }); // track 1 segment 572
+					trk_segments[1].push({ color:'#00E6E1', points:[ [46.48988,12.98369], [46.489663,12.98446] ] }); // track 1 segment 573
+					trk_segments[1].push({ color:'#00E6E1', points:[ [46.489663,12.98446], [46.489652,12.984975] ] }); // track 1 segment 574
+					trk_segments[1].push({ color:'#00E6DD', points:[ [46.489652,12.984975], [46.489445,12.985623] ] }); // track 1 segment 575
+					trk_segments[1].push({ color:'#00E6D8', points:[ [46.489445,12.985623], [46.489048,12.985863] ] }); // track 1 segment 576
+					trk_segments[1].push({ color:'#00E6D4', points:[ [46.489048,12.985863], [46.488478,12.985863] ] }); // track 1 segment 577
+					trk_segments[1].push({ color:'#00E6CA', points:[ [46.488478,12.985863], [46.487963,12.985508] ] }); // track 1 segment 578
+					trk_segments[1].push({ color:'#00E6C6', points:[ [46.487963,12.985508], [46.487455,12.984842] ] }); // track 1 segment 579
+					trk_segments[1].push({ color:'#00E6BD', points:[ [46.487455,12.984842], [46.487195,12.984758] ] }); // track 1 segment 580
+					trk_segments[1].push({ color:'#00E6BD', points:[ [46.487195,12.984758], [46.487705,12.986632] ] }); // track 1 segment 581
+					trk_segments[1].push({ color:'#00E6B0', points:[ [46.487705,12.986632], [46.488147,12.987493] ] }); // track 1 segment 582
+					trk_segments[1].push({ color:'#00E6A2', points:[ [46.488147,12.987493], [46.48882,12.98778] ] }); // track 1 segment 583
+					trk_segments[1].push({ color:'#00E699', points:[ [46.48882,12.98778], [46.489047,12.98775] ] }); // track 1 segment 584
+					trk_segments[1].push({ color:'#00E699', points:[ [46.489047,12.98775], [46.490318,12.98686] ] }); // track 1 segment 585
+					trk_segments[1].push({ color:'#00E695', points:[ [46.490318,12.98686], [46.490498,12.986592] ] }); // track 1 segment 586
+					trk_segments[1].push({ color:'#00E695', points:[ [46.490498,12.986592], [46.49239,12.98564] ] }); // track 1 segment 587
+					trk_segments[1].push({ color:'#00E68C', points:[ [46.49239,12.98564], [46.492775,12.98521] ] }); // track 1 segment 588
+					trk_segments[1].push({ color:'#00E687', points:[ [46.492775,12.98521], [46.493478,12.98386] ] }); // track 1 segment 589
+					trk_segments[1].push({ color:'#00E682', points:[ [46.493478,12.98386], [46.493923,12.98351] ] }); // track 1 segment 590
+					trk_segments[1].push({ color:'#00E67E', points:[ [46.493923,12.98351], [46.494133,12.982785] ] }); // track 1 segment 591
+					trk_segments[1].push({ color:'#00E679', points:[ [46.494133,12.982785], [46.494383,12.98271] ] }); // track 1 segment 592
+					trk_segments[1].push({ color:'#00E671', points:[ [46.494383,12.98271], [46.494382,12.982838] ] }); // track 1 segment 593
+					trk_segments[1].push({ color:'#00E66C', points:[ [46.494382,12.982838], [46.494213,12.983003] ] }); // track 1 segment 594
+					trk_segments[1].push({ color:'#00E668', points:[ [46.494213,12.983003], [46.494193,12.98388] ] }); // track 1 segment 595
+					trk_segments[1].push({ color:'#00E663', points:[ [46.494193,12.98388], [46.493848,12.9845] ] }); // track 1 segment 596
+					trk_segments[1].push({ color:'#00E65F', points:[ [46.493848,12.9845], [46.49334,12.98604] ] }); // track 1 segment 597
+					trk_segments[1].push({ color:'#00E651', points:[ [46.49334,12.98604], [46.492808,12.986927] ] }); // track 1 segment 598
+					trk_segments[1].push({ color:'#00E643', points:[ [46.492808,12.986927], [46.49333,12.98645] ] }); // track 1 segment 599
+					trk_segments[1].push({ color:'#00E63B', points:[ [46.49333,12.98645], [46.494162,12.985222] ] }); // track 1 segment 600
+					trk_segments[1].push({ color:'#00E632', points:[ [46.494162,12.985222], [46.494652,12.98472] ] }); // track 1 segment 601
+					trk_segments[1].push({ color:'#00E62D', points:[ [46.494652,12.98472], [46.494995,12.9836] ] }); // track 1 segment 602
+					trk_segments[1].push({ color:'#00E629', points:[ [46.494995,12.9836], [46.495422,12.983385] ] }); // track 1 segment 603
+					trk_segments[1].push({ color:'#00E624', points:[ [46.495422,12.983385], [46.495623,12.98302] ] }); // track 1 segment 604
+					trk_segments[1].push({ color:'#00E624', points:[ [46.495623,12.98302], [46.495785,12.982398] ] }); // track 1 segment 605
+					trk_segments[1].push({ color:'#00E624', points:[ [46.495785,12.982398], [46.49601,12.98196] ] }); // track 1 segment 606
+					trk_segments[1].push({ color:'#00E61F', points:[ [46.49601,12.98196], [46.496883,12.981105] ] }); // track 1 segment 607
+					trk_segments[1].push({ color:'#00E617', points:[ [46.496883,12.981105], [46.496563,12.98216] ] }); // track 1 segment 608
+					trk_segments[1].push({ color:'#00E609', points:[ [46.496563,12.98216], [46.496265,12.983938] ] }); // track 1 segment 609
+					trk_segments[1].push({ color:'#04E600', points:[ [46.496265,12.983938], [46.49632,12.984127] ] }); // track 1 segment 610
+					trk_segments[1].push({ color:'#04E600', points:[ [46.49632,12.984127], [46.49646,12.984208] ] }); // track 1 segment 611
+					trk_segments[1].push({ color:'#09E600', points:[ [46.49646,12.984208], [46.496767,12.98404] ] }); // track 1 segment 612
+					trk_segments[1].push({ color:'#0DE600', points:[ [46.496767,12.98404], [46.496623,12.984445] ] }); // track 1 segment 613
+					trk_segments[1].push({ color:'#12E600', points:[ [46.496623,12.984445], [46.49704,12.98435] ] }); // track 1 segment 614
+					trk_segments[1].push({ color:'#17E600', points:[ [46.49704,12.98435], [46.497572,12.983465] ] }); // track 1 segment 615
+					trk_segments[1].push({ color:'#1BE600', points:[ [46.497572,12.983465], [46.497887,12.983222] ] }); // track 1 segment 616
+					trk_segments[1].push({ color:'#1FE600', points:[ [46.497887,12.983222], [46.498147,12.983352] ] }); // track 1 segment 617
+					trk_segments[1].push({ color:'#24E600', points:[ [46.498147,12.983352], [46.498155,12.983028] ] }); // track 1 segment 618
+					trk_segments[1].push({ color:'#29E600', points:[ [46.498155,12.983028], [46.498335,12.983088] ] }); // track 1 segment 619
+					trk_segments[1].push({ color:'#29E600', points:[ [46.498335,12.983088], [46.498392,12.98338] ] }); // track 1 segment 620
+					trk_segments[1].push({ color:'#2DE600', points:[ [46.498392,12.98338], [46.498318,12.983865] ] }); // track 1 segment 621
+					trk_segments[1].push({ color:'#32E600', points:[ [46.498318,12.983865], [46.498763,12.98371] ] }); // track 1 segment 622
+					trk_segments[1].push({ color:'#36E600', points:[ [46.498763,12.98371], [46.498462,12.984315] ] }); // track 1 segment 623
+					trk_segments[1].push({ color:'#3BE600', points:[ [46.498462,12.984315], [46.498632,12.984463] ] }); // track 1 segment 624
+					trk_segments[1].push({ color:'#3FE600', points:[ [46.498632,12.984463], [46.498508,12.984757] ] }); // track 1 segment 625
+					trk_segments[1].push({ color:'#43E600', points:[ [46.498508,12.984757], [46.498333,12.984872] ] }); // track 1 segment 626
+					trk_segments[1].push({ color:'#43E600', points:[ [46.498333,12.984872], [46.498228,12.984728] ] }); // track 1 segment 627
+					trk_segments[1].push({ color:'#48E600', points:[ [46.498228,12.984728], [46.49811,12.984768] ] }); // track 1 segment 628
+					trk_segments[1].push({ color:'#48E600', points:[ [46.49811,12.984768], [46.498048,12.985542] ] }); // track 1 segment 629
+					trk_segments[1].push({ color:'#4CE600', points:[ [46.498048,12.985542], [46.49722,12.986777] ] }); // track 1 segment 630
+					trk_segments[1].push({ color:'#5AE600', points:[ [46.49722,12.986777], [46.498293,12.986412] ] }); // track 1 segment 631
+					trk_segments[1].push({ color:'#63E600', points:[ [46.498293,12.986412], [46.49852,12.986158] ] }); // track 1 segment 632
+					trk_segments[1].push({ color:'#63E600', points:[ [46.49852,12.986158], [46.498662,12.98579] ] }); // track 1 segment 633
+					trk_segments[1].push({ color:'#63E600', points:[ [46.498662,12.98579], [46.499647,12.985712] ] }); // track 1 segment 634
+					trk_segments[1].push({ color:'#71E600', points:[ [46.499647,12.985712], [46.499592,12.986253] ] }); // track 1 segment 635
+					trk_segments[1].push({ color:'#75E600', points:[ [46.499592,12.986253], [46.499148,12.986543] ] }); // track 1 segment 636
+					trk_segments[1].push({ color:'#79E600', points:[ [46.499148,12.986543], [46.49926,12.987215] ] }); // track 1 segment 637
+					trk_segments[1].push({ color:'#7EE600', points:[ [46.49926,12.987215], [46.499065,12.98794] ] }); // track 1 segment 638
+					trk_segments[1].push({ color:'#7EE600', points:[ [46.499065,12.98794], [46.49882,12.988293] ] }); // track 1 segment 639
+					trk_segments[1].push({ color:'#7EE600', points:[ [46.49882,12.988293], [46.49843,12.988407] ] }); // track 1 segment 640
+					trk_segments[1].push({ color:'#83E600', points:[ [46.49843,12.988407], [46.498378,12.98864] ] }); // track 1 segment 641
+					trk_segments[1].push({ color:'#83E600', points:[ [46.498378,12.98864], [46.497518,12.989855] ] }); // track 1 segment 642
+					trk_segments[1].push({ color:'#90E600', points:[ [46.497518,12.989855], [46.498085,12.989615] ] }); // track 1 segment 643
+					trk_segments[1].push({ color:'#99E600', points:[ [46.498085,12.989615], [46.497917,12.990103] ] }); // track 1 segment 644
+					trk_segments[1].push({ color:'#9DE600', points:[ [46.497917,12.990103], [46.497743,12.990275] ] }); // track 1 segment 645
+					trk_segments[1].push({ color:'#A2E600', points:[ [46.497743,12.990275], [46.497347,12.990292] ] }); // track 1 segment 646
+					trk_segments[1].push({ color:'#A7E600', points:[ [46.497347,12.990292], [46.497093,12.990062] ] }); // track 1 segment 647
+					trk_segments[1].push({ color:'#ABE600', points:[ [46.497093,12.990062], [46.496968,12.99043] ] }); // track 1 segment 648
+					trk_segments[1].push({ color:'#B0E600', points:[ [46.496968,12.99043], [46.497123,12.990627] ] }); // track 1 segment 649
+					trk_segments[1].push({ color:'#B0E600', points:[ [46.497123,12.990627], [46.496935,12.990845] ] }); // track 1 segment 650
+					trk_segments[1].push({ color:'#B0E600', points:[ [46.496935,12.990845], [46.496923,12.99181] ] }); // track 1 segment 651
+					trk_segments[1].push({ color:'#B8E600', points:[ [46.496923,12.99181], [46.496417,12.992272] ] }); // track 1 segment 652
+					trk_segments[1].push({ color:'#BDE600', points:[ [46.496417,12.992272], [46.496503,12.992455] ] }); // track 1 segment 653
+					trk_segments[1].push({ color:'#C2E600', points:[ [46.496503,12.992455], [46.497012,12.992467] ] }); // track 1 segment 654
+					trk_segments[1].push({ color:'#C2E600', points:[ [46.497012,12.992467], [46.498503,12.992015] ] }); // track 1 segment 655
+					trk_segments[1].push({ color:'#CFE600', points:[ [46.498503,12.992015], [46.499038,12.9916] ] }); // track 1 segment 656
+					trk_segments[1].push({ color:'#DCE600', points:[ [46.499038,12.9916], [46.499155,12.991772] ] }); // track 1 segment 657
+					trk_segments[1].push({ color:'#DCE600', points:[ [46.499155,12.991772], [46.498985,12.991903] ] }); // track 1 segment 658
+					trk_segments[1].push({ color:'#E6E100', points:[ [46.498985,12.991903], [46.498555,12.992775] ] }); // track 1 segment 659
+					trk_segments[1].push({ color:'#E6DD00', points:[ [46.498555,12.992775], [46.498335,12.994088] ] }); // track 1 segment 660
+					trk_segments[1].push({ color:'#E6D800', points:[ [46.498335,12.994088], [46.497597,12.995912] ] }); // track 1 segment 661
+					trk_segments[1].push({ color:'#E6CF00', points:[ [46.497597,12.995912], [46.49702,12.996992] ] }); // track 1 segment 662
+					trk_segments[1].push({ color:'#E6C200', points:[ [46.49702,12.996992], [46.496443,12.997595] ] }); // track 1 segment 663
+					trk_segments[1].push({ color:'#E6B400', points:[ [46.496443,12.997595], [46.49606,12.997803] ] }); // track 1 segment 664
+					trk_segments[1].push({ color:'#E6B000', points:[ [46.49606,12.997803], [46.49516,12.997642] ] }); // track 1 segment 665
+					trk_segments[1].push({ color:'#E6A700', points:[ [46.49516,12.997642], [46.494245,12.99786] ] }); // track 1 segment 666
+					trk_segments[1].push({ color:'#E69900', points:[ [46.494245,12.99786], [46.493968,12.998607] ] }); // track 1 segment 667
+					trk_segments[1].push({ color:'#E68C00', points:[ [46.493968,12.998607], [46.493618,12.998485] ] }); // track 1 segment 668
+					trk_segments[1].push({ color:'#E68C00', points:[ [46.493618,12.998485], [46.49326,12.998613] ] }); // track 1 segment 669
+					trk_segments[1].push({ color:'#E68C00', points:[ [46.49326,12.998613], [46.491205,13.002227] ] }); // track 1 segment 670
+					trk_segments[1].push({ color:'#E68300', points:[ [46.491205,13.002227], [46.490537,13.00292] ] }); // track 1 segment 671
+					trk_segments[1].push({ color:'#E68300', points:[ [46.490537,13.00292], [46.490042,13.003005] ] }); // track 1 segment 672
+					trk_segments[1].push({ color:'#E68300', points:[ [46.490042,13.003005], [46.48809,13.002848] ] }); // track 1 segment 673
+					trk_segments[1].push({ color:'#E67E00', points:[ [46.48809,13.002848], [46.487205,13.003118] ] }); // track 1 segment 674
+					trk_segments[1].push({ color:'#E67E00', points:[ [46.487205,13.003118], [46.48668,13.003537] ] }); // track 1 segment 675
+					trk_segments[1].push({ color:'#E67E00', points:[ [46.48668,13.003537], [46.485592,13.00512] ] }); // track 1 segment 676
+					trk_segments[1].push({ color:'#E67A00', points:[ [46.485592,13.00512], [46.485287,13.005843] ] }); // track 1 segment 677
+					trk_segments[1].push({ color:'#E67A00', points:[ [46.485287,13.005843], [46.4843,13.00722] ] }); // track 1 segment 678
+					trk_segments[1].push({ color:'#E67E00', points:[ [46.4843,13.00722], [46.483403,13.008767] ] }); // track 1 segment 679
+					trk_segments[1].push({ color:'#E67E00', points:[ [46.483403,13.008767], [46.482205,13.01152] ] }); // track 1 segment 680
+					trk_segments[1].push({ color:'#E67A00', points:[ [46.482205,13.01152], [46.48143,13.01481] ] }); // track 1 segment 681
+					trk_segments[1].push({ color:'#E67500', points:[ [46.48143,13.01481], [46.480868,13.016325] ] }); // track 1 segment 682
+					trk_segments[1].push({ color:'#E67100', points:[ [46.480868,13.016325], [46.479767,13.017913] ] }); // track 1 segment 683
+					trk_segments[1].push({ color:'#E67100', points:[ [46.479767,13.017913], [46.47952,13.018047] ] }); // track 1 segment 684
+					trk_segments[1].push({ color:'#E67100', points:[ [46.47952,13.018047], [46.47816,13.018223] ] }); // track 1 segment 685
+					trk_segments[1].push({ color:'#E67100', points:[ [46.47816,13.018223], [46.476112,13.021125] ] }); // track 1 segment 686
+					trk_segments[1].push({ color:'#E66C00', points:[ [46.476112,13.021125], [46.475358,13.021818] ] }); // track 1 segment 687
+					trk_segments[1].push({ color:'#E66C00', points:[ [46.475358,13.021818], [46.474025,13.022308] ] }); // track 1 segment 688
+					trk_segments[1].push({ color:'#E66300', points:[ [46.474025,13.022308], [46.473,13.022835] ] }); // track 1 segment 689
+					trk_segments[1].push({ color:'#E66300', points:[ [46.473,13.022835], [46.47224,13.022903] ] }); // track 1 segment 690
+					trk_segments[1].push({ color:'#E65F00', points:[ [46.47224,13.022903], [46.47167,13.023812] ] }); // track 1 segment 691
+					trk_segments[1].push({ color:'#E65F00', points:[ [46.47167,13.023812], [46.470055,13.025338] ] }); // track 1 segment 692
+					trk_segments[1].push({ color:'#E65A00', points:[ [46.470055,13.025338], [46.468703,13.026285] ] }); // track 1 segment 693
+					trk_segments[1].push({ color:'#E65A00', points:[ [46.468703,13.026285], [46.46542,13.027417] ] }); // track 1 segment 694
+					trk_segments[1].push({ color:'#E65100', points:[ [46.46542,13.027417], [46.464495,13.028038] ] }); // track 1 segment 695
+					trk_segments[1].push({ color:'#E65100', points:[ [46.464495,13.028038], [46.464212,13.02788] ] }); // track 1 segment 696
+					trk_segments[1].push({ color:'#E65100', points:[ [46.464212,13.02788], [46.462908,13.02593] ] }); // track 1 segment 697
+					trk_segments[1].push({ color:'#E64D00', points:[ [46.462908,13.02593], [46.462688,13.02586] ] }); // track 1 segment 698
+					trk_segments[1].push({ color:'#E64D00', points:[ [46.462688,13.02586], [46.45971,13.02675] ] }); // track 1 segment 699
+					trk_segments[1].push({ color:'#E64800', points:[ [46.45971,13.02675], [46.457832,13.026607] ] }); // track 1 segment 700
+					trk_segments[1].push({ color:'#E64400', points:[ [46.457832,13.026607], [46.45705,13.027033] ] }); // track 1 segment 701
+					trk_segments[1].push({ color:'#E64400', points:[ [46.45705,13.027033], [46.456192,13.026938] ] }); // track 1 segment 702
+					trk_segments[1].push({ color:'#E63F00', points:[ [46.456192,13.026938], [46.453068,13.02831] ] }); // track 1 segment 703
+					trk_segments[1].push({ color:'#E63F00', points:[ [46.453068,13.02831], [46.448817,13.028788] ] }); // track 1 segment 704
+					trk_segments[1].push({ color:'#E63600', points:[ [46.448817,13.028788], [46.448327,13.029093] ] }); // track 1 segment 705
+					trk_segments[1].push({ color:'#E63600', points:[ [46.448327,13.029093], [46.44709,13.031178] ] }); // track 1 segment 706
+					trk_segments[1].push({ color:'#E63600', points:[ [46.44709,13.031178], [46.445647,13.032255] ] }); // track 1 segment 707
+					trk_segments[1].push({ color:'#E63200', points:[ [46.445647,13.032255], [46.44261,13.032042] ] }); // track 1 segment 708
+					trk_segments[1].push({ color:'#E63200', points:[ [46.44261,13.032042], [46.441622,13.031425] ] }); // track 1 segment 709
+					trk_segments[1].push({ color:'#E62D00', points:[ [46.441622,13.031425], [46.441412,13.031157] ] }); // track 1 segment 710
+					trk_segments[1].push({ color:'#E62D00', points:[ [46.441412,13.031157], [46.441062,13.029982] ] }); // track 1 segment 711
+					trk_segments[1].push({ color:'#E62D00', points:[ [46.441062,13.029982], [46.440425,13.029263] ] }); // track 1 segment 712
+					trk_segments[1].push({ color:'#E62D00', points:[ [46.440425,13.029263], [46.439652,13.028122] ] }); // track 1 segment 713
+					trk_segments[1].push({ color:'#E63200', points:[ [46.439652,13.028122], [46.438602,13.027467] ] }); // track 1 segment 714
+					trk_segments[1].push({ color:'#E63200', points:[ [46.438602,13.027467], [46.43732,13.025688] ] }); // track 1 segment 715
+					trk_segments[1].push({ color:'#E63200', points:[ [46.43732,13.025688], [46.436887,13.024453] ] }); // track 1 segment 716
+					trk_segments[1].push({ color:'#E63200', points:[ [46.436887,13.024453], [46.436688,13.024227] ] }); // track 1 segment 717
+					trk_segments[1].push({ color:'#E63200', points:[ [46.436688,13.024227], [46.436108,13.023922] ] }); // track 1 segment 718
+					trk_segments[1].push({ color:'#E63200', points:[ [46.436108,13.023922], [46.434648,13.023872] ] }); // track 1 segment 719
+					trk_segments[1].push({ color:'#E63600', points:[ [46.434648,13.023872], [46.433932,13.023437] ] }); // track 1 segment 720
+					trk_segments[1].push({ color:'#E63200', points:[ [46.433932,13.023437], [46.432327,13.021267] ] }); // track 1 segment 721
+					trk_segments[1].push({ color:'#E62900', points:[ [46.432327,13.021267], [46.431782,13.020948] ] }); // track 1 segment 722
+					trk_segments[1].push({ color:'#E62900', points:[ [46.431782,13.020948], [46.431183,13.019765] ] }); // track 1 segment 723
+					trk_segments[1].push({ color:'#E62400', points:[ [46.431183,13.019765], [46.430112,13.01912] ] }); // track 1 segment 724
+					trk_segments[1].push({ color:'#E61F00', points:[ [46.430112,13.01912], [46.428225,13.017488] ] }); // track 1 segment 725
+					trk_segments[1].push({ color:'#E61F00', points:[ [46.428225,13.017488], [46.427517,13.01671] ] }); // track 1 segment 726
+					trk_segments[1].push({ color:'#E61F00', points:[ [46.427517,13.01671], [46.427135,13.016122] ] }); // track 1 segment 727
+					trk_segments[1].push({ color:'#E61F00', points:[ [46.427135,13.016122], [46.426365,13.014367] ] }); // track 1 segment 728
+					trk_segments[1].push({ color:'#E61F00', points:[ [46.426365,13.014367], [46.425485,13.012953] ] }); // track 1 segment 729
+					trk_segments[1].push({ color:'#E61B00', points:[ [46.425485,13.012953], [46.424933,13.012295] ] }); // track 1 segment 730
+					trk_segments[1].push({ color:'#E61B00', points:[ [46.424933,13.012295], [46.424248,13.011952] ] }); // track 1 segment 731
+					trk_segments[1].push({ color:'#E61600', points:[ [46.424248,13.011952], [46.423097,13.011873] ] }); // track 1 segment 732
+					trk_segments[1].push({ color:'#E61200', points:[ [46.423097,13.011873], [46.422603,13.011487] ] }); // track 1 segment 733
+					trk_segments[1].push({ color:'#E61200', points:[ [46.422603,13.011487], [46.421722,13.010298] ] }); // track 1 segment 734
+					trk_segments[1].push({ color:'#E61200', points:[ [46.421722,13.010298], [46.418817,13.008092] ] }); // track 1 segment 735
+					trk_segments[1].push({ color:'#E60E00', points:[ [46.418817,13.008092], [46.416497,13.007535] ] }); // track 1 segment 736
+					trk_segments[1].push({ color:'#E61200', points:[ [46.416497,13.007535], [46.415168,13.005022] ] }); // track 1 segment 737
+					trk_segments[1].push({ color:'#E61F00', points:[ [46.415168,13.005022], [46.415,13.006568] ] }); // track 1 segment 738
+					trk_segments[1].push({ color:'#E61B00', points:[ [46.415,13.006568], [46.4146,13.006983] ] }); // track 1 segment 739
+					trk_segments[1].push({ color:'#E60E00', points:[ [46.4146,13.006983], [46.412703,13.006122] ] }); // track 1 segment 740
+					trk_segments[1].push({ color:'#E60500', points:[ [46.412703,13.006122], [46.410987,13.00433] ] }); // track 1 segment 741
+					trk_segments[1].push({ color:'#E60500', points:[ [46.410987,13.00433], [46.410643,13.003633] ] }); // track 1 segment 742
+					trk_segments[1].push({ color:'#E60900', points:[ [46.410643,13.003633], [46.409987,13.003058] ] }); // track 1 segment 743
+					trk_segments[1].push({ color:'#E60900', points:[ [46.409987,13.003058], [46.409307,13.001343] ] }); // track 1 segment 744
+					trk_segments[1].push({ color:'#E60500', points:[ [46.409307,13.001343], [46.408783,13.001002] ] }); // track 1 segment 745
+					trk_segments[1].push({ color:'#E60900', points:[ [46.408783,13.001002], [46.408788,13.000795] ] }); // track 1 segment 746
+					trk_segments[1].push({ color:'#E60900', points:[ [46.408788,13.000795], [46.408102,12.999255] ] }); // track 1 segment 747
+					trk_segments[1].push({ color:'#E60500', points:[ [46.408102,12.999255], [46.407848,12.997873] ] }); // track 1 segment 748
+					trk_segments[1].push({ color:'#E60500', points:[ [46.407848,12.997873], [46.407808,12.996365] ] }); // track 1 segment 749
+					trk_segments[1].push({ color:'#E60000', points:[ [46.407808,12.996365], [46.407335,12.994173] ] }); // track 1 segment 750
+					trk_segments[1].push({ color:'#E60500', points:[ [46.407335,12.994173], [46.407432,12.993307] ] }); // track 1 segment 751
+					trk_segments[1].push({ color:'#E60500', points:[ [46.407432,12.993307], [46.407273,12.99241] ] }); // track 1 segment 752
+					trk_segments[1].push({ color:'#E60000', points:[ [46.407273,12.99241], [46.407468,12.991548] ] }); // track 1 segment 753
+					trk_segments[1].push({ color:'#E60000', points:[ [46.407468,12.991548], [46.407348,12.990592] ] }); // track 1 segment 754
+					trk_segments[1].push({ color:'#E60500', points:[ [46.407348,12.990592], [46.406918,12.98889] ] }); // track 1 segment 755
+					trk_segments[1].push({ color:'#E60500', points:[ [46.406918,12.98889], [46.406992,12.987375] ] }); // track 1 segment 756
+					trk_segments[1].push({ color:'#E60900', points:[ [46.406992,12.987375], [46.406925,12.986125] ] }); // track 1 segment 757
+					trk_segments[1].push({ color:'#E60900', points:[ [46.406925,12.986125], [46.407023,12.985228] ] }); // track 1 segment 758
+					trk_segments[1].push({ color:'#E60500', points:[ [46.407023,12.985228], [46.40727,12.984557] ] }); // track 1 segment 759
+					trk_segments[1].push({ color:'#E60900', points:[ [46.40727,12.984557], [46.407365,12.983898] ] }); // track 1 segment 760
+					trk_segments[1].push({ color:'#E60E00', points:[ [46.407365,12.983898], [46.407208,12.983078] ] }); // track 1 segment 761
+					trk_segments[1].push({ color:'#E60E00', points:[ [46.407208,12.983078], [46.407232,12.982338] ] }); // track 1 segment 762
+					trk_segments[1].push({ color:'#E60E00', points:[ [46.407232,12.982338], [46.407503,12.981083] ] }); // track 1 segment 763
+					trk_segments[1].push({ color:'#E61200', points:[ [46.407503,12.981083], [46.408055,12.97993] ] }); // track 1 segment 764
+					trk_segments[1].push({ color:'#E61B00', points:[ [46.408055,12.97993], [46.408183,12.978683] ] }); // track 1 segment 765
+					trk_segments[1].push({ color:'#E61B00', points:[ [46.408183,12.978683], [46.408598,12.977077] ] }); // track 1 segment 766
+					trk_segments[1].push({ color:'#E61600', points:[ [46.408598,12.977077], [46.4086,12.976488] ] }); // track 1 segment 767
+					trk_segments[1].push({ color:'#E61600', points:[ [46.4086,12.976488], [46.408272,12.97541] ] }); // track 1 segment 768
+					trk_segments[1].push({ color:'#E61600', points:[ [46.408272,12.97541], [46.4086,12.973503] ] }); // track 1 segment 769
+					trk_segments[1].push({ color:'#E61600', points:[ [46.4086,12.973503], [46.408977,12.972422] ] }); // track 1 segment 770
+					trk_segments[1].push({ color:'#E60E00', points:[ [46.408977,12.972422], [46.409185,12.971242] ] }); // track 1 segment 771
+					trk_segments[1].push({ color:'#E61200', points:[ [46.409185,12.971242], [46.409775,12.968992] ] }); // track 1 segment 772
+					trk_segments[1].push({ color:'#E60900', points:[ [46.409775,12.968992], [46.410615,12.966805] ] }); // track 1 segment 773
+					trk_segments[1].push({ color:'#E60E00', points:[ [46.410615,12.966805], [46.411617,12.96523] ] }); // track 1 segment 774
+					trk_segments[1].push({ color:'#E61200', points:[ [46.411617,12.96523], [46.411948,12.96445] ] }); // track 1 segment 775
+					trk_segments[1].push({ color:'#E61200', points:[ [46.411948,12.96445], [46.411945,12.96371] ] }); // track 1 segment 776
+					trk_segments[1].push({ color:'#E61600', points:[ [46.411945,12.96371], [46.412108,12.962587] ] }); // track 1 segment 777
+					trk_segments[1].push({ color:'#E61200', points:[ [46.412108,12.962587], [46.412038,12.961853] ] }); // track 1 segment 778
+					trk_segments[1].push({ color:'#E61200', points:[ [46.412038,12.961853], [46.411008,12.9592] ] }); // track 1 segment 779
+					trk_segments[1].push({ color:'#E60E00', points:[ [46.411008,12.9592], [46.410902,12.956122] ] }); // track 1 segment 780
+					trk_segments[1].push({ color:'#E60E00', points:[ [46.410902,12.956122], [46.410953,12.954382] ] }); // track 1 segment 781
+					trk_segments[1].push({ color:'#E60900', points:[ [46.410953,12.954382], [46.410837,12.953162] ] }); // track 1 segment 782
+					trk_segments[1].push({ color:'#E60E00', points:[ [46.410837,12.953162], [46.410507,12.951765] ] }); // track 1 segment 783
+					trk_segments[1].push({ color:'#E60E00', points:[ [46.410507,12.951765], [46.410422,12.951022] ] }); // track 1 segment 784
+					trk_segments[1].push({ color:'#E61200', points:[ [46.410422,12.951022], [46.410495,12.94878] ] }); // track 1 segment 785
+					trk_segments[1].push({ color:'#E61200', points:[ [46.410495,12.94878], [46.411187,12.94729] ] }); // track 1 segment 786
+					trk_segments[1].push({ color:'#E61200', points:[ [46.411187,12.94729], [46.411408,12.946037] ] }); // track 1 segment 787
+					trk_segments[1].push({ color:'#E61200', points:[ [46.411408,12.946037], [46.411927,12.944862] ] }); // track 1 segment 788
+					trk_segments[1].push({ color:'#E61600', points:[ [46.411927,12.944862], [46.412402,12.942947] ] }); // track 1 segment 789
+					trk_segments[1].push({ color:'#E61600', points:[ [46.412402,12.942947], [46.412152,12.938318] ] }); // track 1 segment 790
+					trk_segments[1].push({ color:'#E61B00', points:[ [46.412152,12.938318], [46.412773,12.935843] ] }); // track 1 segment 791
+					trk_segments[1].push({ color:'#E61B00', points:[ [46.412773,12.935843], [46.413733,12.933067] ] }); // track 1 segment 792
+					trk_segments[1].push({ color:'#E61600', points:[ [46.413733,12.933067], [46.415202,12.930453] ] }); // track 1 segment 793
+					trk_segments[1].push({ color:'#E61F00', points:[ [46.415202,12.930453], [46.41557,12.929223] ] }); // track 1 segment 794
+					trk_segments[1].push({ color:'#E61F00', points:[ [46.41557,12.929223], [46.415773,12.925733] ] }); // track 1 segment 795
+					trk_segments[1].push({ color:'#E62400', points:[ [46.415773,12.925733], [46.416045,12.924488] ] }); // track 1 segment 796
+					trk_segments[1].push({ color:'#E61F00', points:[ [46.416045,12.924488], [46.416397,12.923837] ] }); // track 1 segment 797
+					trk_segments[1].push({ color:'#E61F00', points:[ [46.416397,12.923837], [46.41662,12.923832] ] }); // track 1 segment 798
+					trk_segments[1].push({ color:'#E61F00', points:[ [46.41662,12.923832], [46.417137,12.922888] ] }); // track 1 segment 799
+					GV_Draw_Track(1);
+					
+					GV_Add_Track_to_Tracklist({bullet:'- ',name:trk_info[1]['name'],desc:trk_info[1]['desc'],color:trk_info[1]['color'],id:"trk[1]"});
+					
+					
+					GV_Draw_Marker({lat:46.4163690,lon:12.9237990,name:'Villa Santina (362)',desc:'',color:'',icon:'http://dl.dropbox.com/u/11531008/Picture/scenic.png',url:'http://en.wikipedia.org/wiki/Villa_Santina',thumbnail:'http://www.cosint.it/uploaded_files/attachments/200710101192024512/Villa-Santina1.jpg',thumbnail_width:80,photo:'http://www.cosint.it/uploaded_files/attachments/200710101192024512/Villa-Santina1.jpg',photo_size:[372,209],icon_size:[21,31],scale:0.7});
+					GV_Draw_Marker({lat:46.4231480,lon:12.9330650,name:'Lauco (719)',desc:'',color:'',icon:'http://dl.dropbox.com/u/11531008/Picture/scenic.png',url:'http://it.wikipedia.org/wiki/Lauco',thumbnail:'http://www.mobbing-sisu.com/carnia/galleria%20fotografica/lauco2.JPG',thumbnail_width:80,photo:'http://www.mobbing-sisu.com/carnia/galleria%20fotografica/lauco2.JPG',photo_size:[362,271],icon_size:[21,31],scale:0.7});
+					GV_Draw_Marker({lat:46.4617800,lon:12.9341520,name:'Val di Lauco (1182)',desc:'',color:'',icon:'http://dl.dropbox.com/u/11531008/Picture/scenic.png',url:'http://www.climbbybike.com/climb.asp?Col=Val-di-Lauco&qryMountainID=3783',thumbnail:'http://commondatastorage.googleapis.com/static.panoramio.com/photos/original/3702967.jpg',thumbnail_width:80,photo:'http://commondatastorage.googleapis.com/static.panoramio.com/photos/original/3702967.jpg',photo_size:[387,259],icon_size:[21,31],scale:0.7});
+					GV_Draw_Marker({lat:46.4822210,lon:12.9531670,name:'Malga Meleit (1536)',desc:'',color:'',icon:'http://dl.dropbox.com/u/11531008/Picture/scenic.png',url:'http://www.ersa.fvg.it/tematiche/settore-lattiero-caseario/malghe-da-formaggio-del-friuli-venezia-giulia/plonearticlemultipage.2008-06-05.4600477024/copy_of_lav',thumbnail:'http://lh3.ggpht.com/_xjcsBqp9Ds0/SFA4t6CfoHI/AAAAAAAAJy0/x07fDfcTKqY/IMGP5064.jpg',thumbnail_width:80,photo:'http://lh3.ggpht.com/_xjcsBqp9Ds0/SFA4t6CfoHI/AAAAAAAAJy0/x07fDfcTKqY/IMGP5064.jpg',photo_size:[320,213],icon_size:[21,31],scale:0.7});
+					GV_Draw_Marker({lat:46.4977140,lon:12.9423730,name:'Malga Tamai (1594)',desc:'',color:'',icon:'http://dl.dropbox.com/u/11531008/Picture/scenic.png',url:'http://www.sentierinatura.it/EasyNET/Frameset.asp?Code=sentierinatura&Page=FormDOC&IDD=404&FROMSTART=TRUE',thumbnail:'http://lh3.ggpht.com/_xjcsBqp9Ds0/SFA4t6CfoHI/AAAAAAAAJy0/x07fDfcTKqY/IMGP5064.jpg',thumbnail_width:80,photo:'http://lh3.ggpht.com/_xjcsBqp9Ds0/SFA4t6CfoHI/AAAAAAAAJy0/x07fDfcTKqY/IMGP5064.jpg',photo_size:[320,240],icon_size:[21,31],scale:0.7});
+					GV_Draw_Marker({lat:46.4823000,lon:12.9363260,name:'Mt. Arvenis (1968)',desc:'Mt. Arvesis (1968)',color:'',icon:'http://dl.dropbox.com/u/11531008/Picture/scenic.png',url:'http://www.sentierinatura.it/EasyNET/Frameset.asp?Code=sentierinatura&Page=FormDOC&IDD=407&FROMSTART=TRUE',thumbnail:'http://images.summitpost.org/original/852960.jpg',thumbnail_width:80,photo:'http://images.summitpost.org/original/852960.jpg',photo_size:[360,270],icon_size:[21,31],scale:0.7});
+					GV_Draw_Marker({lat:46.4905670,lon:12.9372510,name:'Mt. Tamai (1970)',desc:'',color:'',icon:'http://dl.dropbox.com/u/11531008/Picture/scenic.png',url:'http://it.wikipedia.org/wiki/Monte_Tamai',thumbnail:'http://lh6.ggpht.com/_xjcsBqp9Ds0/SFA4yqCfoJI/AAAAAAAAJzE/gKh_0tmW_Pc/s720/IMGP5030.jpg',thumbnail_width:80,photo:'http://lh6.ggpht.com/_xjcsBqp9Ds0/SFA4yqCfoJI/AAAAAAAAJzE/gKh_0tmW_Pc/s720/IMGP5030.jpg',photo_size:[324,216],icon_size:[21,31],scale:0.7});
+					GV_Draw_Marker({lat:46.5017830,lon:12.9265700,name:'Mt. Zoncolan (1730)',desc:'',color:'',icon:'http://dl.dropbox.com/u/11531008/Picture/scenic.png',url:'http://en.wikipedia.org/wiki/Monte_Zoncolan',thumbnail:'http://www.ingam.com/uploads/images/Foto%20Passi/Passo%20Monte%20Zoncolan.jpg',thumbnail_width:80,photo:'http://www.ingam.com/uploads/images/Foto%20Passi/Passo%20Monte%20Zoncolan.jpg',photo_size:[360,238],icon_size:[21,31],scale:0.7});
+					GV_Draw_Marker({lat:46.4775790,lon:12.9703150,name:'Mt. Dauda (1765)',desc:'',color:'',icon:'http://dl.dropbox.com/u/11531008/Picture/scenic.png',url:'http://www.sentierinatura.it/EasyNET/Frameset.asp?Code=sentierinatura&Page=FormDOC&IDD=270&FROMSTART=TRUE',thumbnail:'http://lh4.ggpht.com/_xjcsBqp9Ds0/SFA49KCfoNI/AAAAAAAAJzs/_9N8qsTSJ0g/s720/IMGP4995.jpg',thumbnail_width:80,photo:'http://lh4.ggpht.com/_xjcsBqp9Ds0/SFA49KCfoNI/AAAAAAAAJzs/_9N8qsTSJ0g/s720/IMGP4995.jpg',photo_size:[360,240],icon_size:[21,31],scale:0.7});
+					GV_Draw_Marker({lat:46.4793950,lon:12.9796310,name:'Malga Dauda (1413)',desc:'Malga Tamai (1413)',color:'',icon:'http://dl.dropbox.com/u/11531008/Picture/scenic.png',url:'http://www.carniaemountainbike.com/galleria_fotografica.asp?IDprogetto=14',thumbnail:'http://lh4.ggpht.com/_xjcsBqp9Ds0/SFA4cKCfoBI/AAAAAAAAJyE/EbPr2JMJvTo/s720/IMGP5092.jpg',thumbnail_width:80,photo:'http://lh4.ggpht.com/_xjcsBqp9Ds0/SFA4cKCfoBI/AAAAAAAAJyE/EbPr2JMJvTo/s720/IMGP5092.jpg',photo_size:[360,240],icon_size:[21,31],scale:0.7});
+					GV_Draw_Marker({lat:46.4726050,lon:13.0247770,name:'Arta Terme (460)',desc:'',color:'',icon:'http://dl.dropbox.com/u/11531008/Picture/scenic.png',url:'http://it.wikipedia.org/wiki/Arta_Terme',thumbnail:'http://www.paesionline.it/foto_italia/DD2061_arta_terme_veduta.jpg',thumbnail_width:80,photo:'http://www.paesionline.it/foto_italia/DD2061_arta_terme_veduta.jpg',photo_size:[330,229],icon_size:[21,31],scale:0.7});
+					GV_Draw_Marker({lat:46.4626870,lon:13.0255240,name:'Zuglio (402)',desc:'',color:'',icon:'http://dl.dropbox.com/u/11531008/Picture/scenic.png',url:'http://it.wikipedia.org/wiki/Zuglio',thumbnail:'http://upload.wikimedia.org/wikipedia/it/9/93/Valle_But.jpg',thumbnail_width:80,photo:'http://upload.wikimedia.org/wikipedia/it/9/93/Valle_But.jpg',photo_size:[360,270],icon_size:[21,31],scale:0.7});
+					GV_Draw_Marker({lat:46.4056250,lon:13.0149300,name:'Tolmezzo (320)',desc:'',color:'',icon:'http://dl.dropbox.com/u/11531008/Picture/scenic.png',url:'http://en.wikipedia.org/wiki/Tolmezzo',thumbnail:'http://www.uibk.ac.at/diamont/graphics/Tolmezzo.jpg',thumbnail_width:80,photo:'http://www.uibk.ac.at/diamont/graphics/Tolmezzo.jpg',photo_size:[333,250],icon_size:[21,31],scale:0.7});
+					
+				
+					GV_Finish_Map(gv_options);
+					
+				} else {
+					document.getElementById('gmap_div').style.backgroundColor = '#DDDDDD';
+					document.getElementById('gmap_div').innerHTML = 'Sorry, your Google Map cannot be displayed.';
+				}
+			}
+			GV_Map(); // execute the above code
+		</script>
+		
+		
+	</body>
+
+</html>
