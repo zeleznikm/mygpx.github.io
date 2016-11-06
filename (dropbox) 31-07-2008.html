@@ -1,0 +1,974 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+	<head>
+		<base target="_top"></base>
+		<title>PG-Pasja ravan-Poljane-Gorenja Vas-Kurja Vas-Smre&#269;je-Sv 3. Kralji-&#352;entjo&#353;t-Horjul-Prosca-PG</title>
+	</head>
+	<body onunload="GUnload();">
+		
+		
+		<!--
+			If you want to transplant this map into another Web page, the easiest way to do it is to
+			simply include it in a IFRAME tag (see http://www.gpsvisualizer.com/faq.html#google_html).
+			But, if you must paste the code into another page, be sure to include all of these parts:
+			   1. The DOCTYPE declaration and the extra attributes in the "html" tag (xmlns:v=...)
+			     that allow Internet Explorer for Windows to render polylines (tracks)
+			   2. The "div" tags that contain the map and its widgets
+			   3. Three sections of JavaScript code:
+			      a. Your Google Maps API key and the maps.google.com code
+			      b. "gv_options" and the code that calls "functions.js" on maps.gpsvisualizer.com
+			      c. The "GV_Map" function, which contains all the geographic info for the map
+		-->
+		<div style="margin-left:0px; margin-right:0px; margin-top:0px; margin-bottom:0px;">
+			<div id="gmap_div" style="width:865px; height:640px; margin:0px; margin-right:12px; background-color:#F0F0F0; float:left; overflow:hidden;">
+				<p align="center" style="font:10px Arial;">This map was created using <a target="_blank" href="http://www.gpsvisualizer.com/">GPS Visualizer</a>'s do-it-yourself geographic utilities.<br><br>Please wait while the map data loads...</p>
+			</div>
+				
+			<div id="gv_legend_container" style="display:none;">
+				<table id="gv_legend_table" style="position:relative; filter:alpha(opacity=95); -moz-opacity:0.95;" cellpadding="0" cellspacing="0" border="0"><tr><td>
+					<div id="gv_legend_handle" align="center" style="height:6px; max-height:6px; background:#CCCCCC; border-left:1px solid #999999; border-top:1px solid #EEEEEE; border-right:1px solid #999999; padding:0px; cursor:move;"><!-- --></div>
+					<div id="gv_legend" align="left" style="font-family:Arial; font-size:11px; line-height:13px; border:solid #000000 1px; background:#FFFFFF; padding:4px;">
+							<div id="gv_legend_header" style="padding-bottom:2px;"><b>Elevation (m)</b></div>
+						<div class="gv_legend_item"><span style="color:#E600E6;">975</span></div>
+						<div class="gv_legend_item"><span style="color:#0000E6;">849</span></div>
+						<div class="gv_legend_item"><span style="color:#00E6E6;">722</span></div>
+						<div class="gv_legend_item"><span style="color:#00E600;">596</span></div>
+						<div class="gv_legend_item"><span style="color:#E6E600;">470</span></div>
+						<div class="gv_legend_item"><span style="color:#E60000;">344</span></div>
+					</div>
+				</td></tr></table>
+			</div>
+
+			<div id="gv_tracklist_container" style="display:none;">
+				<table id="gv_tracklist_table" style="position:relative; filter:alpha(opacity=95); -moz-opacity:0.95;" cellpadding="0" cellspacing="0" border="0"><tr><td>
+					<div id="gv_tracklist_handle" align="center" style="height:6px; max-height:6px; background:#CCCCCC; border-left:1px solid #999999; border-top:1px solid #EEEEEE; border-right:1px solid #999999; padding:0px; cursor:move;"><!-- --></div>
+					<div id="gv_tracklist" align="left" style="font-family:Arial; font-size:11px; line-height:11px; border:solid #000000 1px; background:#FFFFFF; padding:4px; overflow:auto;">
+						<div id="gv_tracklist_header" style="padding-bottom:2px; color:#000000;"><b>Tracks:</b></div>
+						<div id="gv_tracklist_links" style="color:#000000;"></div>
+					</div>
+				</td></tr></table>
+			</div>
+			<div id="gv_tracklist_tooltip" class="gv_tracklist_tooltip" style="background-color:#FFFFFF; border:1px solid #CCCCCC; padding:2px; font-family:Arial; font-size:11px; display:none;"></div>
+
+			<div id="gv_marker_list_container" style="display:none;">
+				<table id="gv_marker_list_table" style="position:relative; filter:alpha(opacity=95); -moz-opacity:0.95;" cellspacing="0" cellpadding="0" border="0"><tr><td>
+					<div id="gv_marker_list_handle" align="center" style="height:6px; max-height:6px; background:#CCCCCC; border-left:1px solid #999999; border-top:1px solid #EEEEEE; border-right:1px solid #999999; padding:0px; cursor:move;"><!-- --></div>
+					<div id="gv_marker_list" align="left" class="gv_marker_list" style="overflow:auto; background:#FFFFFF; border:solid #666666 1px; padding:4px;"></div>
+				</td></tr></table>
+			</div>
+			
+			<div id="gv_marker_list_static" align="left" class="gv_marker_list" style="width:160px; height:578px; overflow:auto; display:none;"></div>
+			<div id="gv_clear_margins" style="height:0px; clear:both;"><!-- clear the "float" --></div>
+		</div>
+
+		
+		<script type="text/javascript">
+			// If you put this map on another Web site, you must include your API key or nothing will work!
+			var google_api_key = 'AIzaSyCsFAnCAlLZZmUU2l0gW8joBqVOhEPsuuA';
+			if (document.location.toString().indexOf('http://www.gpsvisualizer.com') > -1) { eval(unescape("%67%6F%6F%67%6C%65%5F%61%70%69%5F%6B%65%79")+" = '"+unescape("%41%42%51%49%41%41%41%41%61%47%39%4A%44%62%43%65%36%52%61%31%4F%67%30%68%4B%43%6E%32%4C%52%52%6F%6B%57%5F%49%74%45%49%6D%42%6F%37%65%77%62%56%45%4A%41%7A%73%74%53%73%52%57%68%52%4A%33%52%4D%44%41%57%70%4C%35%35%51%61%63%47%5A%32%7A%51%46%32%6B%4C%43%5F%65%41")+"'"); }
+			document.writeln('<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3&libraries=geometry&sensor=false'+((self.google_api_key&&document.location.toString().indexOf('file://')!=0)?'&key='+google_api_key:'')+'"><'+'/script>');
+		</script>
+		<!-- end Google Maps script; begin GPS Visualizer setup script (they must be separate) -->
+		<script type="text/javascript">
+			/* Global variables used by the GPS Visualizer functions (1217576091): */
+			gv_options = new Array(); gv_options = {
+				// important variable names:
+				map:'gmap', map_div:'gmap_div', marker_array:'wpts', track_array:'trk', track_info_array:'trk_info', // probably 'gmap','gmap_div','wpts','trk','trk_info'
+				
+				// basic map parameters:
+				full_screen:false,              // should the map fill the entire page (or frame)?
+				center:[46.06506,14.2431135], // latitude,longitude - be sure to keep the square brackets
+				zoom:12,                        // higher number means closer view; at 600px wide, 7 = width of New Mexico, 12 = width of San Francisco
+				map_opacity:1, map_type:'G_HYBRID_MAP', // opacity is from 0 to 1; popular map_type choices are 'G_NORMAL_MAP', 'G_SATELLITE_MAP', 'G_HYBRID_MAP', 'G_PHYSICAL_MAP', 'USGS_TOPO_TILES'
+				doubleclick_zoom:true, mousewheel_zoom:false, // true or false; or, value of 'reverse' for mousewheel_zoom makes down=in and up=out
+				
+				// widgets on the map:
+				map_type_control:{ // style: 'menu', 'list', 'none', or 'google'; filter: when map loads, are irrelevant maps ignored?; excluded: list of map types that will never show in the list, e.g., ['USGS_TOPO_TILES','USGS_AERIAL_TILES','NRCAN_TOPO_TILES','NRCAN_TOPO_NAMES_TILES','LANDSAT_TILES','BLUEMARBLE_TILES','DAILY_TERRA_TILES','DAILY_AQUA_TILES']
+					style:'menu', filter:true, excluded:[]
+				},
+				zoom_control:'large', scale_control:true, map_opacity_control:true, // zoom is 'large' or 'small', scale and opacity are true or false
+				center_coordinates:true, crosshair_hidden:true, // true or false: Show a "center coordinates" box and crosshair? Hide the crosshair initially?
+				legend_options:{ // position: [Google anchor, x, y]; id: id of a DIV tag that holds the legend (other associated DIVs -- e.g., _handle, _table, -container -- must be similarly named)
+					legend:true, id:'gv_legend', position:['G_ANCHOR_BOTTOM_LEFT',4,60], draggable:true, collapsible:true
+				},
+				
+				// marker-related options:
+				default_marker:{ color:'red',icon:'googlemini' }, // icon can be a URL, but be sure to also include size:[w,h] and optionally anchor:[x,y]
+				icon_directory:'https://dl.dropboxusercontent.com/u/11531008/Icons/', // don't change this unless you really know what you're doing
+				marker_link_target:'_blank',    // the name of the window or frame into which markers' URLs will load
+				info_window_width:0, thumbnail_width:0, // in pixels, the width of the markers' info windows or thumbnails; 0 for default (override with window_width: or thumbnail_width: in an individual marker's options)
+				hide_labels:false, label_offset:[0,0], label_centered:false, // hide_labels causes the "permanent" labels to be hidden at first; global label_offset setting is [x,y] (positive numbers are right and down)
+				driving_directions:false,       // put a small "driving directions" form in each marker's pop-up window? (override with dd:true or dd:false in the marker's options)
+				marker_filter_options:{ // options for removing waypoints that are out of the current view
+					filter:false, limit:0, update_list:true, sort_list_by_distance:false, min_zoom:0, zoom_message:''
+				},
+				marker_list_options:{ // options for a dynamically-created list of markers
+					list:false, id_floating:'gv_marker_list', id_static:'gv_marker_list_static', // id_static: id of a DIV with a non-floating list; id_floating: id of a DIV tag that holds a floating list (other associated DIVs -- _handle, _table, _container -- must be similarly named)
+					floating:false, position:['G_ANCHOR_TOP_RIGHT',6,112], width:160, height:394, draggable:true, collapsible:true, // these only affect a "floating" list
+					colors:false, default_color:'', icons:true, desc:false, dividers:false, thumbnails:false, wrap_names:false, limit:0, // overall appearance of the list items
+					center:false, zoom:false, zoom_level:15, info_window:true, toggle:false, url_links:false, help_tooltips:false, // these define what happens when you click on an item in the list ("toggle" affects only the text)
+					header:'',footer:'',folders_collapsed:false,include_tickmarks:false,include_trackpoints:false // header & footer are HTML snippets
+				},
+				
+				// track-related options:
+				filter_tracks:false,            // should out-of-the-viewport tracks be hidden?
+				tracklist_options:{             // position: [Google anchor, x, y]; id: id of a DIV tag that holds the track list (other associated DIVs -- e.g., _handle, _table, -container -- must be similarly named)
+					tracklist:true, id:'gv_tracklist', position:['G_ANCHOR_TOP_RIGHT',6,32], desc:true, max_width:180, max_height:488, draggable:true, collapsible:true
+				},
+
+				zzz:false // this is just here to prevent possible "hanging comma" JS errors
+			};
+			// Load GPS Visualizer's Google Maps functions (this must be loaded AFTER gv_options are set):
+			document.writeln('<script src="https://gpsvisualizer.github.io/google_maps/functions3.js" type="text/javascript"><'+'/'+'script>');
+		</script>
+		<style type="text/css">
+			/* Put any custom style definitions here (e.g., .gv_marker_list_item, .gv_tooltip, .gv_label, .gv_wpt, etc.) */
+			.gv_label {
+				filter:alpha(opacity=90); -moz-opacity:0.9; background:#333333; border:1px solid black;
+				padding:1px; text-align:left; white-space:nowrap;
+				font:9px Verdana,sans-serif; color:white;
+			}
+			
+		</style>
+		<!-- end GPSV setup script and styles; begin map-drawing script (they must be separate) -->
+		<script type="text/javascript">
+			function GV_Map() {
+				if (GBrowserIsCompatible()) { 
+					if (gv_options['full_screen']) { GV_Fill_Window_With_Map(gv_options['map_div']); }
+					gmap = new GMap2(document.getElementById(gv_options['map_div'])); // create map
+					GV_Setup_Map(gv_options);
+					
+					trk = new Array(); trk_info = new Array();
+					
+					// Setup track #1 ("PG-Pasja ravan-Poljane-Gorenja Vas-Kurja Vas-Smre&#232;je-Sv 3. Kralji-&#138;entjo&#154;t-Horjul-Prosca-PG")
+					trk[1] = []; trk_info[1] = {
+						name:'PG-Pasja ravan-Poljane-Gorenja Vas-Kurja Vas-Smre&#232;je-Sv 3. Kralji-&#138;entjo&#154;t-Horjul-Prosca-PG', desc:'',
+						color:'#E60000', width:2, opacity:0.8,
+						bounds:{w:14.143752,e:14.342475,s:46.009882,n:46.120238}
+					};
+					var pts = [ new GLatLng(46.06481,14.314178), new GLatLng(46.065807,14.315418) ];
+					trk[1].push (new GPolyline(pts,"#E64400",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.065807,14.315418), new GLatLng(46.06741,14.31388) ];
+					trk[1].push (new GPolyline(pts,"#E64D00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.06741,14.31388), new GLatLng(46.071588,14.314527) ];
+					trk[1].push (new GPolyline(pts,"#E65A00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.071588,14.314527), new GLatLng(46.07213,14.313893) ];
+					trk[1].push (new GPolyline(pts,"#E65A00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.07213,14.313893), new GLatLng(46.072898,14.31373) ];
+					trk[1].push (new GPolyline(pts,"#E65A00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.072898,14.31373), new GLatLng(46.075983,14.309565) ];
+					trk[1].push (new GPolyline(pts,"#E65A00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.075983,14.309565), new GLatLng(46.077178,14.309317) ];
+					trk[1].push (new GPolyline(pts,"#E65F00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.077178,14.309317), new GLatLng(46.077823,14.30744) ];
+					trk[1].push (new GPolyline(pts,"#E63F00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.077823,14.30744), new GLatLng(46.078033,14.30572) ];
+					trk[1].push (new GPolyline(pts,"#E61F00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.078033,14.30572), new GLatLng(46.08017,14.303842) ];
+					trk[1].push (new GPolyline(pts,"#E63600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.08017,14.303842), new GLatLng(46.079015,14.300968) ];
+					trk[1].push (new GPolyline(pts,"#E63600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.079015,14.300968), new GLatLng(46.07965,14.300598) ];
+					trk[1].push (new GPolyline(pts,"#E66300",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.07965,14.300598), new GLatLng(46.079992,14.299865) ];
+					trk[1].push (new GPolyline(pts,"#E66300",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.079992,14.299865), new GLatLng(46.079728,14.29914) ];
+					trk[1].push (new GPolyline(pts,"#E66700",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.079728,14.29914), new GLatLng(46.07799,14.297293) ];
+					trk[1].push (new GPolyline(pts,"#E66C00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.07799,14.297293), new GLatLng(46.077928,14.295537) ];
+					trk[1].push (new GPolyline(pts,"#E67A00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.077928,14.295537), new GLatLng(46.077638,14.294803) ];
+					trk[1].push (new GPolyline(pts,"#E67100",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.077638,14.294803), new GLatLng(46.076602,14.294563) ];
+					trk[1].push (new GPolyline(pts,"#E66C00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.076602,14.294563), new GLatLng(46.074543,14.292305) ];
+					trk[1].push (new GPolyline(pts,"#E66700",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.074543,14.292305), new GLatLng(46.072767,14.289567) ];
+					trk[1].push (new GPolyline(pts,"#E64D00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.072767,14.289567), new GLatLng(46.07104,14.288802) ];
+					trk[1].push (new GPolyline(pts,"#E68C00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.07104,14.288802), new GLatLng(46.070992,14.28787) ];
+					trk[1].push (new GPolyline(pts,"#E6A200",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.070992,14.28787), new GLatLng(46.07051,14.287432) ];
+					trk[1].push (new GPolyline(pts,"#E6A200",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.07051,14.287432), new GLatLng(46.070365,14.285833) ];
+					trk[1].push (new GPolyline(pts,"#E6A700",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.070365,14.285833), new GLatLng(46.06942,14.284985) ];
+					trk[1].push (new GPolyline(pts,"#E6A700",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.06942,14.284985), new GLatLng(46.069128,14.284075) ];
+					trk[1].push (new GPolyline(pts,"#E6A200",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.069128,14.284075), new GLatLng(46.067793,14.28301) ];
+					trk[1].push (new GPolyline(pts,"#E6A700",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.067793,14.28301), new GLatLng(46.066583,14.27805) ];
+					trk[1].push (new GPolyline(pts,"#E6AB00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.066583,14.27805), new GLatLng(46.066898,14.276033) ];
+					trk[1].push (new GPolyline(pts,"#E6B000",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.066898,14.276033), new GLatLng(46.068538,14.272618) ];
+					trk[1].push (new GPolyline(pts,"#E6B900",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.068538,14.272618), new GLatLng(46.06911,14.2727) ];
+					trk[1].push (new GPolyline(pts,"#E6C600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.06911,14.2727), new GLatLng(46.068923,14.27435) ];
+					trk[1].push (new GPolyline(pts,"#E6D800",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.068923,14.27435), new GLatLng(46.069137,14.274667) ];
+					trk[1].push (new GPolyline(pts,"#E6E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.069137,14.274667), new GLatLng(46.071413,14.271967) ];
+					trk[1].push (new GPolyline(pts,"#E6E100",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.071413,14.271967), new GLatLng(46.071537,14.272263) ];
+					trk[1].push (new GPolyline(pts,"#B0E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.071537,14.272263), new GLatLng(46.07088,14.272602) ];
+					trk[1].push (new GPolyline(pts,"#B0E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.07088,14.272602), new GLatLng(46.07099,14.274457) ];
+					trk[1].push (new GPolyline(pts,"#9DE600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.07099,14.274457), new GLatLng(46.070457,14.275145) ];
+					trk[1].push (new GPolyline(pts,"#94E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.070457,14.275145), new GLatLng(46.070492,14.276203) ];
+					trk[1].push (new GPolyline(pts,"#8CE600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.070492,14.276203), new GLatLng(46.070753,14.276103) ];
+					trk[1].push (new GPolyline(pts,"#7EE600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.070753,14.276103), new GLatLng(46.07074,14.275533) ];
+					trk[1].push (new GPolyline(pts,"#83E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.07074,14.275533), new GLatLng(46.071335,14.274895) ];
+					trk[1].push (new GPolyline(pts,"#83E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.071335,14.274895), new GLatLng(46.071582,14.275358) ];
+					trk[1].push (new GPolyline(pts,"#6CE600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.071582,14.275358), new GLatLng(46.071053,14.277222) ];
+					trk[1].push (new GPolyline(pts,"#6CE600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.071053,14.277222), new GLatLng(46.07137,14.277473) ];
+					trk[1].push (new GPolyline(pts,"#4CE600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.07137,14.277473), new GLatLng(46.072222,14.275645) ];
+					trk[1].push (new GPolyline(pts,"#55E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.072222,14.275645), new GLatLng(46.071993,14.277067) ];
+					trk[1].push (new GPolyline(pts,"#4CE600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.071993,14.277067), new GLatLng(46.073477,14.276807) ];
+					trk[1].push (new GPolyline(pts,"#3BE600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.073477,14.276807), new GLatLng(46.073787,14.276003) ];
+					trk[1].push (new GPolyline(pts,"#0DE600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.073787,14.276003), new GLatLng(46.074337,14.275967) ];
+					trk[1].push (new GPolyline(pts,"#09E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.074337,14.275967), new GLatLng(46.075267,14.274745) ];
+					trk[1].push (new GPolyline(pts,"#00E604",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.075267,14.274745), new GLatLng(46.075857,14.27473) ];
+					trk[1].push (new GPolyline(pts,"#00E60D",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.075857,14.27473), new GLatLng(46.07518,14.275548) ];
+					trk[1].push (new GPolyline(pts,"#00E61F",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.07518,14.275548), new GLatLng(46.07537,14.275812) ];
+					trk[1].push (new GPolyline(pts,"#00E629",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.07537,14.275812), new GLatLng(46.076723,14.275165) ];
+					trk[1].push (new GPolyline(pts,"#00E632",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.076723,14.275165), new GLatLng(46.07556,14.278502) ];
+					trk[1].push (new GPolyline(pts,"#00E648",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.07556,14.278502), new GLatLng(46.076437,14.27899) ];
+					trk[1].push (new GPolyline(pts,"#00E671",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.076437,14.27899), new GLatLng(46.076623,14.27872) ];
+					trk[1].push (new GPolyline(pts,"#00E690",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.076623,14.27872), new GLatLng(46.076083,14.278433) ];
+					trk[1].push (new GPolyline(pts,"#00E690",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.076083,14.278433), new GLatLng(46.076702,14.277178) ];
+					trk[1].push (new GPolyline(pts,"#00E690",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.076702,14.277178), new GLatLng(46.078518,14.276092) ];
+					trk[1].push (new GPolyline(pts,"#00E69E",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.078518,14.276092), new GLatLng(46.079167,14.276692) ];
+					trk[1].push (new GPolyline(pts,"#00E6B8",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.079167,14.276692), new GLatLng(46.079795,14.276382) ];
+					trk[1].push (new GPolyline(pts,"#00E6B0",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.079795,14.276382), new GLatLng(46.08142,14.274035) ];
+					trk[1].push (new GPolyline(pts,"#00E6B8",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.08142,14.274035), new GLatLng(46.083145,14.27421) ];
+					trk[1].push (new GPolyline(pts,"#00E6D8",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.083145,14.27421), new GLatLng(46.083063,14.273188) ];
+					trk[1].push (new GPolyline(pts,"#00CAE6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.083063,14.273188), new GLatLng(46.08386,14.270965) ];
+					trk[1].push (new GPolyline(pts,"#00C1E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.08386,14.270965), new GLatLng(46.085385,14.26938) ];
+					trk[1].push (new GPolyline(pts,"#00B4E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.085385,14.26938), new GLatLng(46.085575,14.268423) ];
+					trk[1].push (new GPolyline(pts,"#0094E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.085575,14.268423), new GLatLng(46.085592,14.26925) ];
+					trk[1].push (new GPolyline(pts,"#008BE6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.085592,14.26925), new GLatLng(46.084598,14.270902) ];
+					trk[1].push (new GPolyline(pts,"#0087E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.084598,14.270902), new GLatLng(46.084725,14.271318) ];
+					trk[1].push (new GPolyline(pts,"#0071E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.084725,14.271318), new GLatLng(46.086862,14.26767) ];
+					trk[1].push (new GPolyline(pts,"#0068E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.086862,14.26767), new GLatLng(46.0871,14.264825) ];
+					trk[1].push (new GPolyline(pts,"#0051E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.0871,14.264825), new GLatLng(46.087872,14.261947) ];
+					trk[1].push (new GPolyline(pts,"#004DE6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.087872,14.261947), new GLatLng(46.087867,14.25889) ];
+					trk[1].push (new GPolyline(pts,"#004DE6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.087867,14.25889), new GLatLng(46.088692,14.25793) ];
+					trk[1].push (new GPolyline(pts,"#002DE6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.088692,14.25793), new GLatLng(46.088342,14.257025) ];
+					trk[1].push (new GPolyline(pts,"#001FE6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.088342,14.257025), new GLatLng(46.088422,14.254552) ];
+					trk[1].push (new GPolyline(pts,"#0029E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.088422,14.254552), new GLatLng(46.088975,14.254107) ];
+					trk[1].push (new GPolyline(pts,"#0012E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.088975,14.254107), new GLatLng(46.090383,14.25596) ];
+					trk[1].push (new GPolyline(pts,"#000DE6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.090383,14.25596), new GLatLng(46.092408,14.253862) ];
+					trk[1].push (new GPolyline(pts,"#0009E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.092408,14.253862), new GLatLng(46.092305,14.253057) ];
+					trk[1].push (new GPolyline(pts,"#0000E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.092305,14.253057), new GLatLng(46.091848,14.252525) ];
+					trk[1].push (new GPolyline(pts,"#0004E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.091848,14.252525), new GLatLng(46.092955,14.250552) ];
+					trk[1].push (new GPolyline(pts,"#0004E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.092955,14.250552), new GLatLng(46.093923,14.247152) ];
+					trk[1].push (new GPolyline(pts,"#1200E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.093923,14.247152), new GLatLng(46.09446,14.246735) ];
+					trk[1].push (new GPolyline(pts,"#0000E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.09446,14.246735), new GLatLng(46.095687,14.246683) ];
+					trk[1].push (new GPolyline(pts,"#0D00E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.095687,14.246683), new GLatLng(46.095982,14.245152) ];
+					trk[1].push (new GPolyline(pts,"#1600E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.095982,14.245152), new GLatLng(46.09696,14.244607) ];
+					trk[1].push (new GPolyline(pts,"#1600E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.09696,14.244607), new GLatLng(46.097643,14.243358) ];
+					trk[1].push (new GPolyline(pts,"#1F00E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.097643,14.243358), new GLatLng(46.097763,14.241287) ];
+					trk[1].push (new GPolyline(pts,"#1F00E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.097763,14.241287), new GLatLng(46.097385,14.240282) ];
+					trk[1].push (new GPolyline(pts,"#1200E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.097385,14.240282), new GLatLng(46.097502,14.239312) ];
+					trk[1].push (new GPolyline(pts,"#1600E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.097502,14.239312), new GLatLng(46.09629,14.23687) ];
+					trk[1].push (new GPolyline(pts,"#2D00E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.09629,14.23687), new GLatLng(46.0969,14.235605) ];
+					trk[1].push (new GPolyline(pts,"#3B00E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.0969,14.235605), new GLatLng(46.096352,14.234795) ];
+					trk[1].push (new GPolyline(pts,"#7100E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.096352,14.234795), new GLatLng(46.0963,14.233888) ];
+					trk[1].push (new GPolyline(pts,"#6C00E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.0963,14.233888), new GLatLng(46.095577,14.23292) ];
+					trk[1].push (new GPolyline(pts,"#7900E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.095577,14.23292), new GLatLng(46.095817,14.230942) ];
+					trk[1].push (new GPolyline(pts,"#8700E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.095817,14.230942), new GLatLng(46.096222,14.230208) ];
+					trk[1].push (new GPolyline(pts,"#8B00E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.096222,14.230208), new GLatLng(46.096347,14.227272) ];
+					trk[1].push (new GPolyline(pts,"#A200E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.096347,14.227272), new GLatLng(46.096002,14.22618) ];
+					trk[1].push (new GPolyline(pts,"#B000E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.096002,14.22618), new GLatLng(46.094668,14.224537) ];
+					trk[1].push (new GPolyline(pts,"#CB00E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.094668,14.224537), new GLatLng(46.094172,14.224797) ];
+					trk[1].push (new GPolyline(pts,"#CB00E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.094172,14.224797), new GLatLng(46.093328,14.223615) ];
+					trk[1].push (new GPolyline(pts,"#E600E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.093328,14.223615), new GLatLng(46.093447,14.22328) ];
+					trk[1].push (new GPolyline(pts,"#E100E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.093447,14.22328), new GLatLng(46.092823,14.221323) ];
+					trk[1].push (new GPolyline(pts,"#DD00E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.092823,14.221323), new GLatLng(46.091802,14.221057) ];
+					trk[1].push (new GPolyline(pts,"#C200E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.091802,14.221057), new GLatLng(46.091272,14.21985) ];
+					trk[1].push (new GPolyline(pts,"#B400E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.091272,14.21985), new GLatLng(46.08949,14.218273) ];
+					trk[1].push (new GPolyline(pts,"#AB00E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.08949,14.218273), new GLatLng(46.08826,14.215283) ];
+					trk[1].push (new GPolyline(pts,"#8200E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.08826,14.215283), new GLatLng(46.086397,14.214283) ];
+					trk[1].push (new GPolyline(pts,"#7500E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.086397,14.214283), new GLatLng(46.087123,14.213237) ];
+					trk[1].push (new GPolyline(pts,"#5600E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.087123,14.213237), new GLatLng(46.090452,14.211683) ];
+					trk[1].push (new GPolyline(pts,"#5100E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.090452,14.211683), new GLatLng(46.090595,14.213282) ];
+					trk[1].push (new GPolyline(pts,"#1600E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.090595,14.213282), new GLatLng(46.091113,14.213552) ];
+					trk[1].push (new GPolyline(pts,"#0900E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.091113,14.213552), new GLatLng(46.092368,14.211187) ];
+					trk[1].push (new GPolyline(pts,"#000DE6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.092368,14.211187), new GLatLng(46.092233,14.208508) ];
+					trk[1].push (new GPolyline(pts,"#0048E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.092233,14.208508), new GLatLng(46.092772,14.207305) ];
+					trk[1].push (new GPolyline(pts,"#0068E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.092772,14.207305), new GLatLng(46.09232,14.205732) ];
+					trk[1].push (new GPolyline(pts,"#0082E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.09232,14.205732), new GLatLng(46.09136,14.20494) ];
+					trk[1].push (new GPolyline(pts,"#0082E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.09136,14.20494), new GLatLng(46.09134,14.201365) ];
+					trk[1].push (new GPolyline(pts,"#0090E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.09134,14.201365), new GLatLng(46.091848,14.202502) ];
+					trk[1].push (new GPolyline(pts,"#00E6C6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.091848,14.202502), new GLatLng(46.093468,14.202023) ];
+					trk[1].push (new GPolyline(pts,"#00E6B0",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.093468,14.202023), new GLatLng(46.097108,14.202998) ];
+					trk[1].push (new GPolyline(pts,"#00E6A7",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.097108,14.202998), new GLatLng(46.100098,14.201225) ];
+					trk[1].push (new GPolyline(pts,"#00E656",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.100098,14.201225), new GLatLng(46.10025,14.200202) ];
+					trk[1].push (new GPolyline(pts,"#00E636",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.10025,14.200202), new GLatLng(46.101705,14.200305) ];
+					trk[1].push (new GPolyline(pts,"#00E617",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.101705,14.200305), new GLatLng(46.101273,14.201918) ];
+					trk[1].push (new GPolyline(pts,"#17E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.101273,14.201918), new GLatLng(46.100413,14.202718) ];
+					trk[1].push (new GPolyline(pts,"#32E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.100413,14.202718), new GLatLng(46.102232,14.20217) ];
+					trk[1].push (new GPolyline(pts,"#3FE600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.102232,14.20217), new GLatLng(46.103812,14.199113) ];
+					trk[1].push (new GPolyline(pts,"#43E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.103812,14.199113), new GLatLng(46.104108,14.197345) ];
+					trk[1].push (new GPolyline(pts,"#4CE600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.104108,14.197345), new GLatLng(46.104687,14.196202) ];
+					trk[1].push (new GPolyline(pts,"#55E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.104687,14.196202), new GLatLng(46.105158,14.196088) ];
+					trk[1].push (new GPolyline(pts,"#63E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.105158,14.196088), new GLatLng(46.109548,14.197757) ];
+					trk[1].push (new GPolyline(pts,"#71E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.109548,14.197757), new GLatLng(46.11045,14.198473) ];
+					trk[1].push (new GPolyline(pts,"#C6E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.11045,14.198473), new GLatLng(46.110945,14.19962) ];
+					trk[1].push (new GPolyline(pts,"#D8E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.110945,14.19962), new GLatLng(46.114077,14.199852) ];
+					trk[1].push (new GPolyline(pts,"#E6DD00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.114077,14.199852), new GLatLng(46.114957,14.198717) ];
+					trk[1].push (new GPolyline(pts,"#E6CB00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.114957,14.198717), new GLatLng(46.115085,14.1974) ];
+					trk[1].push (new GPolyline(pts,"#E68C00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.115085,14.1974), new GLatLng(46.116842,14.194868) ];
+					trk[1].push (new GPolyline(pts,"#E66300",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.116842,14.194868), new GLatLng(46.117962,14.19471) ];
+					trk[1].push (new GPolyline(pts,"#E65F00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.117962,14.19471), new GLatLng(46.11956,14.192943) ];
+					trk[1].push (new GPolyline(pts,"#E65600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.11956,14.192943), new GLatLng(46.119822,14.19185) ];
+					trk[1].push (new GPolyline(pts,"#E64800",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.119822,14.19185), new GLatLng(46.119773,14.186817) ];
+					trk[1].push (new GPolyline(pts,"#E64800",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.119773,14.186817), new GLatLng(46.120238,14.185645) ];
+					trk[1].push (new GPolyline(pts,"#E65600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.120238,14.185645), new GLatLng(46.12003,14.18243) ];
+					trk[1].push (new GPolyline(pts,"#E65A00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.12003,14.18243), new GLatLng(46.118105,14.177787) ];
+					trk[1].push (new GPolyline(pts,"#E65F00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.118105,14.177787), new GLatLng(46.117347,14.174015) ];
+					trk[1].push (new GPolyline(pts,"#E65A00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.117347,14.174015), new GLatLng(46.116897,14.169328) ];
+					trk[1].push (new GPolyline(pts,"#E66700",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.116897,14.169328), new GLatLng(46.11588,14.165598) ];
+					trk[1].push (new GPolyline(pts,"#E66700",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.11588,14.165598), new GLatLng(46.113717,14.161852) ];
+					trk[1].push (new GPolyline(pts,"#E66C00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.113717,14.161852), new GLatLng(46.112742,14.158947) ];
+					trk[1].push (new GPolyline(pts,"#E67100",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.112742,14.158947), new GLatLng(46.11112,14.156708) ];
+					trk[1].push (new GPolyline(pts,"#E67100",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.11112,14.156708), new GLatLng(46.109523,14.15216) ];
+					trk[1].push (new GPolyline(pts,"#E66C00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.109523,14.15216), new GLatLng(46.10658,14.147853) ];
+					trk[1].push (new GPolyline(pts,"#E67E00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.10658,14.147853), new GLatLng(46.105312,14.143845) ];
+					trk[1].push (new GPolyline(pts,"#E67100",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.105312,14.143845), new GLatLng(46.10401,14.143752) ];
+					trk[1].push (new GPolyline(pts,"#E67100",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.10401,14.143752), new GLatLng(46.103182,14.145838) ];
+					trk[1].push (new GPolyline(pts,"#E67100",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.103182,14.145838), new GLatLng(46.103163,14.147065) ];
+					trk[1].push (new GPolyline(pts,"#E67100",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.103163,14.147065), new GLatLng(46.10232,14.149053) ];
+					trk[1].push (new GPolyline(pts,"#E67100",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.10232,14.149053), new GLatLng(46.101555,14.149493) ];
+					trk[1].push (new GPolyline(pts,"#E67500",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.101555,14.149493), new GLatLng(46.099393,14.15286) ];
+					trk[1].push (new GPolyline(pts,"#E67100",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.099393,14.15286), new GLatLng(46.095072,14.15527) ];
+					trk[1].push (new GPolyline(pts,"#E68300",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.095072,14.15527), new GLatLng(46.094557,14.155877) ];
+					trk[1].push (new GPolyline(pts,"#E67A00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.094557,14.155877), new GLatLng(46.090025,14.157182) ];
+					trk[1].push (new GPolyline(pts,"#E67A00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.090025,14.157182), new GLatLng(46.087545,14.158618) ];
+					trk[1].push (new GPolyline(pts,"#E67E00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.087545,14.158618), new GLatLng(46.086175,14.16036) ];
+					trk[1].push (new GPolyline(pts,"#E69000",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.086175,14.16036), new GLatLng(46.083092,14.162133) ];
+					trk[1].push (new GPolyline(pts,"#E69900",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.083092,14.162133), new GLatLng(46.082312,14.163442) ];
+					trk[1].push (new GPolyline(pts,"#E6AB00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.082312,14.163442), new GLatLng(46.080683,14.165065) ];
+					trk[1].push (new GPolyline(pts,"#E6AB00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.080683,14.165065), new GLatLng(46.079023,14.16586) ];
+					trk[1].push (new GPolyline(pts,"#E6A200",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.079023,14.16586), new GLatLng(46.078508,14.167293) ];
+					trk[1].push (new GPolyline(pts,"#E6B400",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.078508,14.167293), new GLatLng(46.07752,14.16735) ];
+					trk[1].push (new GPolyline(pts,"#E6C200",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.07752,14.16735), new GLatLng(46.076672,14.16821) ];
+					trk[1].push (new GPolyline(pts,"#E6BD00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.076672,14.16821), new GLatLng(46.076035,14.170223) ];
+					trk[1].push (new GPolyline(pts,"#E6BD00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.076035,14.170223), new GLatLng(46.074552,14.172235) ];
+					trk[1].push (new GPolyline(pts,"#E6C600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.074552,14.172235), new GLatLng(46.073652,14.172337) ];
+					trk[1].push (new GPolyline(pts,"#E6D400",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.073652,14.172337), new GLatLng(46.07205,14.173973) ];
+					trk[1].push (new GPolyline(pts,"#E6DD00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.07205,14.173973), new GLatLng(46.071843,14.174648) ];
+					trk[1].push (new GPolyline(pts,"#D3E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.071843,14.174648), new GLatLng(46.070665,14.175257) ];
+					trk[1].push (new GPolyline(pts,"#CFE600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.070665,14.175257), new GLatLng(46.068678,14.177752) ];
+					trk[1].push (new GPolyline(pts,"#CBE600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.068678,14.177752), new GLatLng(46.071652,14.175658) ];
+					trk[1].push (new GPolyline(pts,"#B0E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.071652,14.175658), new GLatLng(46.071775,14.177228) ];
+					trk[1].push (new GPolyline(pts,"#9DE600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.071775,14.177228), new GLatLng(46.07112,14.176937) ];
+					trk[1].push (new GPolyline(pts,"#94E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.07112,14.176937), new GLatLng(46.071492,14.177765) ];
+					trk[1].push (new GPolyline(pts,"#87E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.071492,14.177765), new GLatLng(46.070555,14.177318) ];
+					trk[1].push (new GPolyline(pts,"#83E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.070555,14.177318), new GLatLng(46.070988,14.178032) ];
+					trk[1].push (new GPolyline(pts,"#6CE600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.070988,14.178032), new GLatLng(46.070043,14.17795) ];
+					trk[1].push (new GPolyline(pts,"#6CE600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.070043,14.17795), new GLatLng(46.06854,14.18025) ];
+					trk[1].push (new GPolyline(pts,"#55E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.06854,14.18025), new GLatLng(46.067568,14.183025) ];
+					trk[1].push (new GPolyline(pts,"#32E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.067568,14.183025), new GLatLng(46.067348,14.184855) ];
+					trk[1].push (new GPolyline(pts,"#1FE600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.067348,14.184855), new GLatLng(46.067012,14.18472) ];
+					trk[1].push (new GPolyline(pts,"#1FE600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.067012,14.18472), new GLatLng(46.066775,14.18374) ];
+					trk[1].push (new GPolyline(pts,"#1BE600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.066775,14.18374), new GLatLng(46.065777,14.183925) ];
+					trk[1].push (new GPolyline(pts,"#12E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.065777,14.183925), new GLatLng(46.065785,14.18449) ];
+					trk[1].push (new GPolyline(pts,"#00E604",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.065785,14.18449), new GLatLng(46.064692,14.185085) ];
+					trk[1].push (new GPolyline(pts,"#00E609",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.064692,14.185085), new GLatLng(46.06434,14.186003) ];
+					trk[1].push (new GPolyline(pts,"#00E617",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.06434,14.186003), new GLatLng(46.064342,14.188588) ];
+					trk[1].push (new GPolyline(pts,"#00E61B",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.064342,14.188588), new GLatLng(46.063577,14.189807) ];
+					trk[1].push (new GPolyline(pts,"#00E62D",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.063577,14.189807), new GLatLng(46.064713,14.191898) ];
+					trk[1].push (new GPolyline(pts,"#00E643",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.064713,14.191898), new GLatLng(46.061898,14.196198) ];
+					trk[1].push (new GPolyline(pts,"#00E648",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.061898,14.196198), new GLatLng(46.059302,14.196697) ];
+					trk[1].push (new GPolyline(pts,"#00E656",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.059302,14.196697), new GLatLng(46.059437,14.19571) ];
+					trk[1].push (new GPolyline(pts,"#00E656",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.059437,14.19571), new GLatLng(46.059115,14.195233) ];
+					trk[1].push (new GPolyline(pts,"#00E663",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.059115,14.195233), new GLatLng(46.057438,14.195168) ];
+					trk[1].push (new GPolyline(pts,"#00E668",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.057438,14.195168), new GLatLng(46.054497,14.197198) ];
+					trk[1].push (new GPolyline(pts,"#00E679",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.054497,14.197198), new GLatLng(46.054148,14.198315) ];
+					trk[1].push (new GPolyline(pts,"#00E690",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.054148,14.198315), new GLatLng(46.053378,14.198048) ];
+					trk[1].push (new GPolyline(pts,"#00E699",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.053378,14.198048), new GLatLng(46.052983,14.199282) ];
+					trk[1].push (new GPolyline(pts,"#00E6A2",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.052983,14.199282), new GLatLng(46.05108,14.2013) ];
+					trk[1].push (new GPolyline(pts,"#00E6A7",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.05108,14.2013), new GLatLng(46.049243,14.201555) ];
+					trk[1].push (new GPolyline(pts,"#00E6AB",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.049243,14.201555), new GLatLng(46.047468,14.2006) ];
+					trk[1].push (new GPolyline(pts,"#00E6B0",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.047468,14.2006), new GLatLng(46.04797,14.19999) ];
+					trk[1].push (new GPolyline(pts,"#00E6CF",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.04797,14.19999), new GLatLng(46.047968,14.19854) ];
+					trk[1].push (new GPolyline(pts,"#00E6D4",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.047968,14.19854), new GLatLng(46.046698,14.198367) ];
+					trk[1].push (new GPolyline(pts,"#00E1E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.046698,14.198367), new GLatLng(46.046038,14.199035) ];
+					trk[1].push (new GPolyline(pts,"#00C6E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.046038,14.199035), new GLatLng(46.044768,14.19863) ];
+					trk[1].push (new GPolyline(pts,"#00C1E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.044768,14.19863), new GLatLng(46.043325,14.19912) ];
+					trk[1].push (new GPolyline(pts,"#00C1E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.043325,14.19912), new GLatLng(46.042313,14.197937) ];
+					trk[1].push (new GPolyline(pts,"#00AFE6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.042313,14.197937), new GLatLng(46.041007,14.19554) ];
+					trk[1].push (new GPolyline(pts,"#0099E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.041007,14.19554), new GLatLng(46.040123,14.195433) ];
+					trk[1].push (new GPolyline(pts,"#008BE6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.040123,14.195433), new GLatLng(46.039665,14.194292) ];
+					trk[1].push (new GPolyline(pts,"#0090E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.039665,14.194292), new GLatLng(46.03908,14.193938) ];
+					trk[1].push (new GPolyline(pts,"#0087E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.03908,14.193938), new GLatLng(46.039327,14.193182) ];
+					trk[1].push (new GPolyline(pts,"#006CE6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.039327,14.193182), new GLatLng(46.038858,14.192492) ];
+					trk[1].push (new GPolyline(pts,"#0063E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.038858,14.192492), new GLatLng(46.038245,14.192505) ];
+					trk[1].push (new GPolyline(pts,"#005AE6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.038245,14.192505), new GLatLng(46.037187,14.191612) ];
+					trk[1].push (new GPolyline(pts,"#0051E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.037187,14.191612), new GLatLng(46.036148,14.191677) ];
+					trk[1].push (new GPolyline(pts,"#003FE6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.036148,14.191677), new GLatLng(46.034932,14.192518) ];
+					trk[1].push (new GPolyline(pts,"#003BE6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.034932,14.192518), new GLatLng(46.031137,14.19197) ];
+					trk[1].push (new GPolyline(pts,"#003BE6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.031137,14.19197), new GLatLng(46.0302,14.192683) ];
+					trk[1].push (new GPolyline(pts,"#0056E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.0302,14.192683), new GLatLng(46.029488,14.192135) ];
+					trk[1].push (new GPolyline(pts,"#0051E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.029488,14.192135), new GLatLng(46.029222,14.190998) ];
+					trk[1].push (new GPolyline(pts,"#0051E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.029222,14.190998), new GLatLng(46.028552,14.19053) ];
+					trk[1].push (new GPolyline(pts,"#0043E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.028552,14.19053), new GLatLng(46.0257,14.190795) ];
+					trk[1].push (new GPolyline(pts,"#003FE6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.0257,14.190795), new GLatLng(46.025173,14.191518) ];
+					trk[1].push (new GPolyline(pts,"#0029E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.025173,14.191518), new GLatLng(46.025117,14.193485) ];
+					trk[1].push (new GPolyline(pts,"#0029E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.025117,14.193485), new GLatLng(46.024133,14.193195) ];
+					trk[1].push (new GPolyline(pts,"#0036E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.024133,14.193195), new GLatLng(46.022182,14.194442) ];
+					trk[1].push (new GPolyline(pts,"#003FE6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.022182,14.194442), new GLatLng(46.021268,14.193692) ];
+					trk[1].push (new GPolyline(pts,"#0075E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.021268,14.193692), new GLatLng(46.02106,14.192525) ];
+					trk[1].push (new GPolyline(pts,"#0090E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.02106,14.192525), new GLatLng(46.02003,14.191937) ];
+					trk[1].push (new GPolyline(pts,"#0099E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.02003,14.191937), new GLatLng(46.01904,14.192287) ];
+					trk[1].push (new GPolyline(pts,"#009DE6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.01904,14.192287), new GLatLng(46.01837,14.19182) ];
+					trk[1].push (new GPolyline(pts,"#00ABE6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.01837,14.19182), new GLatLng(46.015907,14.191848) ];
+					trk[1].push (new GPolyline(pts,"#00B4E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.015907,14.191848), new GLatLng(46.014878,14.192518) ];
+					trk[1].push (new GPolyline(pts,"#00E6E1",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.014878,14.192518), new GLatLng(46.013608,14.194475) ];
+					trk[1].push (new GPolyline(pts,"#00E6CF",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.013608,14.194475), new GLatLng(46.013067,14.192752) ];
+					trk[1].push (new GPolyline(pts,"#00E6C1",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.013067,14.192752), new GLatLng(46.011295,14.189902) ];
+					trk[1].push (new GPolyline(pts,"#00E6CF",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.011295,14.189902), new GLatLng(46.010657,14.18942) ];
+					trk[1].push (new GPolyline(pts,"#00D8E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.010657,14.18942), new GLatLng(46.009882,14.187078) ];
+					trk[1].push (new GPolyline(pts,"#00D8E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.009882,14.187078), new GLatLng(46.01103,14.184502) ];
+					trk[1].push (new GPolyline(pts,"#00D8E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.01103,14.184502), new GLatLng(46.012845,14.182652) ];
+					trk[1].push (new GPolyline(pts,"#00CFE6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.012845,14.182652), new GLatLng(46.013543,14.18132) ];
+					trk[1].push (new GPolyline(pts,"#00DDE6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.013543,14.18132), new GLatLng(46.012847,14.181422) ];
+					trk[1].push (new GPolyline(pts,"#00C6E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.012847,14.181422), new GLatLng(46.013507,14.180642) ];
+					trk[1].push (new GPolyline(pts,"#00AFE6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.013507,14.180642), new GLatLng(46.013613,14.179303) ];
+					trk[1].push (new GPolyline(pts,"#0094E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.013613,14.179303), new GLatLng(46.013315,14.178513) ];
+					trk[1].push (new GPolyline(pts,"#0082E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.013315,14.178513), new GLatLng(46.013227,14.176238) ];
+					trk[1].push (new GPolyline(pts,"#007EE6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.013227,14.176238), new GLatLng(46.012587,14.17611) ];
+					trk[1].push (new GPolyline(pts,"#0068E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.012587,14.17611), new GLatLng(46.012132,14.175337) ];
+					trk[1].push (new GPolyline(pts,"#0063E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.012132,14.175337), new GLatLng(46.011425,14.175328) ];
+					trk[1].push (new GPolyline(pts,"#005FE6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.011425,14.175328), new GLatLng(46.011485,14.173903) ];
+					trk[1].push (new GPolyline(pts,"#0051E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.011485,14.173903), new GLatLng(46.011162,14.173232) ];
+					trk[1].push (new GPolyline(pts,"#003BE6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.011162,14.173232), new GLatLng(46.012362,14.172742) ];
+					trk[1].push (new GPolyline(pts,"#0032E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.012362,14.172742), new GLatLng(46.012272,14.172442) ];
+					trk[1].push (new GPolyline(pts,"#002DE6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.012272,14.172442), new GLatLng(46.010508,14.172467) ];
+					trk[1].push (new GPolyline(pts,"#0024E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.010508,14.172467), new GLatLng(46.010318,14.17181) ];
+					trk[1].push (new GPolyline(pts,"#000DE6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.010318,14.17181), new GLatLng(46.011018,14.17143) ];
+					trk[1].push (new GPolyline(pts,"#0000E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.011018,14.17143), new GLatLng(46.010578,14.170982) ];
+					trk[1].push (new GPolyline(pts,"#0D00E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.010578,14.170982), new GLatLng(46.01018,14.169713) ];
+					trk[1].push (new GPolyline(pts,"#1B00E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.01018,14.169713), new GLatLng(46.010338,14.168657) ];
+					trk[1].push (new GPolyline(pts,"#2400E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.010338,14.168657), new GLatLng(46.010563,14.16871) ];
+					trk[1].push (new GPolyline(pts,"#3200E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.010563,14.16871), new GLatLng(46.010327,14.168625) ];
+					trk[1].push (new GPolyline(pts,"#3B00E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.010327,14.168625), new GLatLng(46.010162,14.169638) ];
+					trk[1].push (new GPolyline(pts,"#4300E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.010162,14.169638), new GLatLng(46.010487,14.170982) ];
+					trk[1].push (new GPolyline(pts,"#3B00E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.010487,14.170982), new GLatLng(46.010902,14.171455) ];
+					trk[1].push (new GPolyline(pts,"#3200E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.010902,14.171455), new GLatLng(46.01022,14.17192) ];
+					trk[1].push (new GPolyline(pts,"#2400E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.01022,14.17192), new GLatLng(46.010638,14.172557) ];
+					trk[1].push (new GPolyline(pts,"#0900E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.010638,14.172557), new GLatLng(46.012412,14.172987) ];
+					trk[1].push (new GPolyline(pts,"#0400E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.012412,14.172987), new GLatLng(46.011038,14.17377) ];
+					trk[1].push (new GPolyline(pts,"#0012E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.011038,14.17377), new GLatLng(46.011582,14.174677) ];
+					trk[1].push (new GPolyline(pts,"#0029E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.011582,14.174677), new GLatLng(46.011615,14.175678) ];
+					trk[1].push (new GPolyline(pts,"#0032E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.011615,14.175678), new GLatLng(46.013133,14.176392) ];
+					trk[1].push (new GPolyline(pts,"#003BE6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.013133,14.176392), new GLatLng(46.013458,14.180792) ];
+					trk[1].push (new GPolyline(pts,"#003FE6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.013458,14.180792), new GLatLng(46.012675,14.181565) ];
+					trk[1].push (new GPolyline(pts,"#0071E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.012675,14.181565), new GLatLng(46.013422,14.181883) ];
+					trk[1].push (new GPolyline(pts,"#0090E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.013422,14.181883), new GLatLng(46.011275,14.184085) ];
+					trk[1].push (new GPolyline(pts,"#0094E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.011275,14.184085), new GLatLng(46.010037,14.187117) ];
+					trk[1].push (new GPolyline(pts,"#00B4E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.010037,14.187117), new GLatLng(46.01055,14.189302) ];
+					trk[1].push (new GPolyline(pts,"#00DDE6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.01055,14.189302), new GLatLng(46.013253,14.193325) ];
+					trk[1].push (new GPolyline(pts,"#00E1E6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.013253,14.193325), new GLatLng(46.013603,14.194532) ];
+					trk[1].push (new GPolyline(pts,"#00DDE6",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.013603,14.194532), new GLatLng(46.015142,14.192372) ];
+					trk[1].push (new GPolyline(pts,"#00E6D4",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.015142,14.192372), new GLatLng(46.016452,14.19258) ];
+					trk[1].push (new GPolyline(pts,"#00E6CA",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.016452,14.19258), new GLatLng(46.019613,14.194922) ];
+					trk[1].push (new GPolyline(pts,"#00E6B8",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.019613,14.194922), new GLatLng(46.020382,14.196177) ];
+					trk[1].push (new GPolyline(pts,"#00E69E",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.020382,14.196177), new GLatLng(46.020642,14.198015) ];
+					trk[1].push (new GPolyline(pts,"#00E690",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.020642,14.198015), new GLatLng(46.021687,14.198437) ];
+					trk[1].push (new GPolyline(pts,"#00E687",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.021687,14.198437), new GLatLng(46.021445,14.200113) ];
+					trk[1].push (new GPolyline(pts,"#00E687",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.021445,14.200113), new GLatLng(46.021923,14.203763) ];
+					trk[1].push (new GPolyline(pts,"#00E675",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.021923,14.203763), new GLatLng(46.020533,14.206597) ];
+					trk[1].push (new GPolyline(pts,"#00E648",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.020533,14.206597), new GLatLng(46.02358,14.208377) ];
+					trk[1].push (new GPolyline(pts,"#00E60D",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.02358,14.208377), new GLatLng(46.02409,14.206677) ];
+					trk[1].push (new GPolyline(pts,"#29E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.02409,14.206677), new GLatLng(46.024758,14.208298) ];
+					trk[1].push (new GPolyline(pts,"#32E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.024758,14.208298), new GLatLng(46.02525,14.208508) ];
+					trk[1].push (new GPolyline(pts,"#29E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.02525,14.208508), new GLatLng(46.025245,14.209272) ];
+					trk[1].push (new GPolyline(pts,"#29E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.025245,14.209272), new GLatLng(46.024717,14.209413) ];
+					trk[1].push (new GPolyline(pts,"#2DE600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.024717,14.209413), new GLatLng(46.0245,14.20993) ];
+					trk[1].push (new GPolyline(pts,"#24E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.0245,14.20993), new GLatLng(46.02495,14.210512) ];
+					trk[1].push (new GPolyline(pts,"#1FE600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.02495,14.210512), new GLatLng(46.024607,14.211805) ];
+					trk[1].push (new GPolyline(pts,"#1FE600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.024607,14.211805), new GLatLng(46.025003,14.212493) ];
+					trk[1].push (new GPolyline(pts,"#1FE600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.025003,14.212493), new GLatLng(46.02463,14.2129) ];
+					trk[1].push (new GPolyline(pts,"#17E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.02463,14.2129), new GLatLng(46.023532,14.216625) ];
+					trk[1].push (new GPolyline(pts,"#17E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.023532,14.216625), new GLatLng(46.022973,14.21756) ];
+					trk[1].push (new GPolyline(pts,"#1BE600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.022973,14.21756), new GLatLng(46.023017,14.218267) ];
+					trk[1].push (new GPolyline(pts,"#17E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.023017,14.218267), new GLatLng(46.023477,14.218652) ];
+					trk[1].push (new GPolyline(pts,"#0DE600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.023477,14.218652), new GLatLng(46.025623,14.21887) ];
+					trk[1].push (new GPolyline(pts,"#0DE600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.025623,14.21887), new GLatLng(46.026303,14.218) ];
+					trk[1].push (new GPolyline(pts,"#00E60D",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.026303,14.218), new GLatLng(46.026553,14.218548) ];
+					trk[1].push (new GPolyline(pts,"#00E60D",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.026553,14.218548), new GLatLng(46.026468,14.221472) ];
+					trk[1].push (new GPolyline(pts,"#00E612",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.026468,14.221472), new GLatLng(46.026933,14.221345) ];
+					trk[1].push (new GPolyline(pts,"#00E632",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.026933,14.221345), new GLatLng(46.027462,14.219992) ];
+					trk[1].push (new GPolyline(pts,"#00E636",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.027462,14.219992), new GLatLng(46.028458,14.219677) ];
+					trk[1].push (new GPolyline(pts,"#00E63F",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.028458,14.219677), new GLatLng(46.028963,14.221305) ];
+					trk[1].push (new GPolyline(pts,"#00E636",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.028963,14.221305), new GLatLng(46.029945,14.222748) ];
+					trk[1].push (new GPolyline(pts,"#00E63B",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.029945,14.222748), new GLatLng(46.030677,14.222413) ];
+					trk[1].push (new GPolyline(pts,"#00E63B",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.030677,14.222413), new GLatLng(46.031352,14.222922) ];
+					trk[1].push (new GPolyline(pts,"#00E63B",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.031352,14.222922), new GLatLng(46.031908,14.22543) ];
+					trk[1].push (new GPolyline(pts,"#00E636",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.031908,14.22543), new GLatLng(46.02993,14.227285) ];
+					trk[1].push (new GPolyline(pts,"#00E632",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.02993,14.227285), new GLatLng(46.02926,14.230525) ];
+					trk[1].push (new GPolyline(pts,"#00E60D",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.02926,14.230525), new GLatLng(46.029725,14.231485) ];
+					trk[1].push (new GPolyline(pts,"#00E617",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.029725,14.231485), new GLatLng(46.0295,14.232553) ];
+					trk[1].push (new GPolyline(pts,"#00E612",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.0295,14.232553), new GLatLng(46.028487,14.233573) ];
+					trk[1].push (new GPolyline(pts,"#09E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.028487,14.233573), new GLatLng(46.028038,14.235045) ];
+					trk[1].push (new GPolyline(pts,"#1FE600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.028038,14.235045), new GLatLng(46.026095,14.236275) ];
+					trk[1].push (new GPolyline(pts,"#32E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.026095,14.236275), new GLatLng(46.025508,14.239195) ];
+					trk[1].push (new GPolyline(pts,"#55E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.025508,14.239195), new GLatLng(46.026748,14.24278) ];
+					trk[1].push (new GPolyline(pts,"#71E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.026748,14.24278), new GLatLng(46.02785,14.244683) ];
+					trk[1].push (new GPolyline(pts,"#87E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.02785,14.244683), new GLatLng(46.0276,14.246508) ];
+					trk[1].push (new GPolyline(pts,"#90E600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.0276,14.246508), new GLatLng(46.025912,14.249922) ];
+					trk[1].push (new GPolyline(pts,"#BDE600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.025912,14.249922), new GLatLng(46.02548,14.251893) ];
+					trk[1].push (new GPolyline(pts,"#E6E100",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.02548,14.251893), new GLatLng(46.025858,14.253663) ];
+					trk[1].push (new GPolyline(pts,"#E6CF00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.025858,14.253663), new GLatLng(46.024882,14.254048) ];
+					trk[1].push (new GPolyline(pts,"#E6C200",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.024882,14.254048), new GLatLng(46.021278,14.259262) ];
+					trk[1].push (new GPolyline(pts,"#E6A200",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.021278,14.259262), new GLatLng(46.021358,14.261142) ];
+					trk[1].push (new GPolyline(pts,"#E66700",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.021358,14.261142), new GLatLng(46.020615,14.266903) ];
+					trk[1].push (new GPolyline(pts,"#E66700",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.020615,14.266903), new GLatLng(46.019825,14.2665) ];
+					trk[1].push (new GPolyline(pts,"#E63600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.019825,14.2665), new GLatLng(46.019188,14.267382) ];
+					trk[1].push (new GPolyline(pts,"#E62400",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.019188,14.267382), new GLatLng(46.019057,14.27539) ];
+					trk[1].push (new GPolyline(pts,"#E61F00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.019057,14.27539), new GLatLng(46.017555,14.279322) ];
+					trk[1].push (new GPolyline(pts,"#E60900",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.017555,14.279322), new GLatLng(46.017665,14.281387) ];
+					trk[1].push (new GPolyline(pts,"#E60900",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.017665,14.281387), new GLatLng(46.01983,14.28388) ];
+					trk[1].push (new GPolyline(pts,"#E62400",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.01983,14.28388), new GLatLng(46.021172,14.28817) ];
+					trk[1].push (new GPolyline(pts,"#E61600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.021172,14.28817), new GLatLng(46.021783,14.294042) ];
+					trk[1].push (new GPolyline(pts,"#E60900",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.021783,14.294042), new GLatLng(46.022687,14.297938) ];
+					trk[1].push (new GPolyline(pts,"#E60500",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.022687,14.297938), new GLatLng(46.022227,14.300447) ];
+					trk[1].push (new GPolyline(pts,"#E60500",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.022227,14.300447), new GLatLng(46.021525,14.309375) ];
+					trk[1].push (new GPolyline(pts,"#E60500",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.021525,14.309375), new GLatLng(46.021943,14.311173) ];
+					trk[1].push (new GPolyline(pts,"#E60000",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.021943,14.311173), new GLatLng(46.023522,14.314627) ];
+					trk[1].push (new GPolyline(pts,"#E60500",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.023522,14.314627), new GLatLng(46.023868,14.314762) ];
+					trk[1].push (new GPolyline(pts,"#E60E00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.023868,14.314762), new GLatLng(46.02561,14.313307) ];
+					trk[1].push (new GPolyline(pts,"#E61200",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.02561,14.313307), new GLatLng(46.027867,14.313768) ];
+					trk[1].push (new GPolyline(pts,"#E62400",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.027867,14.313768), new GLatLng(46.026683,14.314248) ];
+					trk[1].push (new GPolyline(pts,"#E62400",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.026683,14.314248), new GLatLng(46.026497,14.315253) ];
+					trk[1].push (new GPolyline(pts,"#E63600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.026497,14.315253), new GLatLng(46.027,14.31558) ];
+					trk[1].push (new GPolyline(pts,"#E64400",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.027,14.31558), new GLatLng(46.027527,14.316743) ];
+					trk[1].push (new GPolyline(pts,"#E65F00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.027527,14.316743), new GLatLng(46.028405,14.316048) ];
+					trk[1].push (new GPolyline(pts,"#E67E00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.028405,14.316048), new GLatLng(46.028818,14.316255) ];
+					trk[1].push (new GPolyline(pts,"#E68C00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.028818,14.316255), new GLatLng(46.029163,14.315498) ];
+					trk[1].push (new GPolyline(pts,"#E69500",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.029163,14.315498), new GLatLng(46.029862,14.316235) ];
+					trk[1].push (new GPolyline(pts,"#E69900",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.029862,14.316235), new GLatLng(46.03049,14.318442) ];
+					trk[1].push (new GPolyline(pts,"#E69E00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.03049,14.318442), new GLatLng(46.031003,14.319092) ];
+					trk[1].push (new GPolyline(pts,"#E69900",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.031003,14.319092), new GLatLng(46.031682,14.319247) ];
+					trk[1].push (new GPolyline(pts,"#E69500",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.031682,14.319247), new GLatLng(46.037673,14.31776) ];
+					trk[1].push (new GPolyline(pts,"#E69000",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.037673,14.31776), new GLatLng(46.038675,14.317852) ];
+					trk[1].push (new GPolyline(pts,"#E69000",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.038675,14.317852), new GLatLng(46.042557,14.320785) ];
+					trk[1].push (new GPolyline(pts,"#E69000",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.042557,14.320785), new GLatLng(46.047665,14.330043) ];
+					trk[1].push (new GPolyline(pts,"#E6A700",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.047665,14.330043), new GLatLng(46.048772,14.332603) ];
+					trk[1].push (new GPolyline(pts,"#E64400",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.048772,14.332603), new GLatLng(46.052607,14.337625) ];
+					trk[1].push (new GPolyline(pts,"#E64400",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.052607,14.337625), new GLatLng(46.053377,14.337823) ];
+					trk[1].push (new GPolyline(pts,"#E64400",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.053377,14.337823), new GLatLng(46.055677,14.341688) ];
+					trk[1].push (new GPolyline(pts,"#E65600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.055677,14.341688), new GLatLng(46.057357,14.342475) ];
+					trk[1].push (new GPolyline(pts,"#E61600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.057357,14.342475), new GLatLng(46.060253,14.342423) ];
+					trk[1].push (new GPolyline(pts,"#E61200",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.060253,14.342423), new GLatLng(46.060377,14.338212) ];
+					trk[1].push (new GPolyline(pts,"#E60500",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.060377,14.338212), new GLatLng(46.059857,14.334817) ];
+					trk[1].push (new GPolyline(pts,"#E60500",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.059857,14.334817), new GLatLng(46.060505,14.329917) ];
+					trk[1].push (new GPolyline(pts,"#E60000",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.060505,14.329917), new GLatLng(46.060032,14.32734) ];
+					trk[1].push (new GPolyline(pts,"#E61200",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.060032,14.32734), new GLatLng(46.06104,14.323673) ];
+					trk[1].push (new GPolyline(pts,"#E61600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.06104,14.323673), new GLatLng(46.061417,14.323765) ];
+					trk[1].push (new GPolyline(pts,"#E63B00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.061417,14.323765), new GLatLng(46.063062,14.321558) ];
+					trk[1].push (new GPolyline(pts,"#E63F00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.063062,14.321558), new GLatLng(46.063653,14.319642) ];
+					trk[1].push (new GPolyline(pts,"#E65F00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.063653,14.319642), new GLatLng(46.064858,14.317668) ];
+					trk[1].push (new GPolyline(pts,"#E65A00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.064858,14.317668), new GLatLng(46.065458,14.317405) ];
+					trk[1].push (new GPolyline(pts,"#E65600",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.065458,14.317405), new GLatLng(46.064987,14.31648) ];
+					trk[1].push (new GPolyline(pts,"#E64D00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.064987,14.31648), new GLatLng(46.065647,14.315487) ];
+					trk[1].push (new GPolyline(pts,"#E63B00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					var pts = [ new GLatLng(46.065647,14.315487), new GLatLng(46.065088,14.314617) ];
+					trk[1].push (new GPolyline(pts,"#E63B00",trk_info[1]['width'],trk_info[1]['opacity'])); gmap.addOverlay(trk[1][trk[1].length-1]);
+					
+					
+					GV_Add_Track_to_Tracklist({bullet:'- ',name:trk_info[1]['name'],desc:trk_info[1]['desc'],color:trk_info[1]['color'],map_name:'gmap',id:"trk[1]"});
+					
+					
+					wpts = new Array();
+					wpts.push( GV_Marker(gmap,{lat:46.0853445,lon:14.2694314,name:'10 km',desc:'',color:'white',icon:'tickmark',type:'tickmark',rotation:318.0}) ); trk[1].push(wpts[wpts.length-1]);
+					wpts.push( GV_Marker(gmap,{lat:46.1005880,lon:14.2026709,name:'20 km',desc:'',color:'white',icon:'tickmark',type:'tickmark',rotation:349.0}) ); trk[1].push(wpts[wpts.length-1]);
+					wpts.push( GV_Marker(gmap,{lat:46.0837446,lon:14.1617494,name:'30 km',desc:'',color:'white',icon:'tickmark',type:'tickmark',rotation:158.0}) ); trk[1].push(wpts[wpts.length-1]);
+					wpts.push( GV_Marker(gmap,{lat:46.0295179,lon:14.1916188,name:'40 km',desc:'',color:'white',icon:'tickmark',type:'tickmark',rotation:235.0}) ); trk[1].push(wpts[wpts.length-1]);
+					wpts.push( GV_Marker(gmap,{lat:46.0212782,lon:14.2053571,name:'50 km',desc:'',color:'white',icon:'tickmark',type:'tickmark',rotation:120.0}) ); trk[1].push(wpts[wpts.length-1]);
+					wpts.push( GV_Marker(gmap,{lat:46.0221573,lon:14.2953832,name:'60 km',desc:'',color:'white',icon:'tickmark',type:'tickmark',rotation:70.0}) ); trk[1].push(wpts[wpts.length-1]);
+					wpts.push( GV_Marker(gmap,{lat:46.0650880,lon:14.3146170,name:'69.69 km',desc:'',color:'white',icon:'tickmark',type:'tickmark',rotation:231.0}) ); trk[1].push(wpts[wpts.length-1]);
+					
+				
+					GV_Finish_Map(gv_options);
+					
+				} else {
+					document.getElementById('gmap_div').style.backgroundColor = '#DDDDDD';
+					document.getElementById('gmap_div').innerHTML = 'Sorry, your Google Map cannot be displayed.';
+				}
+			}
+			GV_Map(); // execute the above code
+		</script>
+		
+	</body>
+
+</html>
