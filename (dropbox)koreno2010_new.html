@@ -21,47 +21,7 @@
 	<script type="text/javascript" src="https://dl.dropboxusercontent.com/u/11531008/JavaScript/ProjectedOverlay.js"></script>
 	
 	<script type="text/javascript">
-  var overlay ;
-  var map ;
-  function initialize() {
-    var myLatlng = new google.maps.LatLng(46.0411225,14.3004525);
-    var myOptions = {
-	  key: 'AIzaSyCsFAnCAlLZZmUU2l0gW8joBqVOhEPsuuA',
-      zoom: 3,
-      center: myLatlng,
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-      sensor: 'false'
-    }
-    map = new google.maps.Map(document.getElementById("map"), myOptions);
-
-    overlayAdd() ;
-  }
-
-// Add the overlay
-
-   function overlayAdd()
-   {
-    var sw = new google.maps.LatLng(46.068834,14.238902) ;
-    var ne = new google.maps.LatLng(46.015194,14.297787) ;
-    var bounds = new google.maps.LatLngBounds(sw,ne) ;
-    overlay = new ProjectedOverlay(map,'http://www.usnaviguide.com/ws-2008-02/images/us_counties_projected.png', bounds, {}) ;
-    document.getElementById("overlayToggle").innerHTML =  '<a href="javascript:overlayRemove()">Remove Overlay</a>' ;
-   }
-
-// Remove the overlay
-
-  function overlayRemove()
-  {
-   if ( !overlay )
-   {
-    return ;
-   }
-   overlay.remove() ;
-   overlay = null ;
-   document.getElementById("overlayToggle").innerHTML =  '<a href="javascript:overlayAdd()">Add Overlay</a>' ;
-  }
-</script>
-	
+ 
     
   </head>
   <body style="background-color:#B8B8B8">
@@ -71,11 +31,5 @@
 	<div class="text"></div>
     <div id="map" class="map gpxview://dl.dropboxusercontent.com/u/11531008/Gpx/20101127-Koreno.gpx:Hybrid" style="width:865px;height:400px"><noscript><p>Zum Anzeigen der Karte wird Javascript benötigt.</p></noscript></div>
 	<div id="map_profiles"><div id="map_hp" class="map" style="width:865px;height:240px"></div>	
-	 <div id="map" style="width:100%; height:90%"></div>
-	   Opacity: 
-  <a href="javascript:overlay.setOpacity(25)">25%</a> &nbsp; 
-  <a href="javascript:overlay.setOpacity(50)">50%</a> &nbsp; 
-  <a href="javascript:overlay.setOpacity(100)">100%</a> &nbsp;
-	<span id="overlayToggle"></span>
   </body>
 </html>
