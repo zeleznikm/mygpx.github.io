@@ -1,4 +1,5 @@
 // Platz für weitere Definitionen
+// 29. 5. 2017
 
 "use strict";
 
@@ -6,16 +7,29 @@ window.JB = window.JB || {};
 window.JB.GPX2GM = window.JB.GPX2GM || {};
 
 // Google Maps API Key
-// JB.GPX2GM.GM_Api_key = ""; // Hier den Key eintragen und die "//" am Anfang entfernen
-JB.GPX2GM.GM_Api_key = "AIzaSyCsFAnCAlLZZmUU2l0gW8joBqVOhEPsuuA";
+// JB.GPX2GM.GM_Api_key = "GM_API_Key";
+// Key für OSM Cycle
+// JB.GPX2GM.OSM_Cycle_Api_Key = "OSM_Key";
+// Key für OSM Landscape
+// JB.GPX2GM.OSM_Landscape_Api_Key = "OSM_Key";
 
 // Definition der Icons, bei eigenen Icons nur Kleinbuchstaben verwenden.
 JB.Icons = function(baseurl) {
 	this.DefShadow	= { shadow: { anchor: {x:10,y:35}, url: baseurl+"Icons/shadow50.png" } };
 	this.Bild				= { icon:   { anchor: {x: 6,y:31}, url: baseurl+"Icons/scenic.png" },
 											shadow: { anchor: {x:10,y:31}, url: baseurl+"Icons/shadow.png" } };
-	this.MoveMarker	= { icon:   { anchor: {x: 6,y: 6}, url: baseurl+"Icons/marker.gif" } };
-	this.Cluster		= { icon:   { anchor: {x:16,y:16}, url: baseurl+"Icons/cluster.png" } };
+	//this.MoveMarker	= { icon:   { anchor: {x: 6,y: 6}, url: baseurl+"Icons/marker.gif" } };
+	this.MoveMarker	= { icon:   { anchor: {x: 6,y: 6}, url: baseurl+"Icons/marker.svg", 
+											scaledSize: { width: 11, height: 11, widthUnit: "px", heightUnit: "px" },
+											size: { width: 11, height: 11, widthUnit: "px", heightUnit: "px" } } };
+	//this.Cluster		= { icon:   { anchor: {x:16,y:16}, url: baseurl+"Icons/cluster.png" } };
+	this.Cluster 		= { icon:   { anchor: {x:16,y:16}, url: baseurl+"Icons/cluster.svg", 
+											scaledSize: { width: 31, height: 31, widthUnit: "px", heightUnit: "px" },
+											size: { width: 31, height: 31, widthUnit: "px", heightUnit: "px" } } };
+	this.Kreis			= { icon:   { anchor: {x:38,y:38}, url: baseurl+"Icons/kreis.png" } };
+	this.CL   			= { icon:   { anchor: {x:16,y:16}, url: baseurl+"Icons/current_location.svg", 
+											scaledSize: { width: 31, height: 31, widthUnit: "px", heightUnit: "px" },
+											size: { width: 31, height: 31, widthUnit: "px", heightUnit: "px" } } };
 	this.lodging		= { icon:   { anchor: {x:15,y:36}, url: baseurl+"Icons/hotel2.png" },
 	//this.lodging		= { icon:   { anchor: {x:15,y:31}, url: baseurl+"Icons/hotel.png" },
 											shadow: { anchor: {x:10,y:31}, url: baseurl+"Icons/shadow.png" } };
@@ -42,6 +56,10 @@ JB.Icons = function(baseurl) {
 	this.start			= { icon:   { anchor: {x:15,y:36}, url: baseurl+"Icons/start.png" },
 											shadow: { anchor: {x:10,y:31}, url: baseurl+"Icons/shadow.png" } };
 	this.finish			= { icon:   { anchor: {x:15,y:36}, url: baseurl+"Icons/finish.png" },
+											shadow: { anchor: {x:10,y:31}, url: baseurl+"Icons/shadow.png" } };
+	this.cycling		= { icon:   { anchor: {x:15,y:36}, url: baseurl+"Icons/cycling.png" },
+											shadow: { anchor: {x:10,y:31}, url: baseurl+"Icons/shadow.png" } };
+	this.hiking			= { icon:   { anchor: {x:15,y:36}, url: baseurl+"Icons/hiking.png" },
 											shadow: { anchor: {x:10,y:31}, url: baseurl+"Icons/shadow.png" } };
 	this.flag				= { icon:   { anchor: {x:15,y:36}, url: baseurl+"Icons/flag.png" },
 											shadow: { anchor: {x:10,y:31}, url: baseurl+"Icons/shadow.png" } };
@@ -120,7 +138,8 @@ JB.GPX2GM.strings.de = {
 	rte: "Route",
 	rtes: "Routen",
 	inmo: "in Bewegung",
-	wait: "Bitte warten.<br />Daten werden geladen.",
+	// wait: "Bitte warten.<br />Daten werden geladen.",
+	wait: "",  // Wartebild nehmen
 	clkz: "Zum Zoomen klicken",
 	zb: "Zurück zoomen"
 }
@@ -153,7 +172,8 @@ JB.GPX2GM.strings.en = {
 	rte: "Route",
 	rtes: "Routes",
 	inmo: "in motion",
-	wait: "Please wait.<br />Loading data.",
+	// wait: "Please wait.<br />Loading data.",
+	wait: "",  // Wartebild nehmen
 	clkz: "Click to zoom",
 	zb: "Zoom back"
 }
@@ -193,6 +213,7 @@ JB.GPX2GM.strings.si = {
 }
 
 
+
 /* // Prototyp für Callbackfunktion
 JB.GPX2GM.callback = function(pars) {
 	JB.Debug_Info("callback",pars.id+" "+pars.type,false);
@@ -216,7 +237,7 @@ JB.GPX2GM.callback = function(pars) {
 		case "Tracks_v":
 			alert(pars.gpxdaten.tracks.laenge);
 			for(var i=0;i<pars.gpxdaten.tracks.track.length;i++)
-				alert(pars.gpxdaten.tracks.track[i].laenge)
+				alert(pars.gpxdaten.tracks.track[i].laenge); 
 			break;
 		case "Tracks_n":
 			break;
@@ -231,6 +252,7 @@ JB.GPX2GM.callback = function(pars) {
 		case "click_Route":
 			break;
 		case "click_Track":
+			console.info(pars);
 			break;
 	}
 	return true;
