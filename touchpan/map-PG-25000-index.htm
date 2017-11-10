@@ -1,0 +1,29 @@
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"> 
+		<title>Panorama Viewer based on jQuery TouchPanView</title>
+		<script src="https://dl.dropboxusercontent.com/u/11531008/touchpan/files/jquery.js"></script>
+		<script src="https://dl.dropboxusercontent.com/u/11531008/touchpan/files/jquery.imagesloaded.js"></script>
+		<script src="https://dl.dropboxusercontent.com/u/11531008/touchpan/files/jquery.jgestures.js"></script>
+		<link rel="stylesheet" href="https://dl.dropboxusercontent.com/u/11531008/touchpan/files/jquery.touchpanview.css">
+		<script src="https://dl.dropboxusercontent.com/u/11531008/touchpan/files/jquery.touchpanview.js"></script>
+		
+		<script type="text/javascript"> 
+			$(document).ready(function(){
+				$('#panorama img').touchPanView({
+					width: 	865, 
+					height: 555, 
+					startZoomedOut: true
+				}); 
+			});
+		</script> 
+	</head> 
+	<body> 
+		<div id="panorama"> 
+			<p><img src="https://dl.dropboxusercontent.com/u/11531008/Picture/PG-25000-maraton.jpg" alt="Panorama" width="4353" height="2794" /></p> 
+		</div> 
+	</body> 
+	</html>
