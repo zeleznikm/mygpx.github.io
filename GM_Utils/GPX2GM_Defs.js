@@ -8,6 +8,7 @@ window.JB.GPX2GM = window.JB.GPX2GM || {};
 
 // Google Maps API Key
 // JB.GPX2GM.GM_Api_key = "GM_API_Key";
+JB.GPX2GM.GM_Api_key = "AIzaSyCsFAnCAlLZZmUU2l0gW8joBqVOhEPsuuA";
 // Key für OSM Cycle
 // JB.GPX2GM.OSM_Cycle_Api_Key = "OSM_Key";
 // Key für OSM Landscape
